@@ -1,0 +1,93 @@
+{
+    "name": "oko-frontent",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "sideEffects": [
+        "*.scss",
+        "*.css"
+    ],
+    "engines": {
+        "node": "22",
+        "pnpm": "9"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "lint:eslint": "eslint src --quiet",
+        "lint:prettier": "prettier --check 'src/**/*.{ts,tsx,css,scss}'",
+        "lint:styles": "stylelint 'src/**/*.{css,scss}'",
+        "lint": "npm-run-all --parallel lint:*",
+        "preview": "vite preview",
+        "prepare": "husky",
+        "typecheck": "tsc --noEmit",
+        "test": "echo \"Not implemented yet\"; exit 0",
+        "circular-deps": "skott --displayMode=file-tree"
+    },
+    "dependencies": {
+        "@bem-react/classname": "^1.6.0",
+        "@gravity-ui/components": "^3.13.2",
+        "@gravity-ui/data-source": "^0.4.0",
+        "@gravity-ui/icons": "^2.12.0",
+        "@gravity-ui/navigation": "^2.29.0",
+        "@gravity-ui/uikit": "^6.40.0",
+        "@tanstack/react-form": "^0.41.0",
+        "@tanstack/react-query": "^5.62.15",
+        "@tanstack/react-query-devtools": "^5.62.15",
+        "@tanstack/react-router": "^1.95.1",
+        "@tanstack/zod-form-adapter": "^0.41.0",
+        "axios": "^1.7.9",
+        "react": "^18.3.1",
+        "react-dom": "^18.0.0",
+        "zod": "^3.24.1"
+    },
+    "devDependencies": {
+        "@commitlint/config-conventional": "^19.6.0",
+        "@eslint/js": "^9.17.0",
+        "@gravity-ui/browserslist-config": "^4.1.0",
+        "@gravity-ui/illustrations": "^1.0.0",
+        "@tanstack/eslint-plugin-router": "^1.92.7",
+        "@tanstack/router-devtools": "^1.95.1",
+        "@tanstack/router-plugin": "^1.95.1",
+        "@types/react": "^18.3.1",
+        "@types/react-dom": "^18.3.1",
+        "@typescript-eslint/parser": "^8.19.0",
+        "@vitejs/plugin-react": "^4.3.4",
+        "esbuild-sass-plugin": "^3.3.1",
+        "eslint": "^9.17.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-import-resolver-typescript": "^3.7.0",
+        "eslint-plugin-import-x": "^4.6.1",
+        "eslint-plugin-react": "^7.37.3",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "eslint-plugin-react-refresh": "^0.4.16",
+        "globals": "^15.14.0",
+        "husky": "^9.1.7",
+        "lint-staged": "^15.3.0",
+        "madge": "^8.0.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^3.4.2",
+        "sass-embedded": "^1.83.1",
+        "skott": "^0.35.4",
+        "stylelint": "^16.12.0",
+        "stylelint-config-standard-scss": "^14.0.0",
+        "typescript": "~5.6.2",
+        "typescript-eslint": "^8.19.0",
+        "vite": "^6.0.5",
+        "vite-plugin-circular-dependency": "^0.5.0"
+    },
+    "nano-staged": {
+        "*.{css,scss}": [
+            "stylelint --fix --quiet"
+        ],
+        "*.{ts,tsx}": [
+            "eslint --fix --quiet"
+        ],
+        "*.md": [
+            "prettier --write"
+        ]
+    },
+    "browserslist": [
+        "extends @gravity-ui/browserslist-config"
+    ]
+}

@@ -1,0 +1,9 @@
+.react-query-devtools {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    bottom: calc(24.5px + var(--g-spacing-4));
+    right: var(--g-spacing-4);
+    z-index: 110;
+    width: 54px;
+}
