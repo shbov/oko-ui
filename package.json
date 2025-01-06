@@ -1,6 +1,11 @@
 {
-    "name": "oko-frontent",
-    "private": true,
+    "name": "oko-ui",
+    "license": "MIT",
+    "homepage": "https://github.com/shbov/oko-ui",
+    "repository": {
+        "url": "git+https://github.com/shbov/oko-ui.git",
+        "type": "git"
+    },
     "version": "0.0.0",
     "type": "module",
     "sideEffects": [

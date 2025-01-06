@@ -22,4 +22,10 @@ export default defineConfig({
             },
         },
     },
+    define: {
+        OKO: JSON.stringify({
+            title: 'Oko UI',
+            version: process.env.npm_package_version,
+        }),
+    },
 });
