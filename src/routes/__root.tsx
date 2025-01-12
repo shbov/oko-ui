@@ -4,6 +4,7 @@ import { Person, CopyPlus, FaceRobot } from '@gravity-ui/icons';
 import { AsideHeader } from '@gravity-ui/navigation';
 import {
     createRootRouteWithContext,
+    useMatches,
     useNavigate,
 } from '@tanstack/react-router';
 
@@ -15,32 +16,38 @@ import type { MenuItem } from '@gravity-ui/navigation';
 const App = () => {
     const [compact, setCompact] = React.useState(true);
     const navigate = useNavigate();
+    const matches = useMatches();
 
-    const menuItems: MenuItem[] = React.useMemo(
-        () => [
+    const menuItems: MenuItem[] = React.useMemo(() => {
+        const currentRoute = matches.slice(-1)[0];
+        const items = [
             {
-                id: 'home',
+                id: 'id',
                 title: 'Главная',
                 icon: CopyPlus,
-                onItemClick: () => {
-                    void navigate({
-                        to: '/',
-                    });
-                },
+                current: true,
+                route: '/',
             },
             {
                 id: 'login',
                 title: 'Авторизация',
                 icon: Person,
+                route: '/auth/login',
+            },
+        ];
+
+        return items.map((item) => {
+            return {
+                ...item,
+                current: currentRoute.id === item.route,
                 onItemClick: () => {
                     void navigate({
-                        to: '/auth/login',
+                        to: item.route,
                     });
                 },
-            },
-        ],
-        [navigate],
-    );
+            };
+        });
+    }, [matches, navigate]);
 
     return (
         <AsideHeader

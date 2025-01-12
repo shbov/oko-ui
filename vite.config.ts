@@ -12,16 +12,6 @@ export default defineConfig({
             '~': path.resolve(__dirname, './src'),
         },
     },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                additionalData: `
-                    @use '@gravity-ui/uikit/styles/fonts';
-                    @use '@gravity-ui/uikit/styles/styles';
-                `,
-            },
-        },
-    },
     define: {
         OKO: JSON.stringify({
             title: 'Oko UI',

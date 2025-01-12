@@ -1,0 +1,17 @@
+.app-form {
+    --form-size-s-max-width: 240px;
+    --form-size-m-max-width: 440px;
+    --form-size-l-max-width: 640px;
+
+    &_size_s {
+        max-width: var(--form-size-s-max-width);
+    }
+
+    &_size_m {
+        max-width: var(--form-size-m-max-width);
+    }
+
+    &_size_l {
+        max-width: var(--form-size-l-max-width);
+    }
+}

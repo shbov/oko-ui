@@ -89,6 +89,27 @@ export default tseslint.config(
                     warnOnUnassignedImports: true,
                 },
             ],
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    args: 'all',
+                    argsIgnorePattern: '^_',
+                    caughtErrors: 'all',
+                    caughtErrorsIgnorePattern: '^_',
+                    destructuredArrayIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                },
+            ],
+            '@typescript-eslint/no-unsafe-assignment': 'off',
+            'no-restricted-imports': [
+                'error',
+                {
+                    name: 'zod',
+                    message:
+                        "Importing directly from 'zod' is restricted in this project. Please use `~services/zod` instead.",
+                },
+            ],
         },
     },
 );
