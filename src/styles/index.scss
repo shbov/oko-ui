@@ -114,6 +114,17 @@ html {
     box-sizing: border-box;
 }
 
+.g-root {
+    --gn-aside-header-item-icon-color: var(--g-color-base-brand);
+    --gn-aside-header-item-current-background-color: var(--g-color-base-brand);
+    --gn-aside-header-item-current-icon-color: var(
+        --g-color-text-brand-contrast
+    );
+    --gn-aside-header-item-current-text-color: var(
+        --g-color-text-brand-contrast
+    );
+}
+
 :root {
     --gil-color-underlay: rgb(240 243 245 / 100%);
 }
