@@ -14,15 +14,16 @@
     ],
     "engines": {
         "node": "22",
-        "pnpm": "9"
+        "pnpm": "10"
     },
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "dev": "vite",
         "build": "tsc -b && vite build",
         "lint:eslint": "eslint src --quiet",
         "lint:prettier": "prettier --check 'src/**/*.{ts,tsx,css,scss}'",
         "lint:styles": "stylelint 'src/**/*.{css,scss}'",
-        "lint": "npm-run-all --parallel lint:*",
+        "lint": "pnpm run --parallel /^lint:/",
         "preview": "vite preview",
         "prepare": "husky",
         "typecheck": "tsc --noEmit",
@@ -69,7 +70,6 @@
         "eslint-plugin-react-refresh": "^0.4.16",
         "globals": "^15.14.0",
         "husky": "^9.1.7",
-        "npm-run-all": "^4.1.5",
         "prettier": "^3.4.2",
         "sass-embedded": "^1.83.1",
         "skott": "^0.35.4",

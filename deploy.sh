@@ -1,5 +1,5 @@
 git pull
 
-npm ci
+pnpm i
 
-npm run build
+pnpm run build
