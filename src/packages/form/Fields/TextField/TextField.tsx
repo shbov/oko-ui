@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { PasswordInput } from '@gravity-ui/components';
+import { PasswordInput } from '@gravity-ui/uikit';
 import { TextInput, type TextInputProps } from '@gravity-ui/uikit';
 
 import { isStringNumber } from '~/utils/checks';
@@ -68,13 +68,7 @@ export const TextField = <
     );
 
     if (restProps.type === 'password') {
-        return (
-            <PasswordInput
-                {...props}
-                autoComplete="new-password"
-                showRevealButton
-            />
-        );
+        return <PasswordInput {...props} autoComplete="new-password" />;
     }
 
     return <TextInput {...props} />;

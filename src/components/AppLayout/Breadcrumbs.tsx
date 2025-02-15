@@ -1,12 +1,16 @@
 import * as React from 'react';
 
 import { ActionBar } from '@gravity-ui/navigation';
-import { Breadcrumbs as UIBreadcrumbs } from '@gravity-ui/uikit';
-import { useMatches, useNavigate } from '@tanstack/react-router';
+import {
+    BreadcrumbsItem,
+    Breadcrumbs as UIBreadcrumbs,
+} from '@gravity-ui/uikit';
+import { createLink, useMatches } from '@tanstack/react-router';
+
+const RouterLink = createLink(BreadcrumbsItem);
 
 export const Breadcrumbs = () => {
     const matches = useMatches();
-    const navigate = useNavigate();
 
     const matchesWithCrumbs = matches.filter(
         (match) => match.staticData?.crumb,
@@ -16,11 +20,9 @@ export const Breadcrumbs = () => {
         () =>
             matchesWithCrumbs.map((match) => ({
                 text: match.staticData?.crumb ?? '–',
-                action: () => {
-                    void navigate({ to: match.pathname });
-                },
+                href: match.pathname,
             })),
-        [matchesWithCrumbs, navigate],
+        [matchesWithCrumbs],
     );
 
     return (
@@ -28,11 +30,13 @@ export const Breadcrumbs = () => {
             <ActionBar.Section type="primary">
                 <ActionBar.Group>
                     <ActionBar.Item>
-                        <UIBreadcrumbs
-                            lastDisplayedItemsCount={1}
-                            firstDisplayedItemsCount={1}
-                            items={items}
-                        />
+                        <UIBreadcrumbs itemComponent={RouterLink} showRoot>
+                            {items.map((i) => (
+                                <UIBreadcrumbs.Item key={i.href} href={i.href}>
+                                    {i.text}
+                                </UIBreadcrumbs.Item>
+                            ))}
+                        </UIBreadcrumbs>
                     </ActionBar.Item>
                 </ActionBar.Group>
             </ActionBar.Section>

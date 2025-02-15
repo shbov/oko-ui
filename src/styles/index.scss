@@ -5,11 +5,12 @@
 
 /* stylelint-disable-next-line selector-class-pattern */
 .g-root_theme_light {
-    --g-font-family-sans: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial',
-        sans-serif;
-    --g-font-family-monospace: 'Roboto Mono', 'Menlo', 'Monaco', 'Consolas',
-        'Ubuntu Mono', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New',
-        'Courier', monospace;
+    --g-font-family-sans:
+        'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --g-font-family-monospace:
+        'Roboto Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
+        'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier',
+        monospace;
     --g-color-private-brand-50: rgb(49 78 60 / 10%);
     --g-color-private-brand-100: rgb(49 78 60 / 15%);
     --g-color-private-brand-150: rgb(49 78 60 / 20%);
@@ -57,11 +58,12 @@
 
 /* stylelint-disable-next-line selector-class-pattern */
 .g-root_theme_dark {
-    --g-font-family-sans: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial',
-        sans-serif;
-    --g-font-family-monospace: 'Roboto Mono', 'Menlo', 'Monaco', 'Consolas',
-        'Ubuntu Mono', 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New',
-        'Courier', monospace;
+    --g-font-family-sans:
+        'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    --g-font-family-monospace:
+        'Roboto Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
+        'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier',
+        monospace;
     --g-color-private-brand-50: rgb(49 78 60 / 10%);
     --g-color-private-brand-100: rgb(49 78 60 / 15%);
     --g-color-private-brand-150: rgb(49 78 60 / 20%);
