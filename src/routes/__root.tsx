@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Person, CopyPlus, FaceRobot } from '@gravity-ui/icons';
+import { Person, House, FaceRobot, Plus } from '@gravity-ui/icons';
 import { AsideHeader } from '@gravity-ui/navigation';
 import {
     createRootRouteWithContext,
@@ -20,13 +20,20 @@ const App = () => {
 
     const menuItems: MenuItem[] = React.useMemo(() => {
         const currentRoute = matches.slice(-1)[0];
+        // TODO: add typization on `route`
         const items = [
             {
                 id: 'id',
                 title: 'Главная',
-                icon: CopyPlus,
+                icon: House,
                 current: true,
                 route: '/',
+            },
+            {
+                id: 'create-resources',
+                title: 'Создать ресурс',
+                icon: Plus,
+                route: '/resources/create',
             },
             {
                 id: 'login',

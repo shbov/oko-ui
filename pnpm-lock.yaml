@@ -11,6 +11,9 @@ importers:
       '@bem-react/classname':
         specifier: ^1.6.0
         version: 1.6.0
+      '@bmunozg/react-image-area':
+        specifier: ^1.1.0
+        version: 1.1.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@gravity-ui/components':
         specifier: ^4.0.1
         version: 4.0.1(@gravity-ui/uikit@7.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -252,6 +255,13 @@ packages:
 
   '@bem-react/classname@1.6.0':
     resolution: {integrity: sha512-SFBwUHMcb7TFFK5ld88+JhecoEun3/kHZ6KvLDjj3w5hv/tfRV8mtGHA8N42uMctXLF4bPEcr96xwXXcRFuweg==}
+
+  '@bmunozg/react-image-area@1.1.0':
+    resolution: {integrity: sha512-uMrLKZ+DAWb0TpPVoVhBUj//+J1Z/7ZOAtCp3efJV4dnhN9yWYIma9umJmvku7n9j2wbBFKtH7eMXU8e3bhT6Q==}
+    peerDependencies:
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
 
   '@bufbuild/protobuf@2.2.3':
     resolution: {integrity: sha512-tFQoXHJdkEOSwj5tRIZSPNUuXK3RaR7T1nUrPgbYX1pUbvqqaaZAsfo+NXBPsz5rZMSKVFrgK1WL8Q/MSLvprg==}
@@ -3539,6 +3549,12 @@ snapshots:
       '@babel/helper-validator-identifier': 7.25.9
 
   '@bem-react/classname@1.6.0': {}
+
+  '@bmunozg/react-image-area@1.1.0(@types/react@18.3.18)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      '@types/react': 18.3.18
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   '@bufbuild/protobuf@2.2.3': {}
 

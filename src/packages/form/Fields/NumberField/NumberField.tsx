@@ -1,14 +1,16 @@
 import * as React from 'react';
 
-import { PasswordInput } from '@gravity-ui/uikit';
-import { TextInput, type TextInputProps } from '@gravity-ui/uikit';
+import {
+    NumberInput as NumberInputBase,
+    type NumberInputProps,
+} from '@gravity-ui/uikit';
 
 import { getErrorMessage } from '~/utils/validation';
 
-import type { TextFieldProps } from './types';
+import type { NumberFieldProps } from './types';
 import type { DeepKeys, DeepValue, Validator } from '@tanstack/react-form';
 
-export const TextField = <
+export const NumberField = <
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
@@ -21,7 +23,7 @@ export const TextField = <
 >({
     field,
     ...restProps
-}: TextFieldProps<
+}: NumberFieldProps<
     TParentData,
     TName,
     TFieldValidator,
@@ -29,7 +31,7 @@ export const TextField = <
     TData
 >) => {
     const onChange = React.useCallback(
-        (e: string) => {
+        (e: number | null) => {
             field.setValue(e as TData);
         },
         [field],
@@ -47,13 +49,12 @@ export const TextField = <
             ({
                 hasClear: true,
                 ...restProps,
-
-                value: `${field.state.value as string}`,
+                value: field.state.value as number,
                 onBlur: field.handleBlur,
                 onUpdate: onChange,
                 errorMessage: errorMessage || undefined,
                 validationState: errorMessage ? 'invalid' : undefined,
-            }) satisfies TextInputProps,
+            }) satisfies NumberInputProps,
         [
             errorMessage,
             field.handleBlur,
@@ -63,9 +64,5 @@ export const TextField = <
         ],
     );
 
-    if (restProps.type === 'password') {
-        return <PasswordInput {...props} autoComplete="new-password" />;
-    }
-
-    return <TextInput {...props} />;
+    return <NumberInputBase {...props} />;
 };

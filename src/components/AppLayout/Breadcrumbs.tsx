@@ -28,11 +28,14 @@ export const Breadcrumbs = () => {
     return (
         <ActionBar aria-label="Breadcrumbs">
             <ActionBar.Section type="primary">
-                <ActionBar.Group>
-                    <ActionBar.Item>
-                        <UIBreadcrumbs itemComponent={RouterLink} showRoot>
-                            {items.map((i) => (
-                                <UIBreadcrumbs.Item key={i.href} href={i.href}>
+                <ActionBar.Group pull="left-grow">
+                    <ActionBar.Item pull="left-grow">
+                        <UIBreadcrumbs itemComponent={RouterLink}>
+                            {items.map((i, key) => (
+                                <UIBreadcrumbs.Item
+                                    key={`${i.href}-${key}`}
+                                    href={i.href}
+                                >
                                     {i.text}
                                 </UIBreadcrumbs.Item>
                             ))}
