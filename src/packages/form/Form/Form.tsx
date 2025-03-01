@@ -1,5 +1,8 @@
+import * as React from 'react';
+
 import { cn } from '@bem-react/classname';
-import { Button } from '@gravity-ui/uikit';
+import { Button, Flex } from '@gravity-ui/uikit';
+import { useRouter } from '@tanstack/react-router';
 
 import './Form.scss';
 
@@ -11,15 +14,29 @@ const b = cn('app-form');
 export const Form = <
     TFormData,
     TFormValidator extends
-        | undefined
-        | Validator<TFormData, unknown> = undefined,
+    | undefined
+    | Validator<TFormData, unknown> = undefined,
 >({
     children,
     submitText,
     formApi,
     className,
     size,
+    aditionalButton,
+    withCancelButton,
 }: FormProps<TFormData, TFormValidator>) => {
+    const router = useRouter();
+
+    const additionalButtonAction = React.useCallback(() => {
+        if (aditionalButton?.action) {
+            aditionalButton.action();
+        }
+    }, [aditionalButton]);
+
+    const cancelButtonAction = React.useCallback(() => {
+        router.history.back();
+    }, [router.history]);
+
     return (
         <form
             className={b({ size }, className)}
@@ -36,14 +53,31 @@ export const Form = <
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
             >
                 {([canSubmit, isSubmitting]) => (
-                    <Button
-                        view="action"
-                        type="submit"
-                        disabled={!canSubmit}
-                        loading={isSubmitting}
-                    >
-                        {submitText}
-                    </Button>
+                    <Flex gap="2">
+                        <Button
+                            view="action"
+                            type="submit"
+                            disabled={!canSubmit}
+                            loading={isSubmitting}
+                        >
+                            {submitText}
+                        </Button>
+
+                        {withCancelButton && (
+                            <Button view="normal" onClick={cancelButtonAction}>
+                                Отменить
+                            </Button>
+                        )}
+
+                        {aditionalButton && (
+                            <Button
+                                view={aditionalButton.view}
+                                onClick={additionalButtonAction}
+                            >
+                                {aditionalButton.text}
+                            </Button>
+                        )}
+                    </Flex>
                 )}
             </formApi.Subscribe>
         </form>

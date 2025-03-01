@@ -1,14 +1,14 @@
 import * as React from 'react';
 
-import { PasswordInput } from '@gravity-ui/uikit';
-import { TextInput, type TextInputProps } from '@gravity-ui/uikit';
+import { TextArea } from '@gravity-ui/uikit';
 
 import { getErrorMessage } from '~/utils/validation';
 
-import type { TextFieldProps } from './types';
+import type { TextAreaFieldProps } from './types';
+import type { TextAreaProps } from '@gravity-ui/uikit';
 import type { DeepKeys, DeepValue, Validator } from '@tanstack/react-form';
 
-export const TextField = <
+export const TextAreaField = <
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
@@ -21,7 +21,7 @@ export const TextField = <
 >({
     field,
     ...restProps
-}: TextFieldProps<
+}: TextAreaFieldProps<
     TParentData,
     TName,
     TFieldValidator,
@@ -53,7 +53,7 @@ export const TextField = <
                 onUpdate: onChange,
                 errorMessage: errorMessage || undefined,
                 validationState: errorMessage ? 'invalid' : undefined,
-            }) satisfies TextInputProps,
+            }) satisfies TextAreaProps,
         [
             errorMessage,
             field.handleBlur,
@@ -63,9 +63,5 @@ export const TextField = <
         ],
     );
 
-    if (restProps.type === 'password') {
-        return <PasswordInput {...props} autoComplete="new-password" />;
-    }
-
-    return <TextInput {...props} />;
+    return <TextArea {...props} />;
 };

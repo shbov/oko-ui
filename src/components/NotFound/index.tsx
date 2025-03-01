@@ -9,7 +9,7 @@ export const NotFound = () => {
     return (
         <ErrorContainer
             title="Страница не найдена"
-            description={''}
+            description=""
             image={<NotFoundImage />}
             actions={[
                 {

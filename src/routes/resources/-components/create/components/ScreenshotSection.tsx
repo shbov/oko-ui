@@ -59,7 +59,7 @@ export const ScreenshotSection = ({
                     <FormRow
                         label="Чувствительность"
                         labelHelpPopover={
-                            <HelpMark>1 – любое изменение</HelpMark>
+                            <HelpMark>Может от 0 до 1 включительно</HelpMark>
                         }
                         required
                     >

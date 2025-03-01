@@ -1,4 +1,4 @@
-import type { NumberInputProps } from '@gravity-ui/uikit';
+import type { SelectProps } from '@gravity-ui/uikit';
 import type {
     DeepKeys,
     DeepValue,
@@ -6,7 +6,7 @@ import type {
     Validator,
 } from '@tanstack/react-form';
 
-export type NumberFieldProps<
+export type SelectFieldProps<
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
@@ -17,7 +17,7 @@ export type NumberFieldProps<
     | undefined = undefined,
     TData extends DeepValue<TParentData, TName> = DeepValue<TParentData, TName>,
 > = Omit<
-    NumberInputProps,
+    SelectProps,
     | 'value'
     | 'onBlur'
     | 'onFocus'

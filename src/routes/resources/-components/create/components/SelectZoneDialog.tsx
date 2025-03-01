@@ -3,6 +3,8 @@ import * as React from 'react';
 import { AreaSelector } from '@bmunozg/react-image-area';
 import { Dialog } from '@gravity-ui/uikit';
 
+import { toaster } from '~/services/toaster';
+
 import type { IArea } from '@bmunozg/react-image-area';
 
 export const SelectZoneDialog = ({
@@ -16,9 +18,9 @@ export const SelectZoneDialog = ({
 }) => {
     const [areas, setAreas] = React.useState<IArea[]>([]);
 
-    const onChangeHandler = (areas: IArea[]) => {
+    const onChangeHandler = React.useCallback((areas: IArea[]) => {
         setAreas(areas);
-    };
+    }, []);
 
     return (
         <Dialog open={open} onClose={() => setOpen(false)} size="l">
@@ -43,6 +45,14 @@ export const SelectZoneDialog = ({
                 onClickButtonCancel={() => setOpen(false)}
                 onClickButtonApply={() => {
                     onSubmit(areas);
+
+                    toaster.add({
+                        name: 'zone-added-success',
+                        title: 'Зона сохранена',
+                        content: 'Выбранная зона для отслеживания сохранена',
+                        theme: 'success',
+                    });
+
                     setOpen(false);
                 }}
                 textButtonApply="Сохранить"

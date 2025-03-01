@@ -17,15 +17,18 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
         defaultValues: {
             name: '',
             url: '',
+            description: '',
             sensitivity: 1,
+            keywords: '',
             isScreenshot: false,
             zoneType: ZoneType.fullPage,
             areas: [],
+            channels: [],
         } as FormValues,
     });
 
     return (
-        <Form submitText="Создать" formApi={form} size="m">
+        <Form submitText="Создать" formApi={form} size="m" withCancelButton>
             <CreateFormContent form={form} />
         </Form>
     );

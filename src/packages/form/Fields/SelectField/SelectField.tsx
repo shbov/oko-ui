@@ -1,14 +1,14 @@
 import * as React from 'react';
 
-import { PasswordInput } from '@gravity-ui/uikit';
-import { TextInput, type TextInputProps } from '@gravity-ui/uikit';
+import { Select } from '@gravity-ui/uikit';
 
 import { getErrorMessage } from '~/utils/validation';
 
-import type { TextFieldProps } from './types';
+import type { SelectFieldProps } from './types';
+import type { SelectProps } from '@gravity-ui/uikit';
 import type { DeepKeys, DeepValue, Validator } from '@tanstack/react-form';
 
-export const TextField = <
+export const SelectField = <
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
@@ -21,7 +21,7 @@ export const TextField = <
 >({
     field,
     ...restProps
-}: TextFieldProps<
+}: SelectFieldProps<
     TParentData,
     TName,
     TFieldValidator,
@@ -29,7 +29,7 @@ export const TextField = <
     TData
 >) => {
     const onChange = React.useCallback(
-        (e: string) => {
+        (e: string[]) => {
             field.setValue(e as TData);
         },
         [field],
@@ -45,15 +45,14 @@ export const TextField = <
     const props = React.useMemo(
         () =>
             ({
-                hasClear: true,
                 ...restProps,
 
-                value: `${field.state.value as string}`,
+                value: field.state.value as string[],
                 onBlur: field.handleBlur,
                 onUpdate: onChange,
                 errorMessage: errorMessage || undefined,
                 validationState: errorMessage ? 'invalid' : undefined,
-            }) satisfies TextInputProps,
+            }) satisfies SelectProps,
         [
             errorMessage,
             field.handleBlur,
@@ -63,9 +62,5 @@ export const TextField = <
         ],
     );
 
-    if (restProps.type === 'password') {
-        return <PasswordInput {...props} autoComplete="new-password" />;
-    }
-
-    return <TextInput {...props} />;
+    return <Select {...props} />;
 };
