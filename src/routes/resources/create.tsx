@@ -2,56 +2,29 @@ import * as React from 'react';
 
 import { createFileRoute } from '@tanstack/react-router';
 
+import { api } from '~/api';
 import { Page } from '~/components/Page';
+import { toaster } from '~/services/toaster';
 
-import { ZoneType, type FormValues } from './-components/constants';
+import { type FormValues } from './-components/constants';
 import { CreateForm } from './-components/create/CreateForm';
+import { prepareValues } from './-components/utils';
 
-const prepareValues = ({
-    name,
-    description,
-    url,
-    channels,
-    isScreenshot,
-    sensitivity,
-    keywords,
-    zoneType,
-    areas,
-}: FormValues) => {
-    const parsedKeywords = keywords
-        ? keywords
-                .split(',')
-                .map((keyword) => keyword.trim())
-                .filter(Boolean)
-        : [];
-
-    const commonValues = {
-        name,
-        description,
-        url,
-        channels,
-        keywords: parsedKeywords,
-    };
-
-    if (isScreenshot) {
-        return {
-            ...commonValues,
-            sensitivity,
-            zoneType,
-            ...(zoneType === ZoneType.fullPage ? {} : { areas }),
-        };
-    }
-
-    return commonValues;
-};
+import type { AxiosError } from 'axios';
 
 export const Create = () => {
     const onSubmit = React.useCallback(
-        async ({ value }: { value: FormValues }) => {
+        ({ value }: { value: FormValues }) => {
             const valuesToSend = prepareValues(value);
 
-            console.log('valuesToSend', valuesToSend);
-            await Promise.resolve();
+            api.resource.create(valuesToSend).catch((err) => {
+                toaster.add({
+                    name: 'create-error',
+                    title: 'Ошибка',
+                    theme: 'danger',
+                    content: (err as AxiosError).message,
+                });
+            });
         },
         [],
     );

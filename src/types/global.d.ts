@@ -9,4 +9,7 @@ declare module '*.svg' {
 declare const OKO: {
     title: string;
     version: string;
+    endpoints: {
+        userService: string;
+    };
 };

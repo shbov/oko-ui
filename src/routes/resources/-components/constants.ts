@@ -1,9 +1,5 @@
+import { ZoneType } from '~/api/resource';
 import { zod } from '~/services/zod';
-
-export enum ZoneType {
-    fullPage = 'fullPage',
-    zone = 'zone',
-}
 
 export const createSchema = zod.object({
     name: zod.string().min(3),

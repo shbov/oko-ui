@@ -9,6 +9,7 @@ import {
 } from '@gravity-ui/uikit';
 import { type ReactFormExtendedApi, useStore } from '@tanstack/react-form';
 
+import { ZoneType } from '~/api/resource';
 import {
     FormSection,
     NumberField,
@@ -17,7 +18,6 @@ import {
 } from '~/packages/form';
 
 import { SelectZoneDialog } from './SelectZoneDialog';
-import { ZoneType } from '../../constants';
 
 import type { FormValues } from '../../constants';
 import type { IArea } from '@bmunozg/react-image-area';

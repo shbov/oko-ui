@@ -1,12 +1,12 @@
 import { useForm } from '@tanstack/react-form';
 
+import { ZoneType } from '~/api/resource';
 import { Form } from '~/packages/form';
 
 import { CreateFormContent } from './CreateFormContent';
-import { createSchema, ZoneType } from '../constants';
+import { createSchema, type FormValues } from '../constants';
 
 import type { CreateFormProps } from './types';
-import type { FormValues } from '../constants';
 
 export const CreateForm = ({ onSubmit }: CreateFormProps) => {
     const form = useForm({
