@@ -9,7 +9,7 @@ export const createSchema = zod.object({
     name: zod.string().min(3),
     description: zod.string().optional(),
     url: zod.string().url().trim(),
-    channels: zod.array(zod.string()),
+    channels: zod.array(zod.string()).min(1),
     isScreenshot: zod.boolean(),
     sensitivity: zod.number().min(0).max(1).optional(),
     zoneType: zod.enum([ZoneType.fullPage, ZoneType.zone]).optional(),

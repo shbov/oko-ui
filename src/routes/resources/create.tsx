@@ -4,9 +4,8 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
 
+import { ZoneType, type FormValues } from './-components/constants';
 import { CreateForm } from './-components/create/CreateForm';
-
-import type { FormValues } from './-components/constants';
 
 const prepareValues = ({
     name,
@@ -39,7 +38,7 @@ const prepareValues = ({
             ...commonValues,
             sensitivity,
             zoneType,
-            areas,
+            ...(zoneType === ZoneType.fullPage ? {} : { areas }),
         };
     }
 
