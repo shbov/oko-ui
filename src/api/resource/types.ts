@@ -24,3 +24,11 @@ export interface CreateResourceRequest {
 export interface CreateResourceResponse {
     id: string;
 }
+
+export interface GetScreenshotByUrlRequest {
+    url: string;
+}
+
+export interface GetScreenshotByUrlResponse {
+    data: string;
+}

@@ -19,7 +19,7 @@ type FormValues = zod.infer<typeof restoreSchema>;
 export const Restore = () => {
     const navigate = useNavigate();
     const onSubmit = React.useCallback(({ value }: { value: FormValues }) => {
-        console.log(value);
+        console.log('data', value);
 
         toaster.add({
             name: 'restore-success',

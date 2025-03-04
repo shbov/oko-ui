@@ -10,6 +10,13 @@ export const createSchema = zod.object({
     sensitivity: zod.number().min(0).max(1).optional(),
     zoneType: zod.enum([ZoneType.fullPage, ZoneType.zone]).optional(),
     keywords: zod.string().optional(),
+    interval: zod.object({
+        minutes: zod.string().min(1),
+        hours: zod.string().min(1),
+        days: zod.string().min(1),
+        months: zod.string().min(1),
+        dayOfWeek: zod.string().min(1),
+    }),
     areas: zod
         .array(
             zod.object({

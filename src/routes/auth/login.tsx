@@ -20,7 +20,7 @@ export const Login = () => {
     const navigate = useNavigate();
 
     const onSubmit = React.useCallback(({ value }: { value: FormValues }) => {
-        console.log(value);
+        console.log('data', value);
     }, []);
 
     const form = useForm({

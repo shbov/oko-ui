@@ -47,6 +47,9 @@ importers:
       axios:
         specifier: ^1.8.1
         version: 1.8.1
+      bem-cn-lite:
+        specifier: ^4.1.0
+        version: 4.1.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1241,6 +1244,12 @@ packages:
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+
+  bem-cn-lite@4.1.0:
+    resolution: {integrity: sha512-0IEVRYK2MQKQO00P3sY3hNv7vH8P+Z8mR46qFcaiwsQAWp0MuMWpLSuUUhZEjKD2HzTGXMqMsFysWEeeJa1drQ==}
+
+  bem-cn@3.0.1:
+    resolution: {integrity: sha512-kWC76a09vSk6cJXDYsH1erjxdBf856HTxl0IHOvYItSmBC6wQCsRCf9bmKR0hmeUDcUP5XPMr8MNXDgKbKJi0A==}
 
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
@@ -4388,6 +4397,12 @@ snapshots:
   balanced-match@2.0.0: {}
 
   base64-js@1.5.1: {}
+
+  bem-cn-lite@4.1.0:
+    dependencies:
+      bem-cn: 3.0.1
+
+  bem-cn@3.0.1: {}
 
   binary-extensions@2.3.0: {}
 

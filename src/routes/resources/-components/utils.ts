@@ -3,12 +3,14 @@ import { ZoneType, type CreateResourceRequest } from '~/api/resource';
 import { type FormValues } from './constants';
 
 const prepareAreas = (areas: FormValues['areas']) => {
-    return areas?.map((area) => ({
-        x: area.x,
-        y: area.y,
-        width: area.width,
-        height: area.height,
-    })) ?? [];
+    return (
+        areas?.map((area) => ({
+            x: area.x,
+            y: area.y,
+            width: area.width,
+            height: area.height,
+        })) ?? []
+    );
 };
 
 export const prepareValues = ({
@@ -21,6 +23,7 @@ export const prepareValues = ({
     keywords,
     zoneType,
     areas,
+    interval,
 }: FormValues): CreateResourceRequest => {
     const parsedKeywords = keywords
         ? keywords
@@ -35,6 +38,7 @@ export const prepareValues = ({
         url,
         channels,
         keywords: parsedKeywords,
+        interval,
     };
 
     if (!isScreenshot) {
@@ -47,8 +51,6 @@ export const prepareValues = ({
         zoneType,
         ...(zoneType === ZoneType.fullPage
             ? {}
-            : {
-                    areas: prepareAreas(areas),
-                }),
+            : { areas: prepareAreas(areas) }),
     };
 };

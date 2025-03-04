@@ -39,6 +39,8 @@ export const ScreenshotSection = ({
         (state) => state.values.zoneType === ZoneType.zone,
     );
 
+    const url = useStore(form.store, (state) => state.values.url);
+
     const onDialogSubmit = React.useCallback(
         (areas: IArea[]) => {
             form.setFieldValue('areas', areas);
@@ -111,6 +113,7 @@ export const ScreenshotSection = ({
                                     onSubmit={onDialogSubmit}
                                     setOpen={setZoneSelectionOpen}
                                     open={zoneSelectionOpen}
+                                    url={url}
                                 />
                             </React.Fragment>
                         )}

@@ -1,7 +1,10 @@
+import { useQueryData } from '@gravity-ui/data-source';
 import { useForm } from '@tanstack/react-form';
 
 import { ZoneType } from '~/api/resource';
+import { listChannelsSource } from '~/data-sources/notification';
 import { Form } from '~/packages/form';
+import { DataLoader } from '~/services/data-source';
 
 import { CreateFormContent } from './CreateFormContent';
 import { createSchema, type FormValues } from '../constants';
@@ -9,6 +12,8 @@ import { createSchema, type FormValues } from '../constants';
 import type { CreateFormProps } from './types';
 
 export const CreateForm = ({ onSubmit }: CreateFormProps) => {
+    const channelsQuery = useQueryData(listChannelsSource, {});
+
     const form = useForm({
         onSubmit,
         validators: {
@@ -24,12 +29,28 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
             zoneType: ZoneType.fullPage,
             areas: [],
             channels: [],
+            interval: {
+                minutes: '*',
+                hours: '*',
+                days: '*',
+                months: '*',
+                dayOfWeek: '*',
+            },
         } as FormValues,
     });
 
     return (
-        <Form submitText="Создать" formApi={form} size="m" withCancelButton>
-            <CreateFormContent form={form} />
-        </Form>
+        <DataLoader
+            errorAction={channelsQuery.refetch}
+            error={channelsQuery.error}
+            status={channelsQuery.status}
+        >
+            <Form submitText="Создать" formApi={form} size="m" withCancelButton>
+                <CreateFormContent
+                    form={form}
+                    channels={channelsQuery.data?.channels ?? []}
+                />
+            </Form>
+        </DataLoader>
     );
 };
