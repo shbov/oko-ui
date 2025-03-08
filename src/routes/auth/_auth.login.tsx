@@ -5,6 +5,7 @@ import { useForm } from '@tanstack/react-form';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
+import { useLoginMutation } from '~/hooks/useAuth';
 import { Form, TextField } from '~/packages/form';
 import { zod } from '~/services/zod';
 import { emailSchema, passwordSchema } from '~/utils/validation/schemas';
@@ -18,10 +19,11 @@ type FormValues = zod.infer<typeof loginSchema>;
 
 export const Login = () => {
     const navigate = useNavigate();
+    const { mutateAsync: loginUser } = useLoginMutation();
 
-    const onSubmit = React.useCallback(({ value }: { value: FormValues }) => {
-        console.log('data', value);
-    }, []);
+    const onSubmit = React.useCallback(async ({ value }: { value: FormValues }) => {
+        await loginUser(value);
+    }, [loginUser]);
 
     const form = useForm({
         onSubmit,
@@ -78,7 +80,7 @@ export const Login = () => {
     );
 };
 
-export const Route = createFileRoute('/auth/login')({
+export const Route = createFileRoute('/auth/_auth/login')({
     component: Login,
     staticData: {
         crumb: 'Авторизация',

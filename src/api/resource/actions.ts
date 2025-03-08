@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { getProtectedKyInstance } from '../utils';
 
 import type {
     CreateResourceRequest,
@@ -6,18 +6,18 @@ import type {
     GetScreenshotByUrlResponse,
 } from './types';
 
-const backendUrl = (url: string) => `${OKO.endpoints.userService}/${url}`;
+const api = getProtectedKyInstance(OKO.endpoints.userService);
 
-// TODO: think about JWT-tokens here. Maybe we need custom wrap for axios requests.
 export const resource = {
     create: (data: CreateResourceRequest) => {
         console.log('data', data);
 
-        return axios.post(backendUrl('api/resource'), data);
+        return api.post('resource/create', { json: data }).json();
     },
-    getScreenshotByUrl: async ({ url }: GetScreenshotByUrlRequest) => {
-        return axios.get<GetScreenshotByUrlResponse>(
-            backendUrl(`api/getScreenshot?url=${url}`),
-        );
+    getScreenshotByUrl: async (data: GetScreenshotByUrlRequest) => {
+        return api.post<GetScreenshotByUrlResponse>(
+            `getScreenshot`,
+            { json: data },
+        ).json();
     },
 };

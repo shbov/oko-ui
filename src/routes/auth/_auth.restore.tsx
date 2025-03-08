@@ -4,7 +4,9 @@ import { FormRow } from '@gravity-ui/components';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
+import { api } from '~/api';
 import { Page } from '~/components/Page';
+import { useApiError } from '~/hooks/toasters';
 import { Form, TextField } from '~/packages/form';
 import { toaster } from '~/services/toaster';
 import { zod } from '~/services/zod';
@@ -18,16 +20,18 @@ type FormValues = zod.infer<typeof restoreSchema>;
 
 export const Restore = () => {
     const navigate = useNavigate();
-    const onSubmit = React.useCallback(({ value }: { value: FormValues }) => {
-        console.log('data', value);
+    const handleError = useApiError();
 
-        toaster.add({
-            name: 'restore-success',
-            title: 'Успешно',
-            theme: 'success',
-            content: 'Письмо отправлено на почту',
-        });
-    }, []);
+    const onSubmit = React.useCallback(({ value }: { value: FormValues }) => {
+        api.user.restorePassword(value).then(() => {
+            toaster.add({
+                name: 'restore-success',
+                title: 'Успешно',
+                theme: 'success',
+                content: 'Письмо отправлено на почту',
+            });
+        }).catch(handleError);
+    }, [handleError]);
 
     const form = useForm({
         onSubmit,
@@ -71,7 +75,7 @@ export const Restore = () => {
     );
 };
 
-export const Route = createFileRoute('/auth/restore')({
+export const Route = createFileRoute('/auth/_auth/restore')({
     component: Restore,
     staticData: {
         crumb: 'Восстановление пароля',

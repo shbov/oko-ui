@@ -1,11 +1,12 @@
 import { ClientDataManager } from '@gravity-ui/data-source';
 
-import type { AxiosError } from 'axios';
+import type { QueryError } from './types';
+import type { HTTPError } from 'ky';
 
 export const dataManager = new ClientDataManager();
 
 declare module '@tanstack/react-query' {
     interface Register {
-        defaultError: AxiosError;
+        defaultError: HTTPError<QueryError>;
     }
 }

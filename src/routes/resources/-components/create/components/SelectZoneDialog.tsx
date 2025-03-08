@@ -39,7 +39,6 @@ export const SelectZoneDialog = ({
                     status={getScreenshotQuery.status}
                     error={getScreenshotQuery.error}
                     errorAction={() => {
-                        console.log('refetch');
                         void getScreenshotQuery.refetch();
                     }}
                 >
@@ -49,7 +48,7 @@ export const SelectZoneDialog = ({
                         maxAreas={1}
                     >
                         <img
-                            src={getScreenshotQuery.data?.data}
+                            src={getScreenshotQuery.data}
                             alt="background image for selection"
                             style={{
                                 width: '100%',

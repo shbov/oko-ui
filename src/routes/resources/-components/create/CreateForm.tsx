@@ -2,7 +2,7 @@ import { useQueryData } from '@gravity-ui/data-source';
 import { useForm } from '@tanstack/react-form';
 
 import { ZoneType } from '~/api/resource';
-import { listChannelsSource } from '~/data-sources/notification';
+import { listChannelsSource } from '~/data-sources';
 import { Form } from '~/packages/form';
 import { DataLoader } from '~/services/data-source';
 

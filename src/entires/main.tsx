@@ -13,6 +13,7 @@ import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { ReactQueryDevtools } from '~/components/ReactQueryDevtools';
 import { TanStackRouterDevtools } from '~/components/TanStackRouterDevtools';
+import { useAuth } from '~/hooks/useAuth';
 import { dataManager } from '~/services/data-source';
 import { router } from '~/services/router';
 import { toaster } from '~/services/toaster';
@@ -21,6 +22,12 @@ import '~/styles/index.scss';
 import '../utils/configure';
 
 const root = createRoot(document.getElementById('root')!);
+
+const RouterProviderWithContext = () => {
+    const auth = useAuth(router);
+
+    return <RouterProvider router={router} context={({ auth })} />;
+};
 
 const App = () => {
     return (
@@ -36,7 +43,7 @@ const App = () => {
                     <ThemeProvider theme="light">
                         <ToasterProvider toaster={toaster}>
                             <ErrorBoundary>
-                                <RouterProvider router={router} />
+                                <RouterProviderWithContext />
                             </ErrorBoundary>
                             <ToasterComponent />
                         </ToasterProvider>

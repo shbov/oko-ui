@@ -8,15 +8,36 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as ResourcesCreateImport } from './routes/resources/create'
-import { Route as AuthRestoreImport } from './routes/auth/restore'
-import { Route as AuthLoginImport } from './routes/auth/login'
+import { Route as ResourcesAuthenticatedImport } from './routes/resources/_authenticated'
+import { Route as AuthAuthImport } from './routes/auth/_auth'
+import { Route as ResourcesAuthenticatedCreateImport } from './routes/resources/_authenticated.create'
+import { Route as AuthAuthRestoreImport } from './routes/auth/_auth.restore'
+import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
+
+// Create Virtual Routes
+
+const ResourcesImport = createFileRoute('/resources')()
+const AuthImport = createFileRoute('/auth')()
 
 // Create/Update Routes
+
+const ResourcesRoute = ResourcesImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -24,22 +45,33 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ResourcesCreateRoute = ResourcesCreateImport.update({
-  id: '/resources/create',
-  path: '/resources/create',
-  getParentRoute: () => rootRoute,
+const ResourcesAuthenticatedRoute = ResourcesAuthenticatedImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => ResourcesRoute,
 } as any)
 
-const AuthRestoreRoute = AuthRestoreImport.update({
-  id: '/auth/restore',
-  path: '/auth/restore',
-  getParentRoute: () => rootRoute,
+const AuthAuthRoute = AuthAuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthLoginRoute = AuthLoginImport.update({
-  id: '/auth/login',
-  path: '/auth/login',
-  getParentRoute: () => rootRoute,
+const ResourcesAuthenticatedCreateRoute =
+  ResourcesAuthenticatedCreateImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => ResourcesAuthenticatedRoute,
+  } as any)
+
+const AuthAuthRestoreRoute = AuthAuthRestoreImport.update({
+  id: '/restore',
+  path: '/restore',
+  getParentRoute: () => AuthAuthRoute,
+} as any)
+
+const AuthAuthLoginRoute = AuthAuthLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AuthAuthRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -53,75 +85,180 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/auth/login'
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/_auth': {
+      id: '/auth/_auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthAuthImport
+      parentRoute: typeof AuthRoute
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesImport
+      parentRoute: typeof rootRoute
+    }
+    '/resources/_authenticated': {
+      id: '/resources/_authenticated'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesAuthenticatedImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/auth/_auth/login': {
+      id: '/auth/_auth/login'
+      path: '/login'
       fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthAuthLoginImport
+      parentRoute: typeof AuthAuthImport
     }
-    '/auth/restore': {
-      id: '/auth/restore'
-      path: '/auth/restore'
+    '/auth/_auth/restore': {
+      id: '/auth/_auth/restore'
+      path: '/restore'
       fullPath: '/auth/restore'
-      preLoaderRoute: typeof AuthRestoreImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthAuthRestoreImport
+      parentRoute: typeof AuthAuthImport
     }
-    '/resources/create': {
-      id: '/resources/create'
-      path: '/resources/create'
+    '/resources/_authenticated/create': {
+      id: '/resources/_authenticated/create'
+      path: '/create'
       fullPath: '/resources/create'
-      preLoaderRoute: typeof ResourcesCreateImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof ResourcesAuthenticatedCreateImport
+      parentRoute: typeof ResourcesAuthenticatedImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthAuthRouteChildren {
+  AuthAuthLoginRoute: typeof AuthAuthLoginRoute
+  AuthAuthRestoreRoute: typeof AuthAuthRestoreRoute
+}
+
+const AuthAuthRouteChildren: AuthAuthRouteChildren = {
+  AuthAuthLoginRoute: AuthAuthLoginRoute,
+  AuthAuthRestoreRoute: AuthAuthRestoreRoute,
+}
+
+const AuthAuthRouteWithChildren = AuthAuthRoute._addFileChildren(
+  AuthAuthRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthAuthRoute: typeof AuthAuthRouteWithChildren
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthAuthRoute: AuthAuthRouteWithChildren,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface ResourcesAuthenticatedRouteChildren {
+  ResourcesAuthenticatedCreateRoute: typeof ResourcesAuthenticatedCreateRoute
+}
+
+const ResourcesAuthenticatedRouteChildren: ResourcesAuthenticatedRouteChildren =
+  {
+    ResourcesAuthenticatedCreateRoute: ResourcesAuthenticatedCreateRoute,
+  }
+
+const ResourcesAuthenticatedRouteWithChildren =
+  ResourcesAuthenticatedRoute._addFileChildren(
+    ResourcesAuthenticatedRouteChildren,
+  )
+
+interface ResourcesRouteChildren {
+  ResourcesAuthenticatedRoute: typeof ResourcesAuthenticatedRouteWithChildren
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesAuthenticatedRoute: ResourcesAuthenticatedRouteWithChildren,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/restore': typeof AuthRestoreRoute
-  '/resources/create': typeof ResourcesCreateRoute
+  '/auth': typeof AuthAuthRouteWithChildren
+  '/resources': typeof ResourcesAuthenticatedRouteWithChildren
+  '/auth/login': typeof AuthAuthLoginRoute
+  '/auth/restore': typeof AuthAuthRestoreRoute
+  '/resources/create': typeof ResourcesAuthenticatedCreateRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/restore': typeof AuthRestoreRoute
-  '/resources/create': typeof ResourcesCreateRoute
+  '/auth': typeof AuthAuthRouteWithChildren
+  '/resources': typeof ResourcesAuthenticatedRouteWithChildren
+  '/auth/login': typeof AuthAuthLoginRoute
+  '/auth/restore': typeof AuthAuthRestoreRoute
+  '/resources/create': typeof ResourcesAuthenticatedCreateRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/auth/login': typeof AuthLoginRoute
-  '/auth/restore': typeof AuthRestoreRoute
-  '/resources/create': typeof ResourcesCreateRoute
+  '/auth': typeof AuthRouteWithChildren
+  '/auth/_auth': typeof AuthAuthRouteWithChildren
+  '/resources': typeof ResourcesRouteWithChildren
+  '/resources/_authenticated': typeof ResourcesAuthenticatedRouteWithChildren
+  '/auth/_auth/login': typeof AuthAuthLoginRoute
+  '/auth/_auth/restore': typeof AuthAuthRestoreRoute
+  '/resources/_authenticated/create': typeof ResourcesAuthenticatedCreateRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/login' | '/auth/restore' | '/resources/create'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/resources'
+    | '/auth/login'
+    | '/auth/restore'
+    | '/resources/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/login' | '/auth/restore' | '/resources/create'
-  id: '__root__' | '/' | '/auth/login' | '/auth/restore' | '/resources/create'
+  to:
+    | '/'
+    | '/auth'
+    | '/resources'
+    | '/auth/login'
+    | '/auth/restore'
+    | '/resources/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/auth/_auth'
+    | '/resources'
+    | '/resources/_authenticated'
+    | '/auth/_auth/login'
+    | '/auth/_auth/restore'
+    | '/resources/_authenticated/create'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthLoginRoute: typeof AuthLoginRoute
-  AuthRestoreRoute: typeof AuthRestoreRoute
-  ResourcesCreateRoute: typeof ResourcesCreateRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthLoginRoute: AuthLoginRoute,
-  AuthRestoreRoute: AuthRestoreRoute,
-  ResourcesCreateRoute: ResourcesCreateRoute,
+  AuthRoute: AuthRouteWithChildren,
+  ResourcesRoute: ResourcesRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -135,22 +272,51 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/auth/login",
-        "/auth/restore",
-        "/resources/create"
+        "/auth",
+        "/resources"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/auth/login": {
-      "filePath": "auth/login.tsx"
+    "/auth": {
+      "filePath": "auth",
+      "children": [
+        "/auth/_auth"
+      ]
     },
-    "/auth/restore": {
-      "filePath": "auth/restore.tsx"
+    "/auth/_auth": {
+      "filePath": "auth/_auth.tsx",
+      "parent": "/auth",
+      "children": [
+        "/auth/_auth/login",
+        "/auth/_auth/restore"
+      ]
     },
-    "/resources/create": {
-      "filePath": "resources/create.tsx"
+    "/resources": {
+      "filePath": "resources",
+      "children": [
+        "/resources/_authenticated"
+      ]
+    },
+    "/resources/_authenticated": {
+      "filePath": "resources/_authenticated.tsx",
+      "parent": "/resources",
+      "children": [
+        "/resources/_authenticated/create"
+      ]
+    },
+    "/auth/_auth/login": {
+      "filePath": "auth/_auth.login.tsx",
+      "parent": "/auth/_auth"
+    },
+    "/auth/_auth/restore": {
+      "filePath": "auth/_auth.restore.tsx",
+      "parent": "/auth/_auth"
+    },
+    "/resources/_authenticated/create": {
+      "filePath": "resources/_authenticated.create.tsx",
+      "parent": "/resources/_authenticated"
     }
   }
 }

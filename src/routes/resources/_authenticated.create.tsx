@@ -4,29 +4,23 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { api } from '~/api';
 import { Page } from '~/components/Page';
-import { toaster } from '~/services/toaster';
+import { useApiError } from '~/hooks/toasters';
 
-import { type FormValues } from './-components/constants';
 import { CreateForm } from './-components/create/CreateForm';
 import { prepareValues } from './-components/utils';
 
-import type { AxiosError } from 'axios';
+import type { FormValues } from './-components/constants';
 
 export const Create = () => {
+    const handleError = useApiError();
+
     const onSubmit = React.useCallback(
         ({ value }: { value: FormValues }) => {
             const valuesToSend = prepareValues(value);
 
-            api.resource.create(valuesToSend).catch((err) => {
-                toaster.add({
-                    name: 'create-error',
-                    title: 'Ошибка',
-                    theme: 'danger',
-                    content: (err as AxiosError).message,
-                });
-            });
+            api.resource.create(valuesToSend).catch(handleError);
         },
-        [],
+        [handleError],
     );
 
     return (
@@ -36,7 +30,7 @@ export const Create = () => {
     );
 };
 
-export const Route = createFileRoute('/resources/create')({
+export const Route = createFileRoute('/resources/_authenticated/create')({
     component: Create,
     staticData: {
         crumb: 'Создать ресурс',
