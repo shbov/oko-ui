@@ -1,3 +1,9 @@
 export const isStringNumber = (value: string) => {
-    return !isNaN(Number(value));
+    const trimmedValue = value.trim();
+    if (trimmedValue === '') {
+        return false;
+    }
+
+    const num = Number(trimmedValue);
+    return !isNaN(num) && isFinite(num);
 };
