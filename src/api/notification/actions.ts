@@ -1,18 +1,11 @@
-import { ChannelType } from './types';
+import { getProtectedKyInstance } from '../utils';
+
+import type { listChannelsResponse } from './types';
+
+const api = getProtectedKyInstance(OKO.endpoints.userService);
 
 export const notification = {
     listChannels: () => {
-        return Promise.resolve({
-            data: {
-                // mock
-                channels: [
-                    {
-                        id: '1231231-2-312-312-312-3',
-                        name: 'Project Alerts',
-                        type: ChannelType.Telegram,
-                    },
-                ],
-            },
-        });
+        return api.get<listChannelsResponse>(`channels`).json();
     },
 };

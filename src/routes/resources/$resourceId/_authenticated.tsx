@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/resources/_authenticated')({
+export const Route = createFileRoute('/resources/$resourceId/_authenticated')({
     beforeLoad: async ({ context, location }) => {
         let shouldRedirect = false;
         if (context.auth.status === 'PENDING') {

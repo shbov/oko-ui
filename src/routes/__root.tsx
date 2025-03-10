@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { House, FaceRobot, Plus, Person, Gear, PersonXmark } from '@gravity-ui/icons';
+import { House, FaceRobot, Plus, Person, PersonXmark } from '@gravity-ui/icons';
 import { AsideHeader, FooterItem } from '@gravity-ui/navigation';
 import { Flex, Icon, List } from '@gravity-ui/uikit';
 import {
@@ -43,14 +43,15 @@ const App = () => {
                 route: '/',
             },
             ...(auth.user
-                ? [{
-                        id: 'create-resources',
-                        title: 'Создать ресурс',
-                        icon: Plus,
-                        route: '/resources/create',
-                    }]
+                ? [
+                      {
+                          id: 'create-resources',
+                          title: 'Создать ресурс',
+                          icon: Plus,
+                          route: '/resources/create',
+                      },
+                  ]
                 : []),
-
         ];
 
         return items.map((item) => {
@@ -66,69 +67,72 @@ const App = () => {
         });
     }, [auth.user, matches, navigate]);
 
-    const renderFooter = React.useCallback(({ asideRef }: { asideRef: React.RefObject<HTMLDivElement> }) => {
-        const items = [
-            ...(auth.user
-                ? [
-                        {
-                            title: 'Выйти из аккаунта',
-                            icon: PersonXmark,
-                            onClick: () => {
-                                auth.logout();
-                            },
-                        },
-                    ]
-                : [
-                        {
-                            title: 'Войти в аккаунт',
-                            icon: Person,
-                            onClick: () => {
-                                auth.login();
-                            },
-                        },
-                    ]),
-        ];
+    const renderFooter = React.useCallback(
+        ({ asideRef }: { asideRef: React.RefObject<HTMLDivElement> }) => {
+            const items = [
+                ...(auth.user
+                    ? [
+                          {
+                              title: 'Выйти из аккаунта',
+                              icon: PersonXmark,
+                              onClick: () => {
+                                  auth.logout();
+                              },
+                          },
+                      ]
+                    : [
+                          {
+                              title: 'Войти в аккаунт',
+                              icon: Person,
+                              onClick: () => {
+                                  auth.login();
+                              },
+                          },
+                      ]),
+            ];
 
-        return (
-            <FooterItem
-                item={{
-                    id: 'user',
-                    icon: Gear,
-                    title: 'Учетная запись',
-                    tooltipText: 'Учетная запись',
-                    current: popupVisible,
-                    onItemClick: () => {
-                        setPopupVisible(!popupVisible);
-                    },
-                }}
-                popupVisible={popupVisible}
-                popupAnchor={asideRef}
-                onClosePopup={() => setPopupVisible(false)}
-                popupKeepMounted={true}
-                renderPopupContent={() => {
-                    return (
-                        <List
-                            filterable={false}
-                            virtualized={false}
-                            items={items}
-                            onItemClick={(item) => item.onClick()}
-                            itemHeight={() => 36}
-                            itemClassName={b('item')}
-                            renderItem={(item) => {
-                                return (
-                                    <Flex gap={2}>
-                                        <Icon data={item.icon} />
-                                        {item.title}
-                                    </Flex>
-                                );
-                            }}
-                        />
-                    );
-                }}
-                compact={compact}
-            />
-        );
-    }, [auth, compact, popupVisible]);
+            return (
+                <FooterItem
+                    item={{
+                        id: 'user',
+                        icon: Person,
+                        title: 'Учетная запись',
+                        tooltipText: 'Учетная запись',
+                        current: popupVisible,
+                        onItemClick: () => {
+                            setPopupVisible(!popupVisible);
+                        },
+                    }}
+                    popupVisible={popupVisible}
+                    popupAnchor={asideRef}
+                    onClosePopup={() => setPopupVisible(false)}
+                    popupKeepMounted={true}
+                    renderPopupContent={() => {
+                        return (
+                            <List
+                                filterable={false}
+                                virtualized={false}
+                                items={items}
+                                onItemClick={(item) => item.onClick()}
+                                itemHeight={() => 36}
+                                itemClassName={b('item')}
+                                renderItem={(item) => {
+                                    return (
+                                        <Flex gap={2}>
+                                            <Icon data={item.icon} />
+                                            {item.title}
+                                        </Flex>
+                                    );
+                                }}
+                            />
+                        );
+                    }}
+                    compact={compact}
+                />
+            );
+        },
+        [auth, compact, popupVisible],
+    );
 
     return (
         <AsideHeader

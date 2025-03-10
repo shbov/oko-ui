@@ -17,13 +17,16 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ResourcesAuthenticatedImport } from './routes/resources/_authenticated'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
 import { Route as ResourcesAuthenticatedCreateImport } from './routes/resources/_authenticated.create'
+import { Route as ResourcesResourceIdAuthenticatedImport } from './routes/resources/$resourceId/_authenticated'
 import { Route as AuthAuthRestoreImport } from './routes/auth/_auth.restore'
 import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
+import { Route as ResourcesResourceIdAuthenticatedEditImport } from './routes/resources/$resourceId/_authenticated.edit'
 
 // Create Virtual Routes
 
 const ResourcesImport = createFileRoute('/resources')()
 const AuthImport = createFileRoute('/auth')()
+const ResourcesResourceIdImport = createFileRoute('/resources/$resourceId')()
 
 // Create/Update Routes
 
@@ -45,6 +48,12 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ResourcesResourceIdRoute = ResourcesResourceIdImport.update({
+  id: '/$resourceId',
+  path: '/$resourceId',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+
 const ResourcesAuthenticatedRoute = ResourcesAuthenticatedImport.update({
   id: '/_authenticated',
   getParentRoute: () => ResourcesRoute,
@@ -62,6 +71,12 @@ const ResourcesAuthenticatedCreateRoute =
     getParentRoute: () => ResourcesAuthenticatedRoute,
   } as any)
 
+const ResourcesResourceIdAuthenticatedRoute =
+  ResourcesResourceIdAuthenticatedImport.update({
+    id: '/_authenticated',
+    getParentRoute: () => ResourcesResourceIdRoute,
+  } as any)
+
 const AuthAuthRestoreRoute = AuthAuthRestoreImport.update({
   id: '/restore',
   path: '/restore',
@@ -73,6 +88,13 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
   path: '/login',
   getParentRoute: () => AuthAuthRoute,
 } as any)
+
+const ResourcesResourceIdAuthenticatedEditRoute =
+  ResourcesResourceIdAuthenticatedEditImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => ResourcesResourceIdAuthenticatedRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -127,12 +149,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthRestoreImport
       parentRoute: typeof AuthAuthImport
     }
+    '/resources/$resourceId': {
+      id: '/resources/$resourceId'
+      path: '/$resourceId'
+      fullPath: '/resources/$resourceId'
+      preLoaderRoute: typeof ResourcesResourceIdImport
+      parentRoute: typeof ResourcesImport
+    }
+    '/resources/$resourceId/_authenticated': {
+      id: '/resources/$resourceId/_authenticated'
+      path: '/$resourceId'
+      fullPath: '/resources/$resourceId'
+      preLoaderRoute: typeof ResourcesResourceIdAuthenticatedImport
+      parentRoute: typeof ResourcesResourceIdRoute
+    }
     '/resources/_authenticated/create': {
       id: '/resources/_authenticated/create'
       path: '/create'
       fullPath: '/resources/create'
       preLoaderRoute: typeof ResourcesAuthenticatedCreateImport
       parentRoute: typeof ResourcesAuthenticatedImport
+    }
+    '/resources/$resourceId/_authenticated/edit': {
+      id: '/resources/$resourceId/_authenticated/edit'
+      path: '/edit'
+      fullPath: '/resources/$resourceId/edit'
+      preLoaderRoute: typeof ResourcesResourceIdAuthenticatedEditImport
+      parentRoute: typeof ResourcesResourceIdAuthenticatedImport
     }
   }
 }
@@ -177,12 +220,41 @@ const ResourcesAuthenticatedRouteWithChildren =
     ResourcesAuthenticatedRouteChildren,
   )
 
+interface ResourcesResourceIdAuthenticatedRouteChildren {
+  ResourcesResourceIdAuthenticatedEditRoute: typeof ResourcesResourceIdAuthenticatedEditRoute
+}
+
+const ResourcesResourceIdAuthenticatedRouteChildren: ResourcesResourceIdAuthenticatedRouteChildren =
+  {
+    ResourcesResourceIdAuthenticatedEditRoute:
+      ResourcesResourceIdAuthenticatedEditRoute,
+  }
+
+const ResourcesResourceIdAuthenticatedRouteWithChildren =
+  ResourcesResourceIdAuthenticatedRoute._addFileChildren(
+    ResourcesResourceIdAuthenticatedRouteChildren,
+  )
+
+interface ResourcesResourceIdRouteChildren {
+  ResourcesResourceIdAuthenticatedRoute: typeof ResourcesResourceIdAuthenticatedRouteWithChildren
+}
+
+const ResourcesResourceIdRouteChildren: ResourcesResourceIdRouteChildren = {
+  ResourcesResourceIdAuthenticatedRoute:
+    ResourcesResourceIdAuthenticatedRouteWithChildren,
+}
+
+const ResourcesResourceIdRouteWithChildren =
+  ResourcesResourceIdRoute._addFileChildren(ResourcesResourceIdRouteChildren)
+
 interface ResourcesRouteChildren {
   ResourcesAuthenticatedRoute: typeof ResourcesAuthenticatedRouteWithChildren
+  ResourcesResourceIdRoute: typeof ResourcesResourceIdRouteWithChildren
 }
 
 const ResourcesRouteChildren: ResourcesRouteChildren = {
   ResourcesAuthenticatedRoute: ResourcesAuthenticatedRouteWithChildren,
+  ResourcesResourceIdRoute: ResourcesResourceIdRouteWithChildren,
 }
 
 const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
@@ -195,7 +267,9 @@ export interface FileRoutesByFullPath {
   '/resources': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/restore': typeof AuthAuthRestoreRoute
+  '/resources/$resourceId': typeof ResourcesResourceIdAuthenticatedRouteWithChildren
   '/resources/create': typeof ResourcesAuthenticatedCreateRoute
+  '/resources/$resourceId/edit': typeof ResourcesResourceIdAuthenticatedEditRoute
 }
 
 export interface FileRoutesByTo {
@@ -204,7 +278,9 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/restore': typeof AuthAuthRestoreRoute
+  '/resources/$resourceId': typeof ResourcesResourceIdAuthenticatedRouteWithChildren
   '/resources/create': typeof ResourcesAuthenticatedCreateRoute
+  '/resources/$resourceId/edit': typeof ResourcesResourceIdAuthenticatedEditRoute
 }
 
 export interface FileRoutesById {
@@ -216,7 +292,10 @@ export interface FileRoutesById {
   '/resources/_authenticated': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/_auth/login': typeof AuthAuthLoginRoute
   '/auth/_auth/restore': typeof AuthAuthRestoreRoute
+  '/resources/$resourceId': typeof ResourcesResourceIdRouteWithChildren
+  '/resources/$resourceId/_authenticated': typeof ResourcesResourceIdAuthenticatedRouteWithChildren
   '/resources/_authenticated/create': typeof ResourcesAuthenticatedCreateRoute
+  '/resources/$resourceId/_authenticated/edit': typeof ResourcesResourceIdAuthenticatedEditRoute
 }
 
 export interface FileRouteTypes {
@@ -227,7 +306,9 @@ export interface FileRouteTypes {
     | '/resources'
     | '/auth/login'
     | '/auth/restore'
+    | '/resources/$resourceId'
     | '/resources/create'
+    | '/resources/$resourceId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -235,7 +316,9 @@ export interface FileRouteTypes {
     | '/resources'
     | '/auth/login'
     | '/auth/restore'
+    | '/resources/$resourceId'
     | '/resources/create'
+    | '/resources/$resourceId/edit'
   id:
     | '__root__'
     | '/'
@@ -245,7 +328,10 @@ export interface FileRouteTypes {
     | '/resources/_authenticated'
     | '/auth/_auth/login'
     | '/auth/_auth/restore'
+    | '/resources/$resourceId'
+    | '/resources/$resourceId/_authenticated'
     | '/resources/_authenticated/create'
+    | '/resources/$resourceId/_authenticated/edit'
   fileRoutesById: FileRoutesById
 }
 
@@ -296,7 +382,8 @@ export const routeTree = rootRoute
     "/resources": {
       "filePath": "resources",
       "children": [
-        "/resources/_authenticated"
+        "/resources/_authenticated",
+        "/resources/$resourceId"
       ]
     },
     "/resources/_authenticated": {
@@ -314,9 +401,27 @@ export const routeTree = rootRoute
       "filePath": "auth/_auth.restore.tsx",
       "parent": "/auth/_auth"
     },
+    "/resources/$resourceId": {
+      "filePath": "resources/$resourceId",
+      "parent": "/resources",
+      "children": [
+        "/resources/$resourceId/_authenticated"
+      ]
+    },
+    "/resources/$resourceId/_authenticated": {
+      "filePath": "resources/$resourceId/_authenticated.tsx",
+      "parent": "/resources/$resourceId",
+      "children": [
+        "/resources/$resourceId/_authenticated/edit"
+      ]
+    },
     "/resources/_authenticated/create": {
       "filePath": "resources/_authenticated.create.tsx",
       "parent": "/resources/_authenticated"
+    },
+    "/resources/$resourceId/_authenticated/edit": {
+      "filePath": "resources/$resourceId/_authenticated.edit.tsx",
+      "parent": "/resources/$resourceId/_authenticated"
     }
   }
 }

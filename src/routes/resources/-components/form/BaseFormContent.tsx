@@ -1,4 +1,3 @@
-/* eslint-disable @stylistic/jsx-wrap-multilines */
 import * as React from 'react';
 
 import { FormRow } from '@gravity-ui/components';
@@ -9,32 +8,42 @@ import { groupBy } from 'lodash';
 
 import type { Channel } from '~/api/notification';
 import { TextField, TextAreaField, SelectField } from '~/packages/form';
-import { ScreenshotSection } from '~/routes/resources/-components/create/components/ScreenshotSection';
 
-import './CreateFormContent.scss';
+import './BaseFormContent.scss';
+import { ScreenshotSection } from './components/ScreenshotSection';
 
-import type { FormValues } from '../constants';
+import type { CommonFormValues } from './types';
 
-const b = block('create-form-content');
+const b = block('base-form-content');
 
 const transformChannels = (channels: Channel[]) => {
+    const uniqueTypes = new Set(channels.map((channel) => channel.type));
     const groupedChannels = groupBy(channels, 'type');
 
-    return Object.entries(groupedChannels).map(([type, items]) => ({
-        label: `${type.charAt(0).toUpperCase()}${type.slice(1)}`,
-        options: items.map((channel) => ({
-            value: channel.id,
-            content: channel.name,
-        })),
+    if (uniqueTypes.size > 1) {
+        return Object.entries(groupedChannels).map(([type, items]) => ({
+            label: `${type.charAt(0).toUpperCase()}${type.slice(1)}`,
+            options: items.map((channel) => ({
+                value: channel.id,
+                content: channel.name ?? channel.id,
+            })),
+        }));
+    }
+
+    return channels.map((channel) => ({
+        value: channel.id,
+        content: channel.name ?? channel.id,
     }));
 };
 
-export const CreateFormContent = ({
+export const BaseFormContent = ({
     form,
     channels,
+    mode,
 }: {
-    form: ReactFormExtendedApi<FormValues, undefined>;
+    form: ReactFormExtendedApi<CommonFormValues, undefined>;
     channels: Channel[];
+    mode: 'create' | 'edit';
 }) => {
     const options = React.useMemo(() => {
         return transformChannels(channels);
@@ -61,6 +70,7 @@ export const CreateFormContent = ({
                             type="url"
                             placeholder="https://example.com"
                             field={field}
+                            disabled={mode === 'edit'}
                         />
                     )}
                 </form.Field>

@@ -1,8 +1,12 @@
-import { ZoneType, type CreateResourceRequest } from '~/api/resource';
+import {
+    ZoneType,
+    type CreateResourceRequest,
+    type EditResourceRequest,
+} from '~/api/resource';
 
-import { type FormValues } from './constants';
+import type { CreateFormValues, EditFormValues } from './constants';
 
-const prepareAreas = (areas: FormValues['areas']) => {
+const prepareAreas = (areas: CreateFormValues['areas']) => {
     return (
         areas?.map((area) => ({
             x: area.x,
@@ -13,7 +17,7 @@ const prepareAreas = (areas: FormValues['areas']) => {
     );
 };
 
-export const prepareValues = ({
+export const prepareCreateValues = ({
     name,
     description,
     url,
@@ -24,13 +28,21 @@ export const prepareValues = ({
     zoneType,
     areas,
     interval,
-}: FormValues): CreateResourceRequest => {
+}: CreateFormValues) => {
     const parsedKeywords = keywords
         ? keywords
-                .split(',')
-                .map((keyword) => keyword.trim())
-                .filter(Boolean)
+              .split(',')
+              .map((keyword) => keyword.trim())
+              .filter(Boolean)
         : [];
+
+    const patchedInterval: CreateResourceRequest['interval'] = {
+        day_of_week: interval.dayOfWeek,
+        days: interval.days,
+        hours: interval.hours,
+        minutes: interval.minutes,
+        months: interval.months,
+    };
 
     const commonValues = {
         name,
@@ -38,7 +50,7 @@ export const prepareValues = ({
         url,
         channels,
         keywords: parsedKeywords,
-        interval,
+        interval: patchedInterval,
     };
 
     if (!isScreenshot) {
@@ -48,9 +60,19 @@ export const prepareValues = ({
     return {
         ...commonValues,
         sensitivity,
-        zoneType,
+        zone_type: zoneType,
         ...(zoneType === ZoneType.fullPage
             ? {}
             : { areas: prepareAreas(areas) }),
+    };
+};
+
+export const prepareEditValues = (
+    values: EditFormValues,
+    id: string,
+): EditResourceRequest => {
+    return {
+        ...prepareCreateValues(values),
+        id,
     };
 };

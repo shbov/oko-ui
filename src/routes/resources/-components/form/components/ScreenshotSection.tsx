@@ -19,13 +19,13 @@ import {
 
 import { SelectZoneDialog } from './SelectZoneDialog';
 
-import type { FormValues } from '../../constants';
+import type { CommonFormValues } from '../types';
 import type { IArea } from '@bmunozg/react-image-area';
 
 export const ScreenshotSection = ({
     form,
 }: {
-    form: ReactFormExtendedApi<FormValues, undefined>;
+    form: ReactFormExtendedApi<CommonFormValues, undefined>;
 }) => {
     const [zoneSelectionOpen, setZoneSelectionOpen] = React.useState(false);
 

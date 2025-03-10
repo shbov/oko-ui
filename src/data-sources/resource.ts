@@ -8,7 +8,14 @@ export const getScreenshotByUrlSource = makePlainQueryDataSource({
     name: 'getScreenshotByUrl',
     fetch,
     transformResponse: (response) => response.data,
-    options: {
-        retry: false,
-    },
+});
+
+export const listResources = makePlainQueryDataSource({
+    name: 'resource',
+    fetch: skipContext(api.resource.listResources),
+});
+
+export const getResource = makePlainQueryDataSource({
+    name: 'resource',
+    fetch: skipContext(api.resource.get),
 });

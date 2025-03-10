@@ -1,6 +1,4 @@
 import js from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin';
-import stylisticJs from '@stylistic/eslint-plugin-js';
 import pluginRouter from '@tanstack/eslint-plugin-router';
 import * as tsParser from '@typescript-eslint/parser';
 import eslintConfigPrettier from 'eslint-config-prettier';
@@ -19,15 +17,6 @@ export default tseslint.config(
     eslintConfigPrettier,
     eslintPluginImportX.flatConfigs.recommended,
     eslintPluginImportX.flatConfigs.typescript,
-    stylistic.configs.customize({
-        flat: true, // required for flat config
-        indent: 4,
-        quotes: 'single',
-        semi: true,
-        jsx: true,
-        arrowParens: true,
-        trailingComma: 'all',
-    }),
     ...pluginRouter.configs['flat/recommended'],
     {
         files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
@@ -57,7 +46,6 @@ export default tseslint.config(
             react,
             'react-hooks': reactHooks,
             'react-refresh': reactRefresh,
-            '@stylistic/js': stylisticJs,
         },
         rules: {
             ...reactHooks.configs.recommended.rules,
@@ -71,22 +59,21 @@ export default tseslint.config(
             'react/jsx-fragments': ['error', 'element'],
             '@typescript-eslint/consistent-type-imports': 'error',
             'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
-            '@stylistic/js/no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
             'import-x/order': [
                 'error',
                 {
-                    'alphabetize': {
+                    alphabetize: {
                         order: 'asc',
                     },
                     'newlines-between': 'always',
-                    'groups': [
+                    groups: [
                         'builtin', // Default grouping for Node.js modules
                         'external', // External library imports
                         'internal', // Internal imports (alias based within your project)
                         ['parent', 'sibling', 'index'], // Relative imports, placed at the end
                         'type', // Type imports, with special handling
                     ],
-                    'pathGroups': [
+                    pathGroups: [
                         {
                             pattern: 'react',
                             group: 'builtin', // To ensure React gets its own dedicated group at the top
@@ -98,8 +85,8 @@ export default tseslint.config(
                             position: 'before',
                         },
                     ],
-                    'pathGroupsExcludedImportTypes': ['builtin'],
-                    'warnOnUnassignedImports': true,
+                    pathGroupsExcludedImportTypes: ['builtin'],
+                    warnOnUnassignedImports: true,
                 },
             ],
             '@typescript-eslint/no-unused-vars': [
@@ -120,7 +107,7 @@ export default tseslint.config(
                 {
                     name: 'zod',
                     message:
-                        'Importing directly from \'zod\' is restricted in this project. Please use `~services/zod` instead.',
+                        "Importing directly from 'zod' is restricted in this project. Please use `~services/zod` instead.",
                 },
             ],
         },

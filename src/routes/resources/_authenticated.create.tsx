@@ -1,26 +1,42 @@
 import * as React from 'react';
 
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { api } from '~/api';
 import { Page } from '~/components/Page';
 import { useApiError } from '~/hooks/toasters';
+import { toaster } from '~/services/toaster';
 
-import { CreateForm } from './-components/create/CreateForm';
-import { prepareValues } from './-components/utils';
+import { CreateForm } from './-components/form/CreateForm';
+import { prepareCreateValues } from './-components/utils';
 
-import type { FormValues } from './-components/constants';
+import type { CreateFormValues } from './-components/constants';
 
 export const Create = () => {
     const handleError = useApiError();
+    const router = useRouter();
 
     const onSubmit = React.useCallback(
-        ({ value }: { value: FormValues }) => {
-            const valuesToSend = prepareValues(value);
+        ({ value }: { value: CreateFormValues }) => {
+            const valuesToSend = prepareCreateValues(value);
 
-            api.resource.create(valuesToSend).catch(handleError);
+            api.resource
+                .create(valuesToSend)
+                .then((r) => {
+                    toaster.add({
+                        name: 'resource-created',
+                        title: 'Ресурс создан',
+                        content: r.resource?.id,
+                        theme: 'success',
+                    });
+
+                    void router.navigate({
+                        to: '/',
+                    });
+                })
+                .catch(handleError);
         },
-        [handleError],
+        [handleError, router],
     );
 
     return (

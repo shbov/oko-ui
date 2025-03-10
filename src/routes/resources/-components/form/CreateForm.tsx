@@ -6,10 +6,11 @@ import { listChannelsSource } from '~/data-sources';
 import { Form } from '~/packages/form';
 import { DataLoader } from '~/services/data-source';
 
-import { CreateFormContent } from './CreateFormContent';
-import { createSchema, type FormValues } from '../constants';
+import { BaseFormContent } from './BaseFormContent';
+import { createSchema } from '../constants';
 
 import type { CreateFormProps } from './types';
+import type { CreateFormValues } from '../constants';
 
 export const CreateForm = ({ onSubmit }: CreateFormProps) => {
     const channelsQuery = useQueryData(listChannelsSource, {});
@@ -36,7 +37,7 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
                 months: '*',
                 dayOfWeek: '*',
             },
-        } as FormValues,
+        } as CreateFormValues,
     });
 
     return (
@@ -46,9 +47,10 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
             status={channelsQuery.status}
         >
             <Form submitText="Создать" formApi={form} size="m" withCancelButton>
-                <CreateFormContent
+                <BaseFormContent
                     form={form}
                     channels={channelsQuery.data?.channels ?? []}
+                    mode="create"
                 />
             </Form>
         </DataLoader>

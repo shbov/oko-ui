@@ -1,11 +1,8 @@
 import React from 'react';
 
-import { Bug } from '@gravity-ui/icons';
-import {
-    Icon,
-    PlaceholderContainer,
-    type PlaceholderContainerProps,
-} from '@gravity-ui/uikit';
+import { type PlaceholderContainerProps } from '@gravity-ui/uikit';
+
+import { ErrorContainer as ErrorContainerBase } from '~/components/ErrorContainer';
 
 import type { QueryError } from '../../types';
 import type { ErrorAction, ErrorViewProps } from '@gravity-ui/data-source';
@@ -18,7 +15,7 @@ export type ErrorContainerProps = Omit<
     Partial<PlaceholderContainerProps>,
     'action'
 > &
-Omit<ErrorViewProps<QueryError>, 'action'> & { action?: CustomAction };
+    Omit<ErrorViewProps<QueryError>, 'action'> & { action?: CustomAction };
 
 export const ErrorContainer = (props: ErrorContainerProps) => {
     const actions = React.useMemo(() => {
@@ -35,11 +32,10 @@ export const ErrorContainer = (props: ErrorContainerProps) => {
     }, [props.action]);
 
     return (
-        <PlaceholderContainer
+        <ErrorContainerBase
             {...props}
             title={props.title || props.error?.name}
             description={props.description || props.error?.message}
-            image={<Icon data={Bug} width={64} height={64} />}
             actions={actions}
         />
     );

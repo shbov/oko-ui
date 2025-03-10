@@ -1,6 +1,11 @@
 import { getProtectedKyInstance, getPublicKyInstance } from '../utils';
 
-import type { LoginRequest, LoginResponse, RestorePasswordRequest, UserInfoResponse } from './types';
+import type {
+    LoginRequest,
+    LoginResponse,
+    RestorePasswordRequest,
+    UserInfoResponse,
+} from './types';
 
 const protectedApi = getProtectedKyInstance(OKO.endpoints.userService);
 const api = getPublicKyInstance(OKO.endpoints.userService);
@@ -16,6 +21,6 @@ export const user = {
         return protectedApi.post('users/logout').json();
     },
     auth: () => {
-        return protectedApi.post<UserInfoResponse>('users/info').json();
+        return protectedApi.get<UserInfoResponse>('users/info').json();
     },
 };

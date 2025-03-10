@@ -2,6 +2,7 @@
 @use '@gravity-ui/uikit/styles/styles';
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap';
+@import '@gravity-ui/illustrations/styles/theme';
 
 /* stylelint-disable-next-line selector-class-pattern */
 .g-root_theme_light {
@@ -54,6 +55,8 @@
     --g-color-text-link-hover: var(--g-color-private-brand-800-solid);
     --g-color-text-link-visited: var(--g-color-private-purple-550-solid);
     --g-color-text-link-visited-hover: var(--g-color-private-purple-800-solid);
+
+    @include g-illustrations-colors-light;
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
@@ -107,6 +110,8 @@
     --g-color-text-link-hover: var(--g-color-private-brand-700-solid);
     --g-color-text-link-visited: var(--g-color-private-purple-700-solid);
     --g-color-text-link-visited-hover: var(--g-color-private-purple-850-solid);
+
+    @include g-illustrations-colors-dark;
 }
 
 body,
