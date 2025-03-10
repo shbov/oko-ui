@@ -1,9 +1,9 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { api } from '~/api';
-import type { LoginRequest } from '~/api/user';
 import { ACCESS_TOKEN } from '~/constants/auth';
 import { useApiError } from '~/hooks/toasters';
+import { api } from '~/services/api';
+import type { LoginRequest } from '~/services/api/user';
 import { dataManager } from '~/services/data-source';
 
 export function useLoginMutation() {

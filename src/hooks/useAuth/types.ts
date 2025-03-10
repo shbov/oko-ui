@@ -1,4 +1,4 @@
-import type { User, UserInfoResponse } from '~/api/user';
+import type { User, UserInfoResponse } from '~/services/api/user';
 
 export type AuthState =
     | { user: null; status: 'PENDING' }

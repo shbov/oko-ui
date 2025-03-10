@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { useQueryData } from '@gravity-ui/data-source';
 import { useForm } from '@tanstack/react-form';
 
-import { ZoneType } from '~/api/resource';
 import { listChannelsSource } from '~/data-sources';
 import { Form } from '~/packages/form';
+import { ZoneType } from '~/services/api/resource';
 import { DataLoader } from '~/services/data-source';
 
 import { BaseFormContent } from './BaseFormContent';

@@ -15,12 +15,12 @@ import {
 } from '@gravity-ui/uikit';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
-import { api } from '~/api';
-import type { Resource } from '~/api/resource';
 import { Page } from '~/components/Page';
 import { listResources } from '~/data-sources';
 import { useApiError } from '~/hooks/toasters';
 import { useAuth } from '~/hooks/useAuth';
+import { api } from '~/services/api';
+import type { Resource } from '~/services/api/resource';
 import { DataLoader } from '~/services/data-source';
 import { LoaderContainer } from '~/services/data-source/components/LoaderContainer';
 import { toaster } from '~/services/toaster';

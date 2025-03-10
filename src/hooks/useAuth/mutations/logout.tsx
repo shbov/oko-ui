@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { api } from '~/api';
 import { ACCESS_TOKEN } from '~/constants/auth';
 import { useApiError } from '~/hooks/toasters';
+import { api } from '~/services/api';
 import { dataManager } from '~/services/data-source';
 
 export function useLogoutMutation() {

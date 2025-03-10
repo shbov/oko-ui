@@ -6,8 +6,8 @@ import { type ReactFormExtendedApi } from '@tanstack/react-form';
 import block from 'bem-cn-lite';
 import { groupBy } from 'lodash';
 
-import type { Channel } from '~/api/notification';
 import { TextField, TextAreaField, SelectField } from '~/packages/form';
+import type { Channel } from '~/services/api/notification';
 
 import './BaseFormContent.scss';
 import { ScreenshotSection } from './components/ScreenshotSection';

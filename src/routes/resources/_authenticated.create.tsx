@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
-import { api } from '~/api';
 import { Page } from '~/components/Page';
 import { useApiError } from '~/hooks/toasters';
+import { api } from '~/services/api';
 import { toaster } from '~/services/toaster';
 
 import { CreateForm } from './-components/form/CreateForm';

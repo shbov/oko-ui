@@ -50,6 +50,10 @@ export const getProtectedKyInstance = (prefix: string) =>
                 },
             ],
         },
+        retry: {
+            statusCodes: [401],
+            limit: 1,
+        },
     });
 
 export const getPublicKyInstance = (prefix: string) =>

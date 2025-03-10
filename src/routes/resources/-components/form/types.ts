@@ -1,4 +1,4 @@
-import type { Resource, ZoneType } from '~/api/resource';
+import type { Resource, ZoneType } from '~/services/api/resource';
 
 import type { CreateFormValues, EditFormValues } from '../constants';
 

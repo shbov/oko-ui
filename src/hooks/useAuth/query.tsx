@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { api } from '~/api';
+import { api } from '~/services/api';
 
 export function authQueryOptions() {
     return queryOptions({

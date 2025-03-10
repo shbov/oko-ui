@@ -4,10 +4,10 @@ import { FormRow } from '@gravity-ui/components';
 import { useForm } from '@tanstack/react-form';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
-import { api } from '~/api';
 import { Page } from '~/components/Page';
 import { useApiError } from '~/hooks/toasters';
 import { Form, TextField } from '~/packages/form';
+import { api } from '~/services/api';
 import { toaster } from '~/services/toaster';
 import { zod } from '~/services/zod';
 import { emailSchema } from '~/utils/validation/schemas';

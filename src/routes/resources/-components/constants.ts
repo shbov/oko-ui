@@ -1,4 +1,4 @@
-import { ZoneType } from '~/api/resource';
+import { ZoneType } from '~/services/api/resource';
 import { zod } from '~/services/zod';
 
 export const createSchema = zod.object({

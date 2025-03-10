@@ -9,13 +9,13 @@ import {
 } from '@gravity-ui/uikit';
 import { type ReactFormExtendedApi, useStore } from '@tanstack/react-form';
 
-import { ZoneType } from '~/api/resource';
 import {
     FormSection,
     NumberField,
     SegmentedRadioGroupField,
     SwitchField,
 } from '~/packages/form';
+import { ZoneType } from '~/services/api/resource';
 
 import { SelectZoneDialog } from './SelectZoneDialog';
 

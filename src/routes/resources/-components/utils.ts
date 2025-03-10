@@ -2,7 +2,7 @@ import {
     ZoneType,
     type CreateResourceRequest,
     type EditResourceRequest,
-} from '~/api/resource';
+} from '~/services/api/resource';
 
 import type { CreateFormValues, EditFormValues } from './constants';
 

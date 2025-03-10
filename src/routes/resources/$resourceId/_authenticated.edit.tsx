@@ -4,10 +4,10 @@ import { useCallback, useMemo } from 'react';
 import { useQueryData } from '@gravity-ui/data-source';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
-import { api } from '~/api';
 import { Page } from '~/components/Page';
 import { getResource } from '~/data-sources';
 import { useApiError } from '~/hooks/toasters';
+import { api } from '~/services/api';
 import { DataLoader } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
