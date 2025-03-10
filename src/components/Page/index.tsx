@@ -1,4 +1,4 @@
-import * as React from 'react';
+import type { ReactNode } from 'react';
 
 import { spacing, Text } from '@gravity-ui/uikit';
 import block from 'bem-cn-lite';
@@ -14,7 +14,7 @@ export const Page = ({
 }: {
     title: string;
     className?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 }) => {
     return (
         <div className={b()}>

@@ -1,3 +1,5 @@
+import type { ComponentType } from 'react';
+
 import type { QueryError } from '../../types';
 import type { ErrorContainerProps } from '../ErrorContainer';
 import type { LoaderContainerProps } from '../LoaderContainer';
@@ -12,6 +14,6 @@ export interface DataLoaderProps
         >,
         'LoadingView' | 'ErrorView'
     > {
-    LoadingView?: React.ComponentType<LoaderContainerProps>;
-    ErrorView?: React.ComponentType<ErrorContainerProps>;
+    LoadingView?: ComponentType<LoaderContainerProps>;
+    ErrorView?: ComponentType<ErrorContainerProps>;
 }

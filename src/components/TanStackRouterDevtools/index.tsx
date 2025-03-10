@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { lazy } from 'react';
 
-export const TanStackRouterDevtools
-    = process.env.NODE_ENV === 'production'
+export const TanStackRouterDevtools =
+    process.env.NODE_ENV === 'production'
         ? () => null
-        : React.lazy(() =>
-                import('@tanstack/react-router-devtools').then((res) => ({
-                    default: res.TanStackRouterDevtools,
-                })),
-            );
+        : lazy(() =>
+              import('@tanstack/react-router-devtools').then((res) => ({
+                  default: res.TanStackRouterDevtools,
+              })),
+          );

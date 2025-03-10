@@ -1,4 +1,5 @@
-import * as React from 'react';
+
+import { useCallback } from 'react';
 
 import type { QueryError } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
@@ -6,7 +7,7 @@ import { toaster } from '~/services/toaster';
 import type { HTTPError } from 'ky';
 
 export const useApiError = () => {
-    const handle = React.useCallback(async (err: HTTPError<QueryError>) => {
+    const handle = useCallback(async (err: HTTPError<QueryError>) => {
         const errorJson = await err.response?.json();
 
         toaster.add({

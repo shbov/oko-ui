@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 
 import { Loader } from '@gravity-ui/uikit';
 import block from 'bem-cn-lite';
@@ -14,7 +14,7 @@ export interface LoaderContainerProps extends Omit<LoaderProps, 'className'> {
     innerClassName?: string;
 }
 
-export const LoaderContainer: React.FC<LoaderContainerProps> = ({
+export const LoaderContainer: FC<LoaderContainerProps> = ({
     className,
     innerClassName,
     size = 'l',

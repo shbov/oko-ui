@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Fragment, useMemo } from 'react';
 
 import { FormRow } from '@gravity-ui/components';
 import { Flex, HelpMark, Text } from '@gravity-ui/uikit';
@@ -45,12 +45,12 @@ export const BaseFormContent = ({
     channels: Channel[];
     mode: 'create' | 'edit';
 }) => {
-    const options = React.useMemo(() => {
+    const options = useMemo(() => {
         return transformChannels(channels);
     }, [channels]);
 
     return (
-        <React.Fragment>
+        <Fragment>
             <FormRow label="Название" required>
                 <form.Field name="name">
                     {(field) => <TextField type="text" field={field} />}
@@ -179,6 +179,6 @@ export const BaseFormContent = ({
                     </form.Field>
                 </Flex>
             </FormRow>
-        </React.Fragment>
+        </Fragment>
     );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { DelayedTextInput } from '@gravity-ui/components';
 import { idle, useQueryData } from '@gravity-ui/data-source';
@@ -81,15 +81,14 @@ const Content = () => {
     const router = useRouter();
     const auth = useAuth(router);
     const handleError = useApiError();
-    const [search, setSearch] = React.useState('');
+    const [search, setSearch] = useState('');
 
     const resourcesQuery = useQueryData(
         listResources,
         auth.status === 'AUTHENTICATED' ? {} : idle,
     );
-    console.log('resourcesQuery: ', resourcesQuery);
 
-    const getRowActions = React.useCallback(
+    const getRowActions = useCallback(
         (resource: Resource) => {
             const actions: TableActionConfig<Resource>[] = [
                 {
@@ -131,7 +130,7 @@ const Content = () => {
         [handleError, router],
     );
 
-    const actions = React.useMemo(() => {
+    const actions = useMemo(() => {
         const actions: PlaceholderContainerActionProps[] = [
             {
                 text: 'Создать ресурс',
@@ -146,7 +145,7 @@ const Content = () => {
         return actions;
     }, [router]);
 
-    const filteredData = React.useMemo(() => {
+    const filteredData = useMemo(() => {
         return (
             resourcesQuery.data?.resources.filter((resource) => {
                 return (

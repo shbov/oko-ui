@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 
 import { type PlaceholderContainerProps } from '@gravity-ui/uikit';
 
@@ -18,7 +18,7 @@ export type ErrorContainerProps = Omit<
     Omit<ErrorViewProps<QueryError>, 'action'> & { action?: CustomAction };
 
 export const ErrorContainer = (props: ErrorContainerProps) => {
-    const actions = React.useMemo(() => {
+    const actions = useMemo(() => {
         const items = [];
 
         if (props.action) {

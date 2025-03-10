@@ -1,4 +1,5 @@
-import * as React from 'react';
+
+import { useCallback, useMemo } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
@@ -24,11 +25,11 @@ export const Edit = () => {
         id: params.resourceId,
     });
 
-    const title = React.useMemo(() => {
+    const title = useMemo(() => {
         return `Редактировать ресурс ${resource?.resource?.name ?? ''}`;
     }, [resource?.resource?.name]);
 
-    const onSubmit = React.useCallback(
+    const onSubmit = useCallback(
         ({ value }: { value: EditFormValues }) => {
             const valuesToSend = prepareEditValues(value, params.resourceId);
 

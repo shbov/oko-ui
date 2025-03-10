@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback } from 'react';
 
 import { FormRow } from '@gravity-ui/components';
 import { useForm } from '@tanstack/react-form';
@@ -22,16 +22,22 @@ export const Restore = () => {
     const navigate = useNavigate();
     const handleError = useApiError();
 
-    const onSubmit = React.useCallback(({ value }: { value: FormValues }) => {
-        api.user.restorePassword(value).then(() => {
-            toaster.add({
-                name: 'restore-success',
-                title: 'Успешно',
-                theme: 'success',
-                content: 'Письмо отправлено на почту',
-            });
-        }).catch(handleError);
-    }, [handleError]);
+    const onSubmit = useCallback(
+        ({ value }: { value: FormValues }) => {
+            api.user
+                .restorePassword(value)
+                .then(() => {
+                    toaster.add({
+                        name: 'restore-success',
+                        title: 'Успешно',
+                        theme: 'success',
+                        content: 'Письмо отправлено на почту',
+                    });
+                })
+                .catch(handleError);
+        },
+        [handleError],
+    );
 
     const form = useForm({
         onSubmit,

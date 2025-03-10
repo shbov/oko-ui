@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Fragment, useCallback, useState } from 'react';
 
 import { FormRow } from '@gravity-ui/components';
 import {
@@ -27,7 +27,7 @@ export const ScreenshotSection = ({
 }: {
     form: ReactFormExtendedApi<CommonFormValues, undefined>;
 }) => {
-    const [zoneSelectionOpen, setZoneSelectionOpen] = React.useState(false);
+    const [zoneSelectionOpen, setZoneSelectionOpen] = useState(false);
 
     const isScreenshot = useStore(
         form.store,
@@ -41,7 +41,7 @@ export const ScreenshotSection = ({
 
     const url = useStore(form.store, (state) => state.values.url);
 
-    const onDialogSubmit = React.useCallback(
+    const onDialogSubmit = useCallback(
         (areas: IArea[]) => {
             form.setFieldValue('areas', areas);
         },
@@ -57,7 +57,7 @@ export const ScreenshotSection = ({
             </FormRow>
 
             {isScreenshot && (
-                <React.Fragment>
+                <Fragment>
                     <FormRow
                         label="Чувствительность"
                         labelHelpPopover={
@@ -100,7 +100,7 @@ export const ScreenshotSection = ({
                         </form.Field>
 
                         {isZoneSelected && (
-                            <React.Fragment>
+                            <Fragment>
                                 <Button
                                     className={spacing({ mt: 2 })}
                                     onClick={() => setZoneSelectionOpen(true)}
@@ -115,10 +115,10 @@ export const ScreenshotSection = ({
                                     open={zoneSelectionOpen}
                                     url={url}
                                 />
-                            </React.Fragment>
+                            </Fragment>
                         )}
                     </FormRow>
-                </React.Fragment>
+                </Fragment>
             )}
         </FormSection>
     );

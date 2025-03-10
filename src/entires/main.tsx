@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { StrictMode } from 'react';
 
 import { DataManagerContext } from '@gravity-ui/data-source';
 import {
@@ -24,7 +24,7 @@ const root = createRoot(document.getElementById('root')!);
 
 const App = () => {
     return (
-        <React.StrictMode>
+        <StrictMode>
             <QueryClientProvider client={dataManager.queryClient}>
                 <ReactQueryDevtools />
                 <TanStackRouterDevtools
@@ -43,7 +43,7 @@ const App = () => {
                     </ThemeProvider>
                 </DataManagerContext.Provider>
             </QueryClientProvider>
-        </React.StrictMode>
+        </StrictMode>
     );
 };
 

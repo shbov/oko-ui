@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
     SegmentedRadioGroup,
@@ -12,11 +12,11 @@ export const SegmentedRadioGroupField = <
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
-    | Validator<DeepValue<TParentData, TName>, unknown>
-    | undefined = undefined,
+        | Validator<DeepValue<TParentData, TName>, unknown>
+        | undefined = undefined,
     TFormValidator extends
-    | Validator<TParentData, unknown>
-    | undefined = undefined,
+        | Validator<TParentData, unknown>
+        | undefined = undefined,
     TData extends DeepValue<TParentData, TName> = DeepValue<TParentData, TName>,
 >({
     field,
@@ -28,14 +28,14 @@ export const SegmentedRadioGroupField = <
     TFormValidator,
     TData
 >) => {
-    const onUpdate = React.useCallback(
+    const onUpdate = useCallback(
         (checked: string) => {
             field.setValue(checked as TData);
         },
         [field],
     );
 
-    const props = React.useMemo(
+    const props = useMemo(
         () =>
             ({
                 ...restProps,

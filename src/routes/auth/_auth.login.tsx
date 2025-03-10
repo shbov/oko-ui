@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback } from 'react';
 
 import { FormRow } from '@gravity-ui/components';
 import { useForm } from '@tanstack/react-form';
@@ -21,9 +21,12 @@ export const Login = () => {
     const navigate = useNavigate();
     const { mutateAsync: loginUser } = useLoginMutation();
 
-    const onSubmit = React.useCallback(async ({ value }: { value: FormValues }) => {
-        await loginUser(value);
-    }, [loginUser]);
+    const onSubmit = useCallback(
+        async ({ value }: { value: FormValues }) => {
+            await loginUser(value);
+        },
+        [loginUser],
+    );
 
     const form = useForm({
         onSubmit,

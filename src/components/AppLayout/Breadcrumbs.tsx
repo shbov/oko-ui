@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 
 import { ActionBar } from '@gravity-ui/navigation';
 import {
@@ -16,7 +16,7 @@ export const Breadcrumbs = () => {
         (match) => match.staticData?.crumb,
     );
 
-    const items = React.useMemo(
+    const items = useMemo(
         () =>
             matchesWithCrumbs.map((match) => ({
                 text: match.staticData?.crumb ?? '–',

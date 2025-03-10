@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Switch, type SwitchProps } from '@gravity-ui/uikit';
 
@@ -9,11 +9,11 @@ export const SwitchField = <
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
-    | Validator<DeepValue<TParentData, TName>, unknown>
-    | undefined = undefined,
+        | Validator<DeepValue<TParentData, TName>, unknown>
+        | undefined = undefined,
     TFormValidator extends
-    | Validator<TParentData, unknown>
-    | undefined = undefined,
+        | Validator<TParentData, unknown>
+        | undefined = undefined,
     TData extends DeepValue<TParentData, TName> = DeepValue<TParentData, TName>,
 >({
     field,
@@ -25,14 +25,14 @@ export const SwitchField = <
     TFormValidator,
     TData
 >) => {
-    const onChange = React.useCallback(
+    const onChange = useCallback(
         (checked: boolean) => {
             field.setValue(checked as TData);
         },
         [field],
     );
 
-    const props = React.useMemo(
+    const props = useMemo(
         () =>
             ({
                 ...restProps,

@@ -1,9 +1,11 @@
-import * as React from 'react';
+
+import type { ReactNode } from 'react';
+import { Component } from 'react';
 
 import { ErrorContainer } from '../ErrorContainer';
 
 interface ErrorBoundaryProps {
-    children: React.ReactNode;
+    children: ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -11,7 +13,7 @@ interface ErrorBoundaryState {
     error?: Error;
 }
 
-export class ErrorBoundary extends React.Component<
+export class ErrorBoundary extends Component<
     ErrorBoundaryProps,
     ErrorBoundaryState
 > {
@@ -30,7 +32,7 @@ export class ErrorBoundary extends React.Component<
         return { hasError: true };
     }
 
-    render(): React.ReactNode {
+    render(): ReactNode {
         const { hasError, error } = this.state;
         const { children } = this.props;
 

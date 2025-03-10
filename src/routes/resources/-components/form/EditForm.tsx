@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { useForm } from '@tanstack/react-form';
@@ -17,7 +17,7 @@ import type { EditFormValues } from '../constants';
 export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
     const channelsQuery = useQueryData(listChannelsSource, {});
 
-    const [interval] = React.useState(() => {
+    const [interval] = useState(() => {
         const splittedInterval = resource.interval.split(' ');
         return {
             minutes: splittedInterval[0],

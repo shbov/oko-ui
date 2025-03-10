@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback } from 'react';
 
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
@@ -16,7 +16,7 @@ export const Create = () => {
     const handleError = useApiError();
     const router = useRouter();
 
-    const onSubmit = React.useCallback(
+    const onSubmit = useCallback(
         ({ value }: { value: CreateFormValues }) => {
             const valuesToSend = prepareCreateValues(value);
 

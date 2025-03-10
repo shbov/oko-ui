@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useMemo } from 'react';
 
 import {
     NumberInput as NumberInputBase,
@@ -14,11 +14,11 @@ export const NumberField = <
     TParentData,
     TName extends DeepKeys<TParentData>,
     TFieldValidator extends
-    | Validator<DeepValue<TParentData, TName>, unknown>
-    | undefined = undefined,
+        | Validator<DeepValue<TParentData, TName>, unknown>
+        | undefined = undefined,
     TFormValidator extends
-    | Validator<TParentData, unknown>
-    | undefined = undefined,
+        | Validator<TParentData, unknown>
+        | undefined = undefined,
     TData extends DeepValue<TParentData, TName> = DeepValue<TParentData, TName>,
 >({
     field,
@@ -30,21 +30,21 @@ export const NumberField = <
     TFormValidator,
     TData
 >) => {
-    const onChange = React.useCallback(
+    const onChange = useCallback(
         (e: number | null) => {
             field.setValue(e as TData);
         },
         [field],
     );
 
-    const errorMessage = React.useMemo(
+    const errorMessage = useMemo(
         () =>
-            field.state.meta.isTouched
-            && getErrorMessage(field.state.meta.errors),
+            field.state.meta.isTouched &&
+            getErrorMessage(field.state.meta.errors),
         [field.state.meta.errors, field.state.meta.isTouched],
     );
 
-    const props = React.useMemo(
+    const props = useMemo(
         () =>
             ({
                 hasClear: true,

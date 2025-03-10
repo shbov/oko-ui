@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useMemo } from 'react';
 
 import { Code, FaceRobot } from '@gravity-ui/icons';
 import {
@@ -11,7 +11,7 @@ import { useNavigate } from '@tanstack/react-router';
 export const Footer = () => {
     const navigate = useNavigate();
 
-    const menuItems: FooterMenuItem[] = React.useMemo(
+    const menuItems: FooterMenuItem[] = useMemo(
         () => [
             {
                 id: 'home',

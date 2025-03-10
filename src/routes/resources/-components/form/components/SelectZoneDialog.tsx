@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback, useState } from 'react';
 
 import { AreaSelector } from '@bmunozg/react-image-area';
 import { idle, useQueryData } from '@gravity-ui/data-source';
@@ -21,13 +21,13 @@ export const SelectZoneDialog = ({
     onSubmit: (areas: IArea[]) => unknown;
     url: string;
 }) => {
-    const [areas, setAreas] = React.useState<IArea[]>([]);
+    const [areas, setAreas] = useState<IArea[]>([]);
     const getScreenshotQuery = useQueryData(
         getScreenshotByUrlSource,
         open ? { url } : idle,
     );
 
-    const onChangeHandler = React.useCallback((areas: IArea[]) => {
+    const onChangeHandler = useCallback((areas: IArea[]) => {
         setAreas(areas);
     }, []);
 

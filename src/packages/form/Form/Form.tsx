@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useCallback } from 'react';
 
 import { cn } from '@bem-react/classname';
 import { Button, Flex } from '@gravity-ui/uikit';
@@ -14,8 +14,8 @@ const b = cn('app-form');
 export const Form = <
     TFormData,
     TFormValidator extends
-    | undefined
-    | Validator<TFormData, unknown> = undefined,
+        | undefined
+        | Validator<TFormData, unknown> = undefined,
 >({
     children,
     submitText,
@@ -27,13 +27,13 @@ export const Form = <
 }: FormProps<TFormData, TFormValidator>) => {
     const router = useRouter();
 
-    const additionalButtonAction = React.useCallback(() => {
+    const additionalButtonAction = useCallback(() => {
         if (aditionalButton?.action) {
             aditionalButton.action();
         }
     }, [aditionalButton]);
 
-    const cancelButtonAction = React.useCallback(() => {
+    const cancelButtonAction = useCallback(() => {
         router.history.back();
     }, [router.history]);
 

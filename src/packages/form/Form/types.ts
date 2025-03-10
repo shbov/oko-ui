@@ -1,4 +1,4 @@
-import type * as React from 'react';
+import type { ReactNode } from 'react';
 
 import type { ButtonProps } from '@gravity-ui/uikit';
 import type { ReactFormExtendedApi, Validator } from '@tanstack/react-form';
@@ -6,11 +6,11 @@ import type { ReactFormExtendedApi, Validator } from '@tanstack/react-form';
 export interface FormProps<
     TFormData,
     TFormValidator extends
-    | undefined
-    | Validator<TFormData, unknown> = undefined,
+        | undefined
+        | Validator<TFormData, unknown> = undefined,
 > {
     submitText: string;
-    children: React.ReactNode;
+    children: ReactNode;
     formApi: ReactFormExtendedApi<TFormData, TFormValidator>;
     className?: string;
     size?: 's' | 'm' | 'l';

@@ -1,4 +1,5 @@
-import * as React from 'react';
+import type { RefObject } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { House, FaceRobot, Plus, Person, PersonXmark } from '@gravity-ui/icons';
 import { AsideHeader, FooterItem } from '@gravity-ui/navigation';
@@ -23,15 +24,15 @@ import type { MenuItem } from '@gravity-ui/navigation';
 const b = block('navigation');
 
 const App = () => {
-    const [compact, setCompact] = React.useState(true);
-    const [popupVisible, setPopupVisible] = React.useState(false);
+    const [compact, setCompact] = useState(true);
+    const [popupVisible, setPopupVisible] = useState(false);
 
     const navigate = useNavigate();
     const router = useRouter();
     const matches = useMatches();
     const auth = useAuth(router);
 
-    const menuItems: MenuItem[] = React.useMemo(() => {
+    const menuItems: MenuItem[] = useMemo(() => {
         const currentRoute = matches.slice(-1)[0];
         // TODO: add typization on `route`
         const items = [
@@ -67,8 +68,8 @@ const App = () => {
         });
     }, [auth.user, matches, navigate]);
 
-    const renderFooter = React.useCallback(
-        ({ asideRef }: { asideRef: React.RefObject<HTMLDivElement> }) => {
+    const renderFooter = useCallback(
+        ({ asideRef }: { asideRef: RefObject<HTMLDivElement> }) => {
             const items = [
                 ...(auth.user
                     ? [
