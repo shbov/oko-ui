@@ -25,3 +25,9 @@ dist-ssr
 
 tsconfig.tsbuildinfo
 .env
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
