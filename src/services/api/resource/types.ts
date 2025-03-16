@@ -41,6 +41,7 @@ export interface Resource {
     interval: string;
     make_screenshot: boolean;
     polygon: unknown;
+    areas?: Area[] | undefined;
 }
 
 export interface CreateResourceResponse {
@@ -52,7 +53,7 @@ export interface GetScreenshotByUrlRequest {
 }
 
 export interface GetScreenshotByUrlResponse {
-    data: string;
+    screenshot: string;
 }
 
 export interface ListResourcesResponse {

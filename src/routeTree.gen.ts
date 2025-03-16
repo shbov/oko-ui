@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as DiffImport } from './routes/diff'
 import { Route as IndexImport } from './routes/index'
 import { Route as ResourcesAuthenticatedImport } from './routes/resources/_authenticated'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
@@ -39,6 +40,12 @@ const ResourcesRoute = ResourcesImport.update({
 const AuthRoute = AuthImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DiffRoute = DiffImport.update({
+  id: '/diff',
+  path: '/diff',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -105,6 +112,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/diff': {
+      id: '/diff'
+      path: '/diff'
+      fullPath: '/diff'
+      preLoaderRoute: typeof DiffImport
       parentRoute: typeof rootRoute
     }
     '/auth': {
@@ -263,6 +277,7 @@ const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/diff': typeof DiffRoute
   '/auth': typeof AuthAuthRouteWithChildren
   '/resources': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
@@ -274,6 +289,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/diff': typeof DiffRoute
   '/auth': typeof AuthAuthRouteWithChildren
   '/resources': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
@@ -286,6 +302,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/diff': typeof DiffRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
@@ -302,6 +319,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/diff'
     | '/auth'
     | '/resources'
     | '/auth/login'
@@ -312,6 +330,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/diff'
     | '/auth'
     | '/resources'
     | '/auth/login'
@@ -322,6 +341,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/diff'
     | '/auth'
     | '/auth/_auth'
     | '/resources'
@@ -337,12 +357,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DiffRoute: typeof DiffRoute
   AuthRoute: typeof AuthRouteWithChildren
   ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DiffRoute: DiffRoute,
   AuthRoute: AuthRouteWithChildren,
   ResourcesRoute: ResourcesRouteWithChildren,
 }
@@ -358,12 +380,16 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/diff",
         "/auth",
         "/resources"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/diff": {
+      "filePath": "diff.tsx"
     },
     "/auth": {
       "filePath": "auth",

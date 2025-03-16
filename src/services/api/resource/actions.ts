@@ -23,11 +23,11 @@ export const resource = {
     },
     getScreenshotByUrl: async (data: GetScreenshotByUrlRequest) => {
         return api
-            .post<GetScreenshotByUrlResponse>(`getScreenshot`, { json: data })
+            .post<GetScreenshotByUrlResponse>(`screenshot`, { json: data })
             .json();
     },
     listResources: () => {
-        return api.get<ListResourcesResponse>('resources').json();
+        return api.get<ListResourcesResponse>('resources/all').json();
     },
     deleteResource: (id: string) => {
         return api.delete(`resources/${id}`).json();

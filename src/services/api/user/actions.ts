@@ -15,7 +15,7 @@ export const user = {
         return api.post<LoginResponse>('users/login', { json: data }).json();
     },
     restorePassword: (data: RestorePasswordRequest) => {
-        return api.post('users/restore-password', { json: data }).json();
+        return api.post('users/reset', { json: data }).json();
     },
     logout: () => {
         return protectedApi.post('users/logout').json();

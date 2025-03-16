@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { AreaSelector } from '@bmunozg/react-image-area';
 import { idle, useQueryData } from '@gravity-ui/data-source';
@@ -31,6 +31,10 @@ export const SelectZoneDialog = ({
         setAreas(areas);
     }, []);
 
+    const image = useMemo(() => {
+        return `data:image/png;base64, ${getScreenshotQuery.data}`;
+    }, [getScreenshotQuery.data]);
+
     return (
         <Dialog open={open} onClose={() => setOpen(false)} size="l">
             <Dialog.Header caption="Зона для отслеживания" />
@@ -48,7 +52,7 @@ export const SelectZoneDialog = ({
                         maxAreas={1}
                     >
                         <img
-                            src={getScreenshotQuery.data}
+                            src={image}
                             alt="background image for selection"
                             style={{
                                 width: '100%',

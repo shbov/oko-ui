@@ -6,6 +6,6 @@ const api = getProtectedKyInstance(OKO.endpoints.userService);
 
 export const notification = {
     listChannels: () => {
-        return api.get<listChannelsResponse>(`channels`).json();
+        return api.get<listChannelsResponse>(`channels/all`).json();
     },
 };

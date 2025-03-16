@@ -39,6 +39,7 @@ export const SwitchField = <
                 value: field.state.value as string,
                 onBlur: field.handleBlur,
                 onUpdate: onChange,
+                checked: field.state.value as boolean,
             }) satisfies SwitchProps,
         [field.handleBlur, field.state.value, onChange, restProps],
     );

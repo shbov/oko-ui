@@ -28,6 +28,18 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
         };
     });
 
+    const [zoneType] = useState(() => {
+        if (!resource.areas) {
+            return ZoneType.fullPage;
+        }
+
+        if (resource.areas.length > 0) {
+            return ZoneType.zone;
+        }
+
+        return ZoneType.fullPage;
+    });
+
     const form = useForm({
         onSubmit,
         validators: {
@@ -41,8 +53,8 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             sensitivity: 1,
             keywords: resource.keywords.join(', '),
             isScreenshot: resource.make_screenshot,
-            zoneType: ZoneType.fullPage,
-            areas: [],
+            zoneType: zoneType,
+            areas: resource.areas,
             channels: resource.channels?.map((channel) => channel.id) ?? [],
             interval,
         } as EditFormValues,
