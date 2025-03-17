@@ -11,15 +11,17 @@ export const Page = ({
     children,
     title,
     className,
+    isLoading = false,
 }: {
     title: string;
     className?: string;
     children: ReactNode;
+    isLoading?: boolean;
 }) => {
     return (
         <div className={b()}>
             <div className={spacing({ mb: 4 })}>
-                <Text variant="subheader-3">{title}</Text>
+                {!isLoading && <Text variant="subheader-3">{title}</Text>}
             </div>
 
             <div className={className}>{children}</div>

@@ -1,4 +1,3 @@
-
 import { useCallback, useMemo } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';

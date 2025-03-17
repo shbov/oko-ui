@@ -13,7 +13,6 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as DiffImport } from './routes/diff'
 import { Route as IndexImport } from './routes/index'
 import { Route as ResourcesAuthenticatedImport } from './routes/resources/_authenticated'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
@@ -21,13 +20,24 @@ import { Route as ResourcesAuthenticatedCreateImport } from './routes/resources/
 import { Route as ResourcesResourceIdAuthenticatedImport } from './routes/resources/$resourceId/_authenticated'
 import { Route as AuthAuthRestoreImport } from './routes/auth/_auth.restore'
 import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
+import { Route as ResourcesResourceIdAuthenticatedIndexImport } from './routes/resources/$resourceId/_authenticated.index'
+import { Route as ResourcesResourceIdEventsAuthenticatedImport } from './routes/resources/$resourceId/events/_authenticated'
 import { Route as ResourcesResourceIdAuthenticatedEditImport } from './routes/resources/$resourceId/_authenticated.edit'
+import { Route as ResourcesResourceIdEventsAuthenticatedIndexImport } from './routes/resources/$resourceId/events/_authenticated.index'
+import { Route as ResourcesResourceIdEventsEventIdAuthenticatedImport } from './routes/resources/$resourceId/events/$eventId/_authenticated'
+import { Route as ResourcesResourceIdEventsEventIdAuthenticatedIndexImport } from './routes/resources/$resourceId/events/$eventId/_authenticated.index'
 
 // Create Virtual Routes
 
 const ResourcesImport = createFileRoute('/resources')()
 const AuthImport = createFileRoute('/auth')()
 const ResourcesResourceIdImport = createFileRoute('/resources/$resourceId')()
+const ResourcesResourceIdEventsImport = createFileRoute(
+  '/resources/$resourceId/events',
+)()
+const ResourcesResourceIdEventsEventIdImport = createFileRoute(
+  '/resources/$resourceId/events/$eventId',
+)()
 
 // Create/Update Routes
 
@@ -40,12 +50,6 @@ const ResourcesRoute = ResourcesImport.update({
 const AuthRoute = AuthImport.update({
   id: '/auth',
   path: '/auth',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DiffRoute = DiffImport.update({
-  id: '/diff',
-  path: '/diff',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -69,6 +73,12 @@ const ResourcesAuthenticatedRoute = ResourcesAuthenticatedImport.update({
 const AuthAuthRoute = AuthAuthImport.update({
   id: '/_auth',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const ResourcesResourceIdEventsRoute = ResourcesResourceIdEventsImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => ResourcesResourceIdRoute,
 } as any)
 
 const ResourcesAuthenticatedCreateRoute =
@@ -96,11 +106,51 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
   getParentRoute: () => AuthAuthRoute,
 } as any)
 
+const ResourcesResourceIdEventsEventIdRoute =
+  ResourcesResourceIdEventsEventIdImport.update({
+    id: '/$eventId',
+    path: '/$eventId',
+    getParentRoute: () => ResourcesResourceIdEventsRoute,
+  } as any)
+
+const ResourcesResourceIdAuthenticatedIndexRoute =
+  ResourcesResourceIdAuthenticatedIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ResourcesResourceIdAuthenticatedRoute,
+  } as any)
+
+const ResourcesResourceIdEventsAuthenticatedRoute =
+  ResourcesResourceIdEventsAuthenticatedImport.update({
+    id: '/_authenticated',
+    getParentRoute: () => ResourcesResourceIdEventsRoute,
+  } as any)
+
 const ResourcesResourceIdAuthenticatedEditRoute =
   ResourcesResourceIdAuthenticatedEditImport.update({
     id: '/edit',
     path: '/edit',
     getParentRoute: () => ResourcesResourceIdAuthenticatedRoute,
+  } as any)
+
+const ResourcesResourceIdEventsAuthenticatedIndexRoute =
+  ResourcesResourceIdEventsAuthenticatedIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ResourcesResourceIdEventsAuthenticatedRoute,
+  } as any)
+
+const ResourcesResourceIdEventsEventIdAuthenticatedRoute =
+  ResourcesResourceIdEventsEventIdAuthenticatedImport.update({
+    id: '/_authenticated',
+    getParentRoute: () => ResourcesResourceIdEventsEventIdRoute,
+  } as any)
+
+const ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute =
+  ResourcesResourceIdEventsEventIdAuthenticatedIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ResourcesResourceIdEventsEventIdAuthenticatedRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -112,13 +162,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/diff': {
-      id: '/diff'
-      path: '/diff'
-      fullPath: '/diff'
-      preLoaderRoute: typeof DiffImport
       parentRoute: typeof rootRoute
     }
     '/auth': {
@@ -191,6 +234,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesResourceIdAuthenticatedEditImport
       parentRoute: typeof ResourcesResourceIdAuthenticatedImport
     }
+    '/resources/$resourceId/events': {
+      id: '/resources/$resourceId/events'
+      path: '/events'
+      fullPath: '/resources/$resourceId/events'
+      preLoaderRoute: typeof ResourcesResourceIdEventsImport
+      parentRoute: typeof ResourcesResourceIdImport
+    }
+    '/resources/$resourceId/events/_authenticated': {
+      id: '/resources/$resourceId/events/_authenticated'
+      path: '/events'
+      fullPath: '/resources/$resourceId/events'
+      preLoaderRoute: typeof ResourcesResourceIdEventsAuthenticatedImport
+      parentRoute: typeof ResourcesResourceIdEventsRoute
+    }
+    '/resources/$resourceId/_authenticated/': {
+      id: '/resources/$resourceId/_authenticated/'
+      path: '/'
+      fullPath: '/resources/$resourceId/'
+      preLoaderRoute: typeof ResourcesResourceIdAuthenticatedIndexImport
+      parentRoute: typeof ResourcesResourceIdAuthenticatedImport
+    }
+    '/resources/$resourceId/events/$eventId': {
+      id: '/resources/$resourceId/events/$eventId'
+      path: '/$eventId'
+      fullPath: '/resources/$resourceId/events/$eventId'
+      preLoaderRoute: typeof ResourcesResourceIdEventsEventIdImport
+      parentRoute: typeof ResourcesResourceIdEventsImport
+    }
+    '/resources/$resourceId/events/$eventId/_authenticated': {
+      id: '/resources/$resourceId/events/$eventId/_authenticated'
+      path: '/$eventId'
+      fullPath: '/resources/$resourceId/events/$eventId'
+      preLoaderRoute: typeof ResourcesResourceIdEventsEventIdAuthenticatedImport
+      parentRoute: typeof ResourcesResourceIdEventsEventIdRoute
+    }
+    '/resources/$resourceId/events/_authenticated/': {
+      id: '/resources/$resourceId/events/_authenticated/'
+      path: '/'
+      fullPath: '/resources/$resourceId/events/'
+      preLoaderRoute: typeof ResourcesResourceIdEventsAuthenticatedIndexImport
+      parentRoute: typeof ResourcesResourceIdEventsAuthenticatedImport
+    }
+    '/resources/$resourceId/events/$eventId/_authenticated/': {
+      id: '/resources/$resourceId/events/$eventId/_authenticated/'
+      path: '/'
+      fullPath: '/resources/$resourceId/events/$eventId/'
+      preLoaderRoute: typeof ResourcesResourceIdEventsEventIdAuthenticatedIndexImport
+      parentRoute: typeof ResourcesResourceIdEventsEventIdAuthenticatedImport
+    }
   }
 }
 
@@ -236,12 +328,15 @@ const ResourcesAuthenticatedRouteWithChildren =
 
 interface ResourcesResourceIdAuthenticatedRouteChildren {
   ResourcesResourceIdAuthenticatedEditRoute: typeof ResourcesResourceIdAuthenticatedEditRoute
+  ResourcesResourceIdAuthenticatedIndexRoute: typeof ResourcesResourceIdAuthenticatedIndexRoute
 }
 
 const ResourcesResourceIdAuthenticatedRouteChildren: ResourcesResourceIdAuthenticatedRouteChildren =
   {
     ResourcesResourceIdAuthenticatedEditRoute:
       ResourcesResourceIdAuthenticatedEditRoute,
+    ResourcesResourceIdAuthenticatedIndexRoute:
+      ResourcesResourceIdAuthenticatedIndexRoute,
   }
 
 const ResourcesResourceIdAuthenticatedRouteWithChildren =
@@ -249,13 +344,78 @@ const ResourcesResourceIdAuthenticatedRouteWithChildren =
     ResourcesResourceIdAuthenticatedRouteChildren,
   )
 
+interface ResourcesResourceIdEventsAuthenticatedRouteChildren {
+  ResourcesResourceIdEventsAuthenticatedIndexRoute: typeof ResourcesResourceIdEventsAuthenticatedIndexRoute
+}
+
+const ResourcesResourceIdEventsAuthenticatedRouteChildren: ResourcesResourceIdEventsAuthenticatedRouteChildren =
+  {
+    ResourcesResourceIdEventsAuthenticatedIndexRoute:
+      ResourcesResourceIdEventsAuthenticatedIndexRoute,
+  }
+
+const ResourcesResourceIdEventsAuthenticatedRouteWithChildren =
+  ResourcesResourceIdEventsAuthenticatedRoute._addFileChildren(
+    ResourcesResourceIdEventsAuthenticatedRouteChildren,
+  )
+
+interface ResourcesResourceIdEventsEventIdAuthenticatedRouteChildren {
+  ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute: typeof ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute
+}
+
+const ResourcesResourceIdEventsEventIdAuthenticatedRouteChildren: ResourcesResourceIdEventsEventIdAuthenticatedRouteChildren =
+  {
+    ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute:
+      ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute,
+  }
+
+const ResourcesResourceIdEventsEventIdAuthenticatedRouteWithChildren =
+  ResourcesResourceIdEventsEventIdAuthenticatedRoute._addFileChildren(
+    ResourcesResourceIdEventsEventIdAuthenticatedRouteChildren,
+  )
+
+interface ResourcesResourceIdEventsEventIdRouteChildren {
+  ResourcesResourceIdEventsEventIdAuthenticatedRoute: typeof ResourcesResourceIdEventsEventIdAuthenticatedRouteWithChildren
+}
+
+const ResourcesResourceIdEventsEventIdRouteChildren: ResourcesResourceIdEventsEventIdRouteChildren =
+  {
+    ResourcesResourceIdEventsEventIdAuthenticatedRoute:
+      ResourcesResourceIdEventsEventIdAuthenticatedRouteWithChildren,
+  }
+
+const ResourcesResourceIdEventsEventIdRouteWithChildren =
+  ResourcesResourceIdEventsEventIdRoute._addFileChildren(
+    ResourcesResourceIdEventsEventIdRouteChildren,
+  )
+
+interface ResourcesResourceIdEventsRouteChildren {
+  ResourcesResourceIdEventsAuthenticatedRoute: typeof ResourcesResourceIdEventsAuthenticatedRouteWithChildren
+  ResourcesResourceIdEventsEventIdRoute: typeof ResourcesResourceIdEventsEventIdRouteWithChildren
+}
+
+const ResourcesResourceIdEventsRouteChildren: ResourcesResourceIdEventsRouteChildren =
+  {
+    ResourcesResourceIdEventsAuthenticatedRoute:
+      ResourcesResourceIdEventsAuthenticatedRouteWithChildren,
+    ResourcesResourceIdEventsEventIdRoute:
+      ResourcesResourceIdEventsEventIdRouteWithChildren,
+  }
+
+const ResourcesResourceIdEventsRouteWithChildren =
+  ResourcesResourceIdEventsRoute._addFileChildren(
+    ResourcesResourceIdEventsRouteChildren,
+  )
+
 interface ResourcesResourceIdRouteChildren {
   ResourcesResourceIdAuthenticatedRoute: typeof ResourcesResourceIdAuthenticatedRouteWithChildren
+  ResourcesResourceIdEventsRoute: typeof ResourcesResourceIdEventsRouteWithChildren
 }
 
 const ResourcesResourceIdRouteChildren: ResourcesResourceIdRouteChildren = {
   ResourcesResourceIdAuthenticatedRoute:
     ResourcesResourceIdAuthenticatedRouteWithChildren,
+  ResourcesResourceIdEventsRoute: ResourcesResourceIdEventsRouteWithChildren,
 }
 
 const ResourcesResourceIdRouteWithChildren =
@@ -277,7 +437,6 @@ const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/diff': typeof DiffRoute
   '/auth': typeof AuthAuthRouteWithChildren
   '/resources': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
@@ -285,24 +444,29 @@ export interface FileRoutesByFullPath {
   '/resources/$resourceId': typeof ResourcesResourceIdAuthenticatedRouteWithChildren
   '/resources/create': typeof ResourcesAuthenticatedCreateRoute
   '/resources/$resourceId/edit': typeof ResourcesResourceIdAuthenticatedEditRoute
+  '/resources/$resourceId/events': typeof ResourcesResourceIdEventsAuthenticatedRouteWithChildren
+  '/resources/$resourceId/': typeof ResourcesResourceIdAuthenticatedIndexRoute
+  '/resources/$resourceId/events/$eventId': typeof ResourcesResourceIdEventsEventIdAuthenticatedRouteWithChildren
+  '/resources/$resourceId/events/': typeof ResourcesResourceIdEventsAuthenticatedIndexRoute
+  '/resources/$resourceId/events/$eventId/': typeof ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/diff': typeof DiffRoute
   '/auth': typeof AuthAuthRouteWithChildren
   '/resources': typeof ResourcesAuthenticatedRouteWithChildren
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/restore': typeof AuthAuthRestoreRoute
-  '/resources/$resourceId': typeof ResourcesResourceIdAuthenticatedRouteWithChildren
+  '/resources/$resourceId': typeof ResourcesResourceIdAuthenticatedIndexRoute
   '/resources/create': typeof ResourcesAuthenticatedCreateRoute
   '/resources/$resourceId/edit': typeof ResourcesResourceIdAuthenticatedEditRoute
+  '/resources/$resourceId/events': typeof ResourcesResourceIdEventsAuthenticatedIndexRoute
+  '/resources/$resourceId/events/$eventId': typeof ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/diff': typeof DiffRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
   '/resources': typeof ResourcesRouteWithChildren
@@ -313,13 +477,19 @@ export interface FileRoutesById {
   '/resources/$resourceId/_authenticated': typeof ResourcesResourceIdAuthenticatedRouteWithChildren
   '/resources/_authenticated/create': typeof ResourcesAuthenticatedCreateRoute
   '/resources/$resourceId/_authenticated/edit': typeof ResourcesResourceIdAuthenticatedEditRoute
+  '/resources/$resourceId/events': typeof ResourcesResourceIdEventsRouteWithChildren
+  '/resources/$resourceId/events/_authenticated': typeof ResourcesResourceIdEventsAuthenticatedRouteWithChildren
+  '/resources/$resourceId/_authenticated/': typeof ResourcesResourceIdAuthenticatedIndexRoute
+  '/resources/$resourceId/events/$eventId': typeof ResourcesResourceIdEventsEventIdRouteWithChildren
+  '/resources/$resourceId/events/$eventId/_authenticated': typeof ResourcesResourceIdEventsEventIdAuthenticatedRouteWithChildren
+  '/resources/$resourceId/events/_authenticated/': typeof ResourcesResourceIdEventsAuthenticatedIndexRoute
+  '/resources/$resourceId/events/$eventId/_authenticated/': typeof ResourcesResourceIdEventsEventIdAuthenticatedIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/diff'
     | '/auth'
     | '/resources'
     | '/auth/login'
@@ -327,10 +497,14 @@ export interface FileRouteTypes {
     | '/resources/$resourceId'
     | '/resources/create'
     | '/resources/$resourceId/edit'
+    | '/resources/$resourceId/events'
+    | '/resources/$resourceId/'
+    | '/resources/$resourceId/events/$eventId'
+    | '/resources/$resourceId/events/'
+    | '/resources/$resourceId/events/$eventId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/diff'
     | '/auth'
     | '/resources'
     | '/auth/login'
@@ -338,10 +512,11 @@ export interface FileRouteTypes {
     | '/resources/$resourceId'
     | '/resources/create'
     | '/resources/$resourceId/edit'
+    | '/resources/$resourceId/events'
+    | '/resources/$resourceId/events/$eventId'
   id:
     | '__root__'
     | '/'
-    | '/diff'
     | '/auth'
     | '/auth/_auth'
     | '/resources'
@@ -352,19 +527,24 @@ export interface FileRouteTypes {
     | '/resources/$resourceId/_authenticated'
     | '/resources/_authenticated/create'
     | '/resources/$resourceId/_authenticated/edit'
+    | '/resources/$resourceId/events'
+    | '/resources/$resourceId/events/_authenticated'
+    | '/resources/$resourceId/_authenticated/'
+    | '/resources/$resourceId/events/$eventId'
+    | '/resources/$resourceId/events/$eventId/_authenticated'
+    | '/resources/$resourceId/events/_authenticated/'
+    | '/resources/$resourceId/events/$eventId/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DiffRoute: typeof DiffRoute
   AuthRoute: typeof AuthRouteWithChildren
   ResourcesRoute: typeof ResourcesRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DiffRoute: DiffRoute,
   AuthRoute: AuthRouteWithChildren,
   ResourcesRoute: ResourcesRouteWithChildren,
 }
@@ -380,16 +560,12 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/diff",
         "/auth",
         "/resources"
       ]
     },
     "/": {
       "filePath": "index.tsx"
-    },
-    "/diff": {
-      "filePath": "diff.tsx"
     },
     "/auth": {
       "filePath": "auth",
@@ -431,14 +607,16 @@ export const routeTree = rootRoute
       "filePath": "resources/$resourceId",
       "parent": "/resources",
       "children": [
-        "/resources/$resourceId/_authenticated"
+        "/resources/$resourceId/_authenticated",
+        "/resources/$resourceId/events"
       ]
     },
     "/resources/$resourceId/_authenticated": {
       "filePath": "resources/$resourceId/_authenticated.tsx",
       "parent": "/resources/$resourceId",
       "children": [
-        "/resources/$resourceId/_authenticated/edit"
+        "/resources/$resourceId/_authenticated/edit",
+        "/resources/$resourceId/_authenticated/"
       ]
     },
     "/resources/_authenticated/create": {
@@ -448,6 +626,47 @@ export const routeTree = rootRoute
     "/resources/$resourceId/_authenticated/edit": {
       "filePath": "resources/$resourceId/_authenticated.edit.tsx",
       "parent": "/resources/$resourceId/_authenticated"
+    },
+    "/resources/$resourceId/events": {
+      "filePath": "resources/$resourceId/events",
+      "parent": "/resources/$resourceId",
+      "children": [
+        "/resources/$resourceId/events/_authenticated",
+        "/resources/$resourceId/events/$eventId"
+      ]
+    },
+    "/resources/$resourceId/events/_authenticated": {
+      "filePath": "resources/$resourceId/events/_authenticated.tsx",
+      "parent": "/resources/$resourceId/events",
+      "children": [
+        "/resources/$resourceId/events/_authenticated/"
+      ]
+    },
+    "/resources/$resourceId/_authenticated/": {
+      "filePath": "resources/$resourceId/_authenticated.index.tsx",
+      "parent": "/resources/$resourceId/_authenticated"
+    },
+    "/resources/$resourceId/events/$eventId": {
+      "filePath": "resources/$resourceId/events/$eventId",
+      "parent": "/resources/$resourceId/events",
+      "children": [
+        "/resources/$resourceId/events/$eventId/_authenticated"
+      ]
+    },
+    "/resources/$resourceId/events/$eventId/_authenticated": {
+      "filePath": "resources/$resourceId/events/$eventId/_authenticated.tsx",
+      "parent": "/resources/$resourceId/events/$eventId",
+      "children": [
+        "/resources/$resourceId/events/$eventId/_authenticated/"
+      ]
+    },
+    "/resources/$resourceId/events/_authenticated/": {
+      "filePath": "resources/$resourceId/events/_authenticated.index.tsx",
+      "parent": "/resources/$resourceId/events/_authenticated"
+    },
+    "/resources/$resourceId/events/$eventId/_authenticated/": {
+      "filePath": "resources/$resourceId/events/$eventId/_authenticated.index.tsx",
+      "parent": "/resources/$resourceId/events/$eventId/_authenticated"
     }
   }
 }

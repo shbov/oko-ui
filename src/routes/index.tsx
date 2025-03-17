@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { DelayedTextInput } from '@gravity-ui/components';
 import { idle, useQueryData } from '@gravity-ui/data-source';
 import { Database } from '@gravity-ui/illustrations';
 import {
+    Dialog,
     Flex,
     Link,
     PlaceholderContainer,
@@ -21,7 +22,7 @@ import { useApiError } from '~/hooks/toasters';
 import { useAuth } from '~/hooks/useAuth';
 import { api } from '~/services/api';
 import type { Resource } from '~/services/api/resource';
-import { DataLoader } from '~/services/data-source';
+import { DataLoader, dataManager } from '~/services/data-source';
 import { LoaderContainer } from '~/services/data-source/components/LoaderContainer';
 import { toaster } from '~/services/toaster';
 
@@ -47,7 +48,9 @@ const columns: TableColumnConfig<Resource>[] = [
     {
         id: 'description',
         name: 'Описание',
-        template: ({ description }: Resource) => <Text>{description}</Text>,
+        template: ({ description }: Resource) => (
+            <Text>{description || '–'}</Text>
+        ),
     },
     {
         id: 'url',
@@ -66,7 +69,7 @@ const columns: TableColumnConfig<Resource>[] = [
         id: 'keywords',
         name: 'Ключевые слова',
         template: ({ keywords }: Resource) => (
-            <Text>{keywords.join(', ')}</Text>
+            <Text>{keywords.length > 0 ? keywords.join(', ') : '–'}</Text>
         ),
     },
 
@@ -82,6 +85,8 @@ const Content = () => {
     const auth = useAuth(router);
     const handleError = useApiError();
     const [search, setSearch] = useState('');
+    const [deleteResource, setDeleteResource] = useState<Resource | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const resourcesQuery = useQueryData(
         listResources,
@@ -105,21 +110,7 @@ const Content = () => {
                 {
                     text: 'Удалить',
                     handler: () => {
-                        api.resource
-                            .deleteResource(resource.id)
-                            .then(() => {
-                                toaster.add({
-                                    name: 'resource-deleted',
-                                    title: 'Ресурс удален',
-                                    content: resource.id,
-                                    theme: 'success',
-                                });
-
-                                void router.navigate({
-                                    to: '/',
-                                });
-                            })
-                            .catch(handleError);
+                        setDeleteResource(resource);
                     },
                     theme: 'danger',
                 },
@@ -127,7 +118,7 @@ const Content = () => {
 
             return actions;
         },
-        [handleError, router],
+        [router, setDeleteResource],
     );
 
     const actions = useMemo(() => {
@@ -156,6 +147,46 @@ const Content = () => {
         );
     }, [resourcesQuery.data, search]);
 
+    const onResourceDelete = useCallback(() => {
+        if (!deleteResource) {
+            return;
+        }
+
+        setIsLoading(true);
+
+        api.resource
+            .deleteResource(deleteResource.id)
+            .then(() => {
+                setDeleteResource(null);
+
+                toaster.add({
+                    name: 'resource-deleted',
+                    title: 'Ресурс удален',
+                    content: deleteResource.id,
+                    theme: 'success',
+                });
+
+                void dataManager.invalidateSource(listResources);
+                void router.navigate({
+                    to: '/',
+                });
+            })
+            .catch(handleError)
+            .finally(() => setIsLoading(false));
+    }, [deleteResource, handleError, router]);
+
+    const onRowClick = useCallback(
+        (resource: Resource) => {
+            void router.navigate({
+                to: '/resources/$resourceId',
+                params: {
+                    resourceId: resource.id,
+                },
+            });
+        },
+        [router],
+    );
+
     if (auth.status === 'PENDING') {
         return <LoaderContainer />;
     }
@@ -178,20 +209,40 @@ const Content = () => {
                     actions={actions}
                 />
             ) : (
-                <Flex direction="column" gap={2}>
-                    <DelayedTextInput
-                        onUpdate={setSearch}
-                        value={search}
-                        placeholder="Фильтр по URL или названию"
-                        style={{ width: '300px' }}
-                    />
+                <Fragment>
+                    <Flex direction="column" gap={2}>
+                        <DelayedTextInput
+                            onUpdate={setSearch}
+                            value={search}
+                            placeholder="Фильтр по URL или названию"
+                            style={{ width: '300px' }}
+                        />
 
-                    <ResourcesTable
-                        data={filteredData}
-                        columns={columns}
-                        getRowActions={getRowActions}
-                    />
-                </Flex>
+                        <ResourcesTable
+                            data={filteredData}
+                            columns={columns}
+                            getRowActions={getRowActions}
+                            onRowClick={onRowClick}
+                        />
+                    </Flex>
+
+                    <Dialog
+                        open={Boolean(deleteResource)}
+                        onClose={() => setDeleteResource(null)}
+                    >
+                        <Dialog.Header caption="Удаление ресурса" />
+                        <Dialog.Body>
+                            <Text>Вы уверены, что хотите удалить ресурс?</Text>
+                        </Dialog.Body>
+                        <Dialog.Footer
+                            onClickButtonCancel={() => setDeleteResource(null)}
+                            onClickButtonApply={onResourceDelete}
+                            loading={isLoading}
+                            textButtonApply="Удалить"
+                            textButtonCancel="Отмена"
+                        />
+                    </Dialog>
+                </Fragment>
             )}
         </DataLoader>
     );
