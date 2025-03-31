@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
+import { dateTimeParse } from '@gravity-ui/date-utils';
 import { useForm } from '@tanstack/react-form';
 
 import { listChannelsSource } from '~/data-sources';
@@ -56,6 +57,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             zoneType: zoneType,
             areas: resource.areas,
             channels: resource.channels?.map((channel) => channel.id) ?? [],
+            startDate: dateTimeParse(resource.start_date)?.toDate(),
             interval,
         } as EditFormValues,
     });

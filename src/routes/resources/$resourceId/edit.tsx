@@ -6,6 +6,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { Page } from '~/components/Page';
 import { getResource } from '~/data-sources';
 import { useApiError } from '~/hooks/toasters';
+import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import { DataLoader } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
@@ -69,11 +70,13 @@ export const Edit = () => {
     );
 };
 
-export const Route = createFileRoute(
-    '/resources/$resourceId/_authenticated/edit',
-)({
-    component: Edit,
-    staticData: {
-        crumb: 'Редактировать ресурс',
+export const Route = createFileRoute('/resources/$resourceId/edit')({
+    ...WithAuth({
+        component: Edit,
+    }),
+    loader: () => {
+        return {
+            crumb: 'Редактировать ресурс',
+        };
     },
 });

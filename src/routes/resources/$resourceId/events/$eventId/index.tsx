@@ -8,6 +8,7 @@ import {
     TabList,
     TabPanel,
     TabProvider,
+    Text,
 } from '@gravity-ui/uikit';
 import { createFileRoute } from '@tanstack/react-router';
 import block from 'bem-cn-lite';
@@ -17,6 +18,8 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { Page } from '~/components/Page';
+import { WithAuth } from '~/packages/middlewares/WithAuth';
+import { api } from '~/services/api';
 
 import './Diff.scss';
 
@@ -51,12 +54,19 @@ const DiffComponent = ({
                 <Tab value="text">Изменения в тексте</Tab>
                 <Tab value="image">Изменения в скриншотах</Tab>
                 <Tab value="html">HTML</Tab>
+                <Tab value="htmlDiff">Изменения в HTML</Tab>
                 <Tab value="parsedText">Только текст</Tab>
             </TabList>
 
             <div className={spacing({ mt: 3 })}>
                 <TabPanel value="text">
-                    <ReactDiffViewer oldValue={oldCode} newValue={newCode} />
+                    <Text variant="code-1">
+                        <ReactDiffViewer
+                            oldValue={oldCode}
+                            newValue={newCode}
+                            splitView={false}
+                        />
+                    </Text>
                 </TabPanel>
                 <TabPanel value="image">
                     <ReactCompareImage
@@ -73,6 +83,13 @@ const DiffComponent = ({
                     >
                         {html}
                     </SyntaxHighlighter>
+                </TabPanel>
+                <TabPanel value="htmlDiff">
+                    <ReactDiffViewer
+                        oldValue={oldCode}
+                        newValue={newCode}
+                        splitView={false}
+                    />
                 </TabPanel>
                 <TabPanel value="parsedText">
                     <SyntaxHighlighter
@@ -114,11 +131,18 @@ const Diff = () => {
     );
 };
 
-export const Route = createFileRoute(
-    '/resources/$resourceId/events/$eventId/_authenticated/',
-)({
-    component: Diff,
-    staticData: {
-        crumb: 'Изменения в ресурсе',
+export const Route = createFileRoute('/resources/$resourceId/events/$eventId/')(
+    {
+        ...WithAuth({
+            component: Diff,
+        }),
+        loader: async ({ params }) => {
+            const { eventId } = params;
+            const event = await api.event.getEvent({ id: eventId });
+
+            return {
+                crumb: event.event.name ?? '-',
+            };
+        },
     },
-});
+);

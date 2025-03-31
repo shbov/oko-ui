@@ -1,4 +1,5 @@
 import { useQueryData } from '@gravity-ui/data-source';
+import { dateTimeParse } from '@gravity-ui/date-utils';
 import { useForm } from '@tanstack/react-form';
 
 import { listChannelsSource } from '~/data-sources';
@@ -30,6 +31,7 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
             zoneType: ZoneType.fullPage,
             areas: [],
             channels: [],
+            startDate: dateTimeParse('now')?.toDate(),
             interval: {
                 minutes: '*',
                 hours: '*',

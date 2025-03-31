@@ -4,6 +4,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
 import { useApiError } from '~/hooks/toasters';
+import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import { toaster } from '~/services/toaster';
 
@@ -46,9 +47,13 @@ export const Create = () => {
     );
 };
 
-export const Route = createFileRoute('/resources/_authenticated/create')({
-    component: Create,
-    staticData: {
-        crumb: 'Создать ресурс',
+export const Route = createFileRoute('/resources/create')({
+    ...WithAuth({
+        component: Create,
+    }),
+    loader: () => {
+        return {
+            crumb: 'Создать ресурс',
+        };
     },
 });

@@ -15,9 +15,6 @@ export const Route = createFileRoute('/auth/_auth')({
         }
     },
     component: AuthLayout,
-    staticData: {
-        crumb: '',
-    },
 });
 
 function AuthLayout() {

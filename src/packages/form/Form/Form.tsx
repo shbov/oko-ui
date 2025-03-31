@@ -22,16 +22,16 @@ export const Form = <
     formApi,
     className,
     size,
-    aditionalButton,
+    additionalButton,
     withCancelButton,
 }: FormProps<TFormData, TFormValidator>) => {
     const router = useRouter();
 
     const additionalButtonAction = useCallback(() => {
-        if (aditionalButton?.action) {
-            aditionalButton.action();
+        if (additionalButton?.action) {
+            additionalButton.action();
         }
-    }, [aditionalButton]);
+    }, [additionalButton]);
 
     const cancelButtonAction = useCallback(() => {
         router.history.back();
@@ -69,12 +69,12 @@ export const Form = <
                             </Button>
                         )}
 
-                        {aditionalButton && (
+                        {additionalButton && (
                             <Button
-                                view={aditionalButton.view}
+                                view={additionalButton.view}
                                 onClick={additionalButtonAction}
                             >
-                                {aditionalButton.text}
+                                {additionalButton.text}
                             </Button>
                         )}
                     </Flex>

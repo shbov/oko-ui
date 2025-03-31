@@ -12,16 +12,11 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
 import { getResource } from '~/data-sources';
+import { WithAuth } from '~/packages/middlewares/WithAuth';
+import { api } from '~/services/api';
 import { DataLoader } from '~/services/data-source';
 
 import type { TableColumnConfig } from '@gravity-ui/uikit';
-
-export const Route = createFileRoute('/resources/$resourceId/_authenticated/')({
-    component: RouteComponent,
-    staticData: {
-        crumb: 'Ресурс',
-    },
-});
 
 interface Event {
     id: string;
@@ -96,3 +91,18 @@ function RouteComponent() {
         </Page>
     );
 }
+
+export const Route = createFileRoute('/resources/$resourceId/')({
+    ...WithAuth({
+        component: RouteComponent,
+    }),
+
+    loader: async ({ params }) => {
+        const { resourceId } = params;
+        const resource = await api.resource.get({ id: resourceId });
+
+        return {
+            crumb: resource.resource.name ?? '-',
+        };
+    },
+});

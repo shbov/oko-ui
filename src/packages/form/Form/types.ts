@@ -15,7 +15,7 @@ export interface FormProps<
     className?: string;
     size?: 's' | 'm' | 'l';
     withCancelButton?: boolean;
-    aditionalButton?: {
+    additionalButton?: {
         text?: string;
         view?: ButtonProps['view'];
         action?: () => void;

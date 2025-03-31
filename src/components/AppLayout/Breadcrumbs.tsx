@@ -5,24 +5,24 @@ import {
     BreadcrumbsItem,
     Breadcrumbs as UIBreadcrumbs,
 } from '@gravity-ui/uikit';
-import { createLink, useMatches } from '@tanstack/react-router';
+import { createLink, isMatch, useMatches } from '@tanstack/react-router';
 
 const RouterLink = createLink(BreadcrumbsItem);
 
 export const Breadcrumbs = () => {
     const matches = useMatches();
 
-    const matchesWithCrumbs = matches.filter(
-        (match) => match.staticData?.crumb,
-    );
-
     const items = useMemo(
         () =>
-            matchesWithCrumbs.map((match) => ({
-                text: match.staticData?.crumb ?? '–',
-                href: match.pathname,
-            })),
-        [matchesWithCrumbs],
+            matches
+                .filter((match) => isMatch(match, 'loaderData.crumb'))
+                .map(({ pathname, loaderData }) => {
+                    return {
+                        href: pathname,
+                        label: loaderData?.crumb,
+                    };
+                }),
+        [matches],
     );
 
     return (
@@ -36,7 +36,7 @@ export const Breadcrumbs = () => {
                                     key={`${i.href}-${key}`}
                                     href={i.href}
                                 >
-                                    {i.text}
+                                    {i.label}
                                 </UIBreadcrumbs.Item>
                             ))}
                         </UIBreadcrumbs>

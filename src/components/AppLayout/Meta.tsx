@@ -1,14 +1,20 @@
 import type { ReactNode } from 'react';
 import { useEffect } from 'react';
 
-import { useMatches } from '@tanstack/react-router';
+import { useRouterState } from '@tanstack/react-router';
+import { uniq } from 'lodash';
 
 export const Meta = ({ children }: { children: ReactNode }) => {
-    const matches = useMatches();
-    const title = matches.at(-1)?.staticData?.crumb;
+    const matches = useRouterState({ select: (s) => s.matches });
+
+    const matchWithTitle = [...matches]
+        .reverse()
+        .find((d) => d.loaderData?.crumb);
+
+    const title = matchWithTitle?.loaderData?.crumb || '';
 
     useEffect(() => {
-        document.title = [title, OKO.title].filter(Boolean).join(' · ');
+        document.title = uniq([title, OKO.title]).filter(Boolean).join(' · ');
     }, [title]);
 
     return children;

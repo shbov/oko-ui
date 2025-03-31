@@ -45,7 +45,7 @@ export const Login = () => {
                 submitText="Войти"
                 formApi={form}
                 size="m"
-                aditionalButton={{
+                additionalButton={{
                     text: 'Восстановить пароль',
                     view: 'flat',
                     action: () => {
@@ -85,7 +85,4 @@ export const Login = () => {
 
 export const Route = createFileRoute('/auth/_auth/login')({
     component: Login,
-    staticData: {
-        crumb: 'Авторизация',
-    },
 });

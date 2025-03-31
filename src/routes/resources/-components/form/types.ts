@@ -32,5 +32,6 @@ export interface CommonFormValues {
         width: number;
         height: number;
     }[];
+    startDate: Date;
     sensitivity?: number;
 }

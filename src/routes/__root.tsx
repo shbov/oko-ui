@@ -1,7 +1,15 @@
 import type { RefObject } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { House, FaceRobot, Plus, Person, PersonXmark } from '@gravity-ui/icons';
+import {
+    House,
+    FaceRobot,
+    Plus,
+    Person,
+    PersonXmark,
+    Persons,
+    Database,
+} from '@gravity-ui/icons';
 import { AsideHeader, FooterItem } from '@gravity-ui/navigation';
 import { Flex, Icon, List } from '@gravity-ui/uikit';
 import {
@@ -15,6 +23,7 @@ import block from 'bem-cn-lite';
 import { AppLayout } from '~/components/AppLayout';
 import { NotFound } from '~/components/NotFound';
 import { useAuth } from '~/hooks/useAuth';
+import type { FileRouteTypes, FileRoutesByFullPath } from '~/routeTree.gen';
 import type { RouterContext } from '~/services/router/types';
 
 import './root.scss';
@@ -22,6 +31,15 @@ import './root.scss';
 import type { MenuItem } from '@gravity-ui/navigation';
 
 const b = block('navigation');
+
+type Item = {
+    id: string;
+    title: string;
+    icon: typeof House;
+    current?: boolean;
+    to: FileRouteTypes['to'];
+    path: keyof FileRoutesByFullPath;
+};
 
 const App = () => {
     const [compact, setCompact] = useState(true);
@@ -34,22 +52,31 @@ const App = () => {
 
     const menuItems: MenuItem[] = useMemo(() => {
         const currentRoute = matches.slice(-1)[0];
-        // TODO: add typization on `route`
-        const items = [
+
+        const items: Item[] = [
             {
                 id: 'id',
                 title: 'Главная',
                 icon: House,
                 current: true,
-                route: '/',
+                path: '/' as const,
+                to: '/' as const,
             },
             ...(auth.user
                 ? [
                       {
+                          id: 'resources',
+                          title: 'Ресурсы',
+                          icon: Database,
+                          path: '/resources' as const,
+                          to: '/resources' as const,
+                      },
+                      {
                           id: 'create-resources',
                           title: 'Создать ресурс',
                           icon: Plus,
-                          route: '/resources/create',
+                          path: '/resources/create' as const,
+                          to: '/resources/create' as const,
                       },
                   ]
                 : []),
@@ -58,10 +85,10 @@ const App = () => {
         return items.map((item) => {
             return {
                 ...item,
-                current: currentRoute.id === item.route,
+                current: currentRoute.fullPath === item.path,
                 onItemClick: () => {
                     void navigate({
-                        to: item.route,
+                        to: item.to,
                     });
                 },
             };
@@ -73,6 +100,16 @@ const App = () => {
             const items = [
                 ...(auth.user
                     ? [
+                          {
+                              title: 'Управление пользователями',
+                              icon: Persons,
+                              onClick: () => {
+                                  window.open(
+                                      'https://hse.ru/staff/users/list',
+                                      '_blank',
+                                  );
+                              },
+                          },
                           {
                               title: 'Выйти из аккаунта',
                               icon: PersonXmark,
@@ -159,7 +196,9 @@ const App = () => {
 export const Route = createRootRouteWithContext<RouterContext>()({
     component: App,
     notFoundComponent: NotFound,
-    staticData: {
-        crumb: OKO.title,
+    loader: () => {
+        return {
+            crumb: OKO.title,
+        };
     },
 });

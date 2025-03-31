@@ -28,6 +28,7 @@ export const prepareCreateValues = ({
     zoneType,
     areas,
     interval,
+    startDate,
 }: CreateFormValues) => {
     const parsedKeywords = keywords
         ? keywords
@@ -51,8 +52,10 @@ export const prepareCreateValues = ({
         channels,
         keywords: parsedKeywords,
         interval: patchedInterval,
+        start_date: startDate.toISOString(),
     };
 
+    console.log('commonValues: ', commonValues);
     if (!isScreenshot) {
         return commonValues;
     }

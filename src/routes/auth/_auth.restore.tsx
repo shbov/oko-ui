@@ -55,7 +55,7 @@ export const Restore = () => {
                 submitText="Восстановить"
                 formApi={form}
                 size="m"
-                aditionalButton={{
+                additionalButton={{
                     text: 'Войти в аккаунт',
                     view: 'flat',
                     action: () => {
@@ -83,7 +83,4 @@ export const Restore = () => {
 
 export const Route = createFileRoute('/auth/_auth/restore')({
     component: Restore,
-    staticData: {
-        crumb: 'Восстановление пароля',
-    },
 });

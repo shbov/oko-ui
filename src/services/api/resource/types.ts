@@ -42,6 +42,7 @@ export interface Resource {
     make_screenshot: boolean;
     polygon: unknown;
     areas?: Area[] | undefined;
+    start_date: Date | undefined;
 }
 
 export interface CreateResourceResponse {

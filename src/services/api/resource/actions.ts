@@ -34,7 +34,7 @@ export const resource = {
     },
     edit: (data: EditResourceRequest) => {
         return api
-            .patch<CreateResourceResponse>(`resources/${data.id}/edit`, {
+            .patch<CreateResourceResponse>(`resources/${data.id}`, {
                 json: data,
             })
             .json();

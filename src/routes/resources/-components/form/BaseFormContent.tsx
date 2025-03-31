@@ -6,7 +6,12 @@ import { type ReactFormExtendedApi } from '@tanstack/react-form';
 import block from 'bem-cn-lite';
 import { groupBy } from 'lodash';
 
-import { TextField, TextAreaField, SelectField } from '~/packages/form';
+import {
+    TextField,
+    TextAreaField,
+    SelectField,
+    DatePickerField,
+} from '~/packages/form';
 import type { Channel } from '~/services/api/notification';
 
 import './BaseFormContent.scss';
@@ -59,7 +64,7 @@ export const BaseFormContent = ({
 
             <FormRow label="Описание">
                 <form.Field name="description">
-                    {(field) => <TextAreaField field={field} rows={2} />}
+                    {(field) => <TextAreaField field={field} minRows={2} />}
                 </form.Field>
             </FormRow>
 
@@ -75,8 +80,6 @@ export const BaseFormContent = ({
                     )}
                 </form.Field>
             </FormRow>
-
-            <ScreenshotSection form={form} />
 
             <FormRow
                 label="Ключевые слова"
@@ -107,6 +110,12 @@ export const BaseFormContent = ({
                             options={options}
                         />
                     )}
+                </form.Field>
+            </FormRow>
+
+            <FormRow label="Начать проверку" required>
+                <form.Field name="startDate">
+                    {(field) => <DatePickerField field={field} />}
                 </form.Field>
             </FormRow>
 
@@ -179,6 +188,8 @@ export const BaseFormContent = ({
                     </form.Field>
                 </Flex>
             </FormRow>
+
+            <ScreenshotSection form={form} />
         </Fragment>
     );
 };

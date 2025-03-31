@@ -10,6 +10,7 @@ export const createSchema = zod.object({
     sensitivity: zod.number().min(0).max(1).optional(),
     zoneType: zod.enum([ZoneType.fullPage, ZoneType.zone]).optional(),
     keywords: zod.string().optional(),
+    startDate: zod.date(),
     interval: zod.object({
         minutes: zod.string().min(1),
         hours: zod.string().min(1),
@@ -38,6 +39,7 @@ export const editSchema = zod.object({
     sensitivity: zod.number().min(0).max(1).optional(),
     zoneType: zod.enum([ZoneType.fullPage, ZoneType.zone]).optional(),
     keywords: zod.string().optional(),
+    startDate: zod.date(),
     interval: zod.object({
         minutes: zod.string().min(1),
         hours: zod.string().min(1),
