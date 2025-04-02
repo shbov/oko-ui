@@ -61,7 +61,9 @@ export const ScreenshotSection = ({
                     <FormRow
                         label="Чувствительность"
                         labelHelpPopover={
-                            <HelpMark>Может быть от 0 до 1 включительно</HelpMark>
+                            <HelpMark>
+                                Может быть от 0 до 1 включительно
+                            </HelpMark>
                         }
                         required
                     >
@@ -92,6 +94,7 @@ export const ScreenshotSection = ({
                                     </SegmentedRadioGroup.Option>
                                     <SegmentedRadioGroup.Option
                                         value={ZoneType.zone}
+                                        disabled={!url}
                                     >
                                         Выбранная область
                                     </SegmentedRadioGroup.Option>
@@ -105,6 +108,7 @@ export const ScreenshotSection = ({
                                     className={spacing({ mt: 2 })}
                                     onClick={() => setZoneSelectionOpen(true)}
                                     width="max"
+                                    disabled={!url}
                                 >
                                     Выбрать
                                 </Button>

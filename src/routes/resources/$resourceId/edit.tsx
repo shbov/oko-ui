@@ -70,13 +70,15 @@ export const Edit = () => {
     );
 };
 
-export const Route = createFileRoute('/resources/$resourceId/edit')({
-    ...WithAuth({
+export const Route = createFileRoute('/resources/$resourceId/edit')(
+    WithAuth({
         component: Edit,
+        loader: async ({ params }) => {
+            const resource = await api.resource.get({ id: params.resourceId });
+
+            return {
+                crumb: `Редактирование ресурса ${resource.resource.name}`,
+            };
+        },
     }),
-    loader: () => {
-        return {
-            crumb: 'Редактировать ресурс',
-        };
-    },
-});
+);

@@ -1,134 +1,33 @@
 import type { RefObject } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
-import {
-    House,
-    FaceRobot,
-    Plus,
-    Person,
-    PersonXmark,
-    Persons,
-    Database,
-} from '@gravity-ui/icons';
+import { FaceRobot, Person } from '@gravity-ui/icons';
 import { AsideHeader, FooterItem } from '@gravity-ui/navigation';
 import { Flex, Icon, List } from '@gravity-ui/uikit';
 import {
     createRootRouteWithContext,
-    useMatches,
     useNavigate,
-    useRouter,
 } from '@tanstack/react-router';
 import block from 'bem-cn-lite';
 
 import { AppLayout } from '~/components/AppLayout';
 import { NotFound } from '~/components/NotFound';
-import { useAuth } from '~/hooks/useAuth';
-import type { FileRouteTypes, FileRoutesByFullPath } from '~/routeTree.gen';
+import { useMenuItems } from '~/hooks/useMenuItems';
 import type { RouterContext } from '~/services/router/types';
 
 import './root.scss';
 
-import type { MenuItem } from '@gravity-ui/navigation';
-
 const b = block('navigation');
 
-type Item = {
-    id: string;
-    title: string;
-    icon: typeof House;
-    current?: boolean;
-    to: FileRouteTypes['to'];
-    path: keyof FileRoutesByFullPath;
-};
-
 const App = () => {
+    const navigate = useNavigate();
+    const { menuItems, footerItems } = useMenuItems();
+
     const [compact, setCompact] = useState(true);
     const [popupVisible, setPopupVisible] = useState(false);
 
-    const navigate = useNavigate();
-    const router = useRouter();
-    const matches = useMatches();
-    const auth = useAuth(router);
-
-    const menuItems: MenuItem[] = useMemo(() => {
-        const currentRoute = matches.slice(-1)[0];
-
-        const items: Item[] = [
-            {
-                id: 'id',
-                title: 'Главная',
-                icon: House,
-                current: true,
-                path: '/' as const,
-                to: '/' as const,
-            },
-            ...(auth.user
-                ? [
-                      {
-                          id: 'resources',
-                          title: 'Ресурсы',
-                          icon: Database,
-                          path: '/resources' as const,
-                          to: '/resources' as const,
-                      },
-                      {
-                          id: 'create-resources',
-                          title: 'Создать ресурс',
-                          icon: Plus,
-                          path: '/resources/create' as const,
-                          to: '/resources/create' as const,
-                      },
-                  ]
-                : []),
-        ];
-
-        return items.map((item) => {
-            return {
-                ...item,
-                current: currentRoute.fullPath === item.path,
-                onItemClick: () => {
-                    void navigate({
-                        to: item.to,
-                    });
-                },
-            };
-        });
-    }, [auth.user, matches, navigate]);
-
     const renderFooter = useCallback(
         ({ asideRef }: { asideRef: RefObject<HTMLDivElement> }) => {
-            const items = [
-                ...(auth.user
-                    ? [
-                          {
-                              title: 'Управление пользователями',
-                              icon: Persons,
-                              onClick: () => {
-                                  window.open(
-                                      'https://hse.ru/staff/users/list',
-                                      '_blank',
-                                  );
-                              },
-                          },
-                          {
-                              title: 'Выйти из аккаунта',
-                              icon: PersonXmark,
-                              onClick: () => {
-                                  auth.logout();
-                              },
-                          },
-                      ]
-                    : [
-                          {
-                              title: 'Войти в аккаунт',
-                              icon: Person,
-                              onClick: () => {
-                                  auth.login();
-                              },
-                          },
-                      ]),
-            ];
-
             return (
                 <FooterItem
                     item={{
@@ -150,7 +49,7 @@ const App = () => {
                             <List
                                 filterable={false}
                                 virtualized={false}
-                                items={items}
+                                items={footerItems}
                                 onItemClick={(item) => item.onClick()}
                                 itemHeight={() => 36}
                                 itemClassName={b('item')}
@@ -169,7 +68,7 @@ const App = () => {
                 />
             );
         },
-        [auth, compact, popupVisible],
+        [compact, footerItems, popupVisible],
     );
 
     return (

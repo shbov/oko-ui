@@ -84,7 +84,11 @@ export const BaseFormContent = ({
             <FormRow
                 label="Ключевые слова"
                 labelHelpPopover={
-                    <HelpMark>
+                    <HelpMark
+                        popoverProps={{
+                            className: b('help-mark'),
+                        }}
+                    >
                         Ключевые слова не чувствительные к регистру и должны
                         быть разделены запятой
                     </HelpMark>
@@ -113,7 +117,21 @@ export const BaseFormContent = ({
                 </form.Field>
             </FormRow>
 
-            <FormRow label="Начать проверку" required>
+            <FormRow
+                label="Начать проверку"
+                required
+                labelHelpPopover={
+                    <HelpMark
+                        popoverProps={{
+                            className: b('help-mark'),
+                        }}
+                    >
+                        Введите дату, начиная с которой будет осуществляться
+                        проверка ресурса. Если указана сегодняшняя дата, то
+                        проверка будет осуществлена сразу.
+                    </HelpMark>
+                }
+            >
                 <form.Field name="startDate">
                     {(field) => <DatePickerField field={field} />}
                 </form.Field>

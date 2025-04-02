@@ -15,13 +15,19 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as ResourcesIndexImport } from './routes/resources/index'
+import { Route as ChannelsIndexImport } from './routes/channels/index'
 import { Route as ResourcesCreateImport } from './routes/resources/create'
+import { Route as ChannelsCreateImport } from './routes/channels/create'
 import { Route as AuthAuthImport } from './routes/auth/_auth'
 import { Route as ResourcesResourceIdIndexImport } from './routes/resources/$resourceId/index'
+import { Route as ChannelsChannelIdIndexImport } from './routes/channels/$channelId/index'
 import { Route as ResourcesResourceIdEditImport } from './routes/resources/$resourceId/edit'
+import { Route as ChannelsChannelIdEditImport } from './routes/channels/$channelId/edit'
 import { Route as AuthAuthRestoreImport } from './routes/auth/_auth.restore'
 import { Route as AuthAuthLoginImport } from './routes/auth/_auth.login'
+import { Route as ResourcesResourceIdSnapshotsIndexImport } from './routes/resources/$resourceId/snapshots/index'
 import { Route as ResourcesResourceIdEventsIndexImport } from './routes/resources/$resourceId/events/index'
+import { Route as ResourcesResourceIdSnapshotsSnapshotIdIndexImport } from './routes/resources/$resourceId/snapshots/$snapshotId/index'
 import { Route as ResourcesResourceIdEventsEventIdIndexImport } from './routes/resources/$resourceId/events/$eventId/index'
 
 // Create Virtual Routes
@@ -48,9 +54,21 @@ const ResourcesIndexRoute = ResourcesIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ChannelsIndexRoute = ChannelsIndexImport.update({
+  id: '/channels/',
+  path: '/channels/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ResourcesCreateRoute = ResourcesCreateImport.update({
   id: '/resources/create',
   path: '/resources/create',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChannelsCreateRoute = ChannelsCreateImport.update({
+  id: '/channels/create',
+  path: '/channels/create',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -65,9 +83,21 @@ const ResourcesResourceIdIndexRoute = ResourcesResourceIdIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ChannelsChannelIdIndexRoute = ChannelsChannelIdIndexImport.update({
+  id: '/channels/$channelId/',
+  path: '/channels/$channelId/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ResourcesResourceIdEditRoute = ResourcesResourceIdEditImport.update({
   id: '/resources/$resourceId/edit',
   path: '/resources/$resourceId/edit',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChannelsChannelIdEditRoute = ChannelsChannelIdEditImport.update({
+  id: '/channels/$channelId/edit',
+  path: '/channels/$channelId/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -83,10 +113,24 @@ const AuthAuthLoginRoute = AuthAuthLoginImport.update({
   getParentRoute: () => AuthAuthRoute,
 } as any)
 
+const ResourcesResourceIdSnapshotsIndexRoute =
+  ResourcesResourceIdSnapshotsIndexImport.update({
+    id: '/resources/$resourceId/snapshots/',
+    path: '/resources/$resourceId/snapshots/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
 const ResourcesResourceIdEventsIndexRoute =
   ResourcesResourceIdEventsIndexImport.update({
     id: '/resources/$resourceId/events/',
     path: '/resources/$resourceId/events/',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const ResourcesResourceIdSnapshotsSnapshotIdIndexRoute =
+  ResourcesResourceIdSnapshotsSnapshotIdIndexImport.update({
+    id: '/resources/$resourceId/snapshots/$snapshotId/',
+    path: '/resources/$resourceId/snapshots/$snapshotId/',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -122,11 +166,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthImport
       parentRoute: typeof AuthRoute
     }
+    '/channels/create': {
+      id: '/channels/create'
+      path: '/channels/create'
+      fullPath: '/channels/create'
+      preLoaderRoute: typeof ChannelsCreateImport
+      parentRoute: typeof rootRoute
+    }
     '/resources/create': {
       id: '/resources/create'
       path: '/resources/create'
       fullPath: '/resources/create'
       preLoaderRoute: typeof ResourcesCreateImport
+      parentRoute: typeof rootRoute
+    }
+    '/channels/': {
+      id: '/channels/'
+      path: '/channels'
+      fullPath: '/channels'
+      preLoaderRoute: typeof ChannelsIndexImport
       parentRoute: typeof rootRoute
     }
     '/resources/': {
@@ -150,11 +208,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthRestoreImport
       parentRoute: typeof AuthAuthImport
     }
+    '/channels/$channelId/edit': {
+      id: '/channels/$channelId/edit'
+      path: '/channels/$channelId/edit'
+      fullPath: '/channels/$channelId/edit'
+      preLoaderRoute: typeof ChannelsChannelIdEditImport
+      parentRoute: typeof rootRoute
+    }
     '/resources/$resourceId/edit': {
       id: '/resources/$resourceId/edit'
       path: '/resources/$resourceId/edit'
       fullPath: '/resources/$resourceId/edit'
       preLoaderRoute: typeof ResourcesResourceIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    '/channels/$channelId/': {
+      id: '/channels/$channelId/'
+      path: '/channels/$channelId'
+      fullPath: '/channels/$channelId'
+      preLoaderRoute: typeof ChannelsChannelIdIndexImport
       parentRoute: typeof rootRoute
     }
     '/resources/$resourceId/': {
@@ -171,11 +243,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesResourceIdEventsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/resources/$resourceId/snapshots/': {
+      id: '/resources/$resourceId/snapshots/'
+      path: '/resources/$resourceId/snapshots'
+      fullPath: '/resources/$resourceId/snapshots'
+      preLoaderRoute: typeof ResourcesResourceIdSnapshotsIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/resources/$resourceId/events/$eventId/': {
       id: '/resources/$resourceId/events/$eventId/'
       path: '/resources/$resourceId/events/$eventId'
       fullPath: '/resources/$resourceId/events/$eventId'
       preLoaderRoute: typeof ResourcesResourceIdEventsEventIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/resources/$resourceId/snapshots/$snapshotId/': {
+      id: '/resources/$resourceId/snapshots/$snapshotId/'
+      path: '/resources/$resourceId/snapshots/$snapshotId'
+      fullPath: '/resources/$resourceId/snapshots/$snapshotId'
+      preLoaderRoute: typeof ResourcesResourceIdSnapshotsSnapshotIdIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -210,27 +296,39 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthAuthRouteWithChildren
+  '/channels/create': typeof ChannelsCreateRoute
   '/resources/create': typeof ResourcesCreateRoute
+  '/channels': typeof ChannelsIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/restore': typeof AuthAuthRestoreRoute
+  '/channels/$channelId/edit': typeof ChannelsChannelIdEditRoute
   '/resources/$resourceId/edit': typeof ResourcesResourceIdEditRoute
+  '/channels/$channelId': typeof ChannelsChannelIdIndexRoute
   '/resources/$resourceId': typeof ResourcesResourceIdIndexRoute
   '/resources/$resourceId/events': typeof ResourcesResourceIdEventsIndexRoute
+  '/resources/$resourceId/snapshots': typeof ResourcesResourceIdSnapshotsIndexRoute
   '/resources/$resourceId/events/$eventId': typeof ResourcesResourceIdEventsEventIdIndexRoute
+  '/resources/$resourceId/snapshots/$snapshotId': typeof ResourcesResourceIdSnapshotsSnapshotIdIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthAuthRouteWithChildren
+  '/channels/create': typeof ChannelsCreateRoute
   '/resources/create': typeof ResourcesCreateRoute
+  '/channels': typeof ChannelsIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/auth/login': typeof AuthAuthLoginRoute
   '/auth/restore': typeof AuthAuthRestoreRoute
+  '/channels/$channelId/edit': typeof ChannelsChannelIdEditRoute
   '/resources/$resourceId/edit': typeof ResourcesResourceIdEditRoute
+  '/channels/$channelId': typeof ChannelsChannelIdIndexRoute
   '/resources/$resourceId': typeof ResourcesResourceIdIndexRoute
   '/resources/$resourceId/events': typeof ResourcesResourceIdEventsIndexRoute
+  '/resources/$resourceId/snapshots': typeof ResourcesResourceIdSnapshotsIndexRoute
   '/resources/$resourceId/events/$eventId': typeof ResourcesResourceIdEventsEventIdIndexRoute
+  '/resources/$resourceId/snapshots/$snapshotId': typeof ResourcesResourceIdSnapshotsSnapshotIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -238,14 +336,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteWithChildren
   '/auth/_auth': typeof AuthAuthRouteWithChildren
+  '/channels/create': typeof ChannelsCreateRoute
   '/resources/create': typeof ResourcesCreateRoute
+  '/channels/': typeof ChannelsIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/auth/_auth/login': typeof AuthAuthLoginRoute
   '/auth/_auth/restore': typeof AuthAuthRestoreRoute
+  '/channels/$channelId/edit': typeof ChannelsChannelIdEditRoute
   '/resources/$resourceId/edit': typeof ResourcesResourceIdEditRoute
+  '/channels/$channelId/': typeof ChannelsChannelIdIndexRoute
   '/resources/$resourceId/': typeof ResourcesResourceIdIndexRoute
   '/resources/$resourceId/events/': typeof ResourcesResourceIdEventsIndexRoute
+  '/resources/$resourceId/snapshots/': typeof ResourcesResourceIdSnapshotsIndexRoute
   '/resources/$resourceId/events/$eventId/': typeof ResourcesResourceIdEventsEventIdIndexRoute
+  '/resources/$resourceId/snapshots/$snapshotId/': typeof ResourcesResourceIdSnapshotsSnapshotIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -253,63 +357,95 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/channels/create'
     | '/resources/create'
+    | '/channels'
     | '/resources'
     | '/auth/login'
     | '/auth/restore'
+    | '/channels/$channelId/edit'
     | '/resources/$resourceId/edit'
+    | '/channels/$channelId'
     | '/resources/$resourceId'
     | '/resources/$resourceId/events'
+    | '/resources/$resourceId/snapshots'
     | '/resources/$resourceId/events/$eventId'
+    | '/resources/$resourceId/snapshots/$snapshotId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/channels/create'
     | '/resources/create'
+    | '/channels'
     | '/resources'
     | '/auth/login'
     | '/auth/restore'
+    | '/channels/$channelId/edit'
     | '/resources/$resourceId/edit'
+    | '/channels/$channelId'
     | '/resources/$resourceId'
     | '/resources/$resourceId/events'
+    | '/resources/$resourceId/snapshots'
     | '/resources/$resourceId/events/$eventId'
+    | '/resources/$resourceId/snapshots/$snapshotId'
   id:
     | '__root__'
     | '/'
     | '/auth'
     | '/auth/_auth'
+    | '/channels/create'
     | '/resources/create'
+    | '/channels/'
     | '/resources/'
     | '/auth/_auth/login'
     | '/auth/_auth/restore'
+    | '/channels/$channelId/edit'
     | '/resources/$resourceId/edit'
+    | '/channels/$channelId/'
     | '/resources/$resourceId/'
     | '/resources/$resourceId/events/'
+    | '/resources/$resourceId/snapshots/'
     | '/resources/$resourceId/events/$eventId/'
+    | '/resources/$resourceId/snapshots/$snapshotId/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRouteWithChildren
+  ChannelsCreateRoute: typeof ChannelsCreateRoute
   ResourcesCreateRoute: typeof ResourcesCreateRoute
+  ChannelsIndexRoute: typeof ChannelsIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ChannelsChannelIdEditRoute: typeof ChannelsChannelIdEditRoute
   ResourcesResourceIdEditRoute: typeof ResourcesResourceIdEditRoute
+  ChannelsChannelIdIndexRoute: typeof ChannelsChannelIdIndexRoute
   ResourcesResourceIdIndexRoute: typeof ResourcesResourceIdIndexRoute
   ResourcesResourceIdEventsIndexRoute: typeof ResourcesResourceIdEventsIndexRoute
+  ResourcesResourceIdSnapshotsIndexRoute: typeof ResourcesResourceIdSnapshotsIndexRoute
   ResourcesResourceIdEventsEventIdIndexRoute: typeof ResourcesResourceIdEventsEventIdIndexRoute
+  ResourcesResourceIdSnapshotsSnapshotIdIndexRoute: typeof ResourcesResourceIdSnapshotsSnapshotIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRouteWithChildren,
+  ChannelsCreateRoute: ChannelsCreateRoute,
   ResourcesCreateRoute: ResourcesCreateRoute,
+  ChannelsIndexRoute: ChannelsIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  ChannelsChannelIdEditRoute: ChannelsChannelIdEditRoute,
   ResourcesResourceIdEditRoute: ResourcesResourceIdEditRoute,
+  ChannelsChannelIdIndexRoute: ChannelsChannelIdIndexRoute,
   ResourcesResourceIdIndexRoute: ResourcesResourceIdIndexRoute,
   ResourcesResourceIdEventsIndexRoute: ResourcesResourceIdEventsIndexRoute,
+  ResourcesResourceIdSnapshotsIndexRoute:
+    ResourcesResourceIdSnapshotsIndexRoute,
   ResourcesResourceIdEventsEventIdIndexRoute:
     ResourcesResourceIdEventsEventIdIndexRoute,
+  ResourcesResourceIdSnapshotsSnapshotIdIndexRoute:
+    ResourcesResourceIdSnapshotsSnapshotIdIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -324,12 +460,18 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth",
+        "/channels/create",
         "/resources/create",
+        "/channels/",
         "/resources/",
+        "/channels/$channelId/edit",
         "/resources/$resourceId/edit",
+        "/channels/$channelId/",
         "/resources/$resourceId/",
         "/resources/$resourceId/events/",
-        "/resources/$resourceId/events/$eventId/"
+        "/resources/$resourceId/snapshots/",
+        "/resources/$resourceId/events/$eventId/",
+        "/resources/$resourceId/snapshots/$snapshotId/"
       ]
     },
     "/": {
@@ -349,8 +491,14 @@ export const routeTree = rootRoute
         "/auth/_auth/restore"
       ]
     },
+    "/channels/create": {
+      "filePath": "channels/create.tsx"
+    },
     "/resources/create": {
       "filePath": "resources/create.tsx"
+    },
+    "/channels/": {
+      "filePath": "channels/index.tsx"
     },
     "/resources/": {
       "filePath": "resources/index.tsx"
@@ -363,8 +511,14 @@ export const routeTree = rootRoute
       "filePath": "auth/_auth.restore.tsx",
       "parent": "/auth/_auth"
     },
+    "/channels/$channelId/edit": {
+      "filePath": "channels/$channelId/edit.tsx"
+    },
     "/resources/$resourceId/edit": {
       "filePath": "resources/$resourceId/edit.tsx"
+    },
+    "/channels/$channelId/": {
+      "filePath": "channels/$channelId/index.tsx"
     },
     "/resources/$resourceId/": {
       "filePath": "resources/$resourceId/index.tsx"
@@ -372,8 +526,14 @@ export const routeTree = rootRoute
     "/resources/$resourceId/events/": {
       "filePath": "resources/$resourceId/events/index.tsx"
     },
+    "/resources/$resourceId/snapshots/": {
+      "filePath": "resources/$resourceId/snapshots/index.tsx"
+    },
     "/resources/$resourceId/events/$eventId/": {
       "filePath": "resources/$resourceId/events/$eventId/index.tsx"
+    },
+    "/resources/$resourceId/snapshots/$snapshotId/": {
+      "filePath": "resources/$resourceId/snapshots/$snapshotId/index.tsx"
     }
   }
 }

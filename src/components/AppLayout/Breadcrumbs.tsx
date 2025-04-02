@@ -3,14 +3,22 @@ import { useMemo } from 'react';
 import { ActionBar } from '@gravity-ui/navigation';
 import {
     BreadcrumbsItem,
+    Button,
+    DropdownMenu,
+    Icon,
     Breadcrumbs as UIBreadcrumbs,
 } from '@gravity-ui/uikit';
 import { createLink, isMatch, useMatches } from '@tanstack/react-router';
+
+import { TABLE_ACTION_SIZE } from '~/constants/common';
+
+import { usePageActions } from './PageActionsContext';
 
 const RouterLink = createLink(BreadcrumbsItem);
 
 export const Breadcrumbs = () => {
     const matches = useMatches();
+    const actions = usePageActions();
 
     const items = useMemo(
         () =>
@@ -19,10 +27,20 @@ export const Breadcrumbs = () => {
                 .map(({ pathname, loaderData }) => {
                     return {
                         href: pathname,
-                        label: loaderData?.crumb,
+                        label: String(loaderData?.crumb) || '',
                     };
                 }),
         [matches],
+    );
+
+    const secondaryActionsButtons = useMemo(
+        () => actions?.secondaryActions.slice(0, 2) || [],
+        [actions],
+    );
+
+    const secondaryActionsDropdown = useMemo(
+        () => actions?.secondaryActions.slice(2) || [],
+        [actions],
     );
 
     return (
@@ -42,6 +60,65 @@ export const Breadcrumbs = () => {
                         </UIBreadcrumbs>
                     </ActionBar.Item>
                 </ActionBar.Group>
+                {actions && (
+                    <ActionBar.Group pull="right">
+                        {secondaryActionsButtons.map((action, index) => (
+                            <ActionBar.Item key={index}>
+                                <Button
+                                    onClick={action.onClick}
+                                    disabled={action.disabled}
+                                    loading={action.loading}
+                                    view="flat"
+                                >
+                                    {action.label}
+                                </Button>
+                            </ActionBar.Item>
+                        ))}
+                        {actions.primaryActions.map((action, index) => (
+                            <ActionBar.Item key={index}>
+                                <Button
+                                    view="action"
+                                    onClick={action.onClick}
+                                    disabled={action.disabled}
+                                    loading={action.loading}
+                                >
+                                    {action.icon && (
+                                        <Icon
+                                            data={action.icon}
+                                            size={TABLE_ACTION_SIZE + 2}
+                                        />
+                                    )}
+                                    {action.label}
+                                </Button>
+                            </ActionBar.Item>
+                        ))}
+                        {secondaryActionsDropdown.length > 0 && (
+                            <ActionBar.Item>
+                                <DropdownMenu
+                                    items={secondaryActionsDropdown.map(
+                                        (action) => ({
+                                            text: action.label,
+                                            action: action.onClick,
+                                            disabled: action.disabled,
+                                            theme: action.theme,
+                                            iconStart: action.icon && (
+                                                <Icon
+                                                    data={action.icon}
+                                                    size={TABLE_ACTION_SIZE}
+                                                />
+                                            ),
+                                        }),
+                                    )}
+                                    defaultSwitcherProps={{
+                                        extraProps: {
+                                            'aria-label': 'More',
+                                        },
+                                    }}
+                                />
+                            </ActionBar.Item>
+                        )}
+                    </ActionBar.Group>
+                )}
             </ActionBar.Section>
         </ActionBar>
     );

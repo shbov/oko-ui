@@ -3,17 +3,21 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Page } from '~/components/Page';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 
-export const Route = createFileRoute('/resources/$resourceId/events/')(
+export const Route = createFileRoute('/channels/$channelId/')(
     WithAuth({
         component: RouteComponent,
-        loader: () => {
+        loader: ({ params }) => {
             return {
-                crumb: 'События ресурса',
+                crumb: params.channelId,
             };
         },
     }),
 );
 
 function RouteComponent() {
-    return <Page title="События ресурса">Скоро...</Page>;
+    return (
+        <Page title="Канал оповещения">
+            <div>Скоро...</div>
+        </Page>
+    );
 }

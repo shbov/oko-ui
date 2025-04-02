@@ -6,8 +6,12 @@ import type { ParsedLocation, RouteComponent } from '@tanstack/react-router';
 
 export const WithAuth = ({
     component,
+    loader,
 }: {
     component: RouteComponent | undefined;
+    loader?: (args: {
+        params: Record<string, string>;
+    }) => Promise<Record<string, unknown>> | Record<string, unknown>;
 }) => {
     return {
         beforeLoad: async ({
@@ -41,5 +45,6 @@ export const WithAuth = ({
             }
         },
         component,
+        loader,
     };
 };

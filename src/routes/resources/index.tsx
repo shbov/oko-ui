@@ -2,10 +2,11 @@ import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { DelayedTextInput } from '@gravity-ui/components';
 import { useQueryData } from '@gravity-ui/data-source';
+import { Pencil, TrashBin } from '@gravity-ui/icons';
 import { Database } from '@gravity-ui/illustrations';
 import {
-    Dialog,
     Flex,
+    Icon,
     Link,
     PlaceholderContainer,
     Table,
@@ -17,13 +18,14 @@ import {
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
+import { EMPTY_DASH, TABLE_ACTION_SIZE } from '~/constants/common';
 import { listResources } from '~/data-sources';
-import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
-import { api } from '~/services/api';
 import type { Resource } from '~/services/api/resource';
-import { DataLoader, dataManager } from '~/services/data-source';
+import { DataLoader } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
+
+import { DeleteDialog } from './-components/DeleteDialog';
 
 import type {
     PlaceholderContainerActionProps,
@@ -48,7 +50,7 @@ const columns: TableColumnConfig<Resource>[] = [
         id: 'description',
         name: 'Описание',
         template: ({ description }: Resource) => (
-            <Text>{description || '–'}</Text>
+            <Text>{description || EMPTY_DASH}</Text>
         ),
     },
     {
@@ -72,7 +74,9 @@ const columns: TableColumnConfig<Resource>[] = [
         id: 'keywords',
         name: 'Ключевые слова',
         template: ({ keywords }: Resource) => (
-            <Text>{keywords.length > 0 ? keywords.join(', ') : '–'}</Text>
+            <Text>
+                {keywords.length > 0 ? keywords.join(', ') : EMPTY_DASH}
+            </Text>
         ),
     },
 
@@ -85,10 +89,8 @@ const columns: TableColumnConfig<Resource>[] = [
 
 function RouteComponent() {
     const router = useRouter();
-    const handleError = useApiError();
     const [search, setSearch] = useState('');
     const [deleteResource, setDeleteResource] = useState<Resource | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
 
     const resourcesQuery = useQueryData(listResources, {});
 
@@ -105,6 +107,7 @@ function RouteComponent() {
                             },
                         });
                     },
+                    icon: <Icon data={Pencil} size={TABLE_ACTION_SIZE} />,
                 },
                 {
                     text: 'Удалить',
@@ -112,6 +115,7 @@ function RouteComponent() {
                         setDeleteResource(resource);
                     },
                     theme: 'danger',
+                    icon: <Icon data={TrashBin} size={TABLE_ACTION_SIZE} />,
                 },
             ];
 
@@ -146,34 +150,6 @@ function RouteComponent() {
         );
     }, [resourcesQuery.data, search]);
 
-    const onResourceDelete = useCallback(() => {
-        if (!deleteResource) {
-            return;
-        }
-
-        setIsLoading(true);
-
-        api.resource
-            .deleteResource(deleteResource.id)
-            .then(() => {
-                setDeleteResource(null);
-
-                toaster.add({
-                    name: 'resource-deleted',
-                    title: 'Ресурс удален',
-                    content: deleteResource.id,
-                    theme: 'success',
-                });
-
-                void dataManager.invalidateSource(listResources);
-                void router.navigate({
-                    to: '/',
-                });
-            })
-            .catch(handleError)
-            .finally(() => setIsLoading(false));
-    }, [deleteResource, handleError, router]);
-
     const onRowClick = useCallback(
         (resource: Resource) => {
             void router.navigate({
@@ -187,7 +163,19 @@ function RouteComponent() {
     );
 
     return (
-        <Page title="Ресурсы">
+        <Page
+            title="Ресурсы"
+            primaryActions={[
+                {
+                    label: 'Создать ресурс',
+                    onClick: () => {
+                        void router.navigate({
+                            to: '/resources/create',
+                        });
+                    },
+                },
+            ]}
+        >
             <DataLoader
                 status={resourcesQuery.status}
                 error={resourcesQuery.error}
@@ -218,26 +206,25 @@ function RouteComponent() {
                             />
                         </Flex>
 
-                        <Dialog
+                        <DeleteDialog
                             open={Boolean(deleteResource)}
                             onClose={() => setDeleteResource(null)}
-                        >
-                            <Dialog.Header caption="Удаление ресурса" />
-                            <Dialog.Body>
-                                <Text>
-                                    Вы уверены, что хотите удалить ресурс?
-                                </Text>
-                            </Dialog.Body>
-                            <Dialog.Footer
-                                onClickButtonCancel={() =>
-                                    setDeleteResource(null)
-                                }
-                                onClickButtonApply={onResourceDelete}
-                                loading={isLoading}
-                                textButtonApply="Удалить"
-                                textButtonCancel="Отмена"
-                            />
-                        </Dialog>
+                            onSuccess={() => {
+                                void router.navigate({
+                                    to: '/resources',
+                                });
+
+                                toaster.add({
+                                    name: 'resource-deleted',
+                                    title: 'Ресурс удален',
+                                    content: deleteResource?.id,
+                                    theme: 'success',
+                                });
+
+                                setDeleteResource(null);
+                            }}
+                            deleteResource={deleteResource}
+                        />
                     </Fragment>
                 )}
             </DataLoader>
@@ -245,13 +232,13 @@ function RouteComponent() {
     );
 }
 
-export const Route = createFileRoute('/resources/')({
-    ...WithAuth({
+export const Route = createFileRoute('/resources/')(
+    WithAuth({
         component: RouteComponent,
+        loader: () => {
+            return {
+                crumb: 'Ресурсы',
+            };
+        },
     }),
-    loader: () => {
-        return {
-            crumb: 'Ресурсы',
-        };
-    },
-});
+);

@@ -47,13 +47,13 @@ export const Create = () => {
     );
 };
 
-export const Route = createFileRoute('/resources/create')({
-    ...WithAuth({
+export const Route = createFileRoute('/resources/create')(
+    WithAuth({
         component: Create,
+        loader: () => {
+            return {
+                crumb: 'Создать ресурс',
+            };
+        },
     }),
-    loader: () => {
-        return {
-            crumb: 'Создать ресурс',
-        };
-    },
-});
+);

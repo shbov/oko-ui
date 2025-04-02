@@ -11,7 +11,8 @@ export const Meta = ({ children }: { children: ReactNode }) => {
         .reverse()
         .find((d) => d.loaderData?.crumb);
 
-    const title = matchWithTitle?.loaderData?.crumb || '';
+    const crumb = matchWithTitle?.loaderData?.crumb;
+    const title = typeof crumb === 'string' ? crumb : '';
 
     useEffect(() => {
         document.title = uniq([title, OKO.title]).filter(Boolean).join(' · ');

@@ -19,7 +19,6 @@ import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { Page } from '~/components/Page';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
-import { api } from '~/services/api';
 
 import './Diff.scss';
 
@@ -132,17 +131,16 @@ const Diff = () => {
 };
 
 export const Route = createFileRoute('/resources/$resourceId/events/$eventId/')(
-    {
-        ...WithAuth({
-            component: Diff,
-        }),
-        loader: async ({ params }) => {
-            const { eventId } = params;
-            const event = await api.event.getEvent({ id: eventId });
+    WithAuth({
+        component: Diff,
+        loader: () => {
+            // const { eventId } = params;
+            // const event = await api.event.getEvent({ id: eventId });
 
             return {
-                crumb: event.event.name ?? '-',
+                // crumb: event.event.name ?? '-',
+                crumb: 'Событие',
             };
         },
-    },
+    }),
 );

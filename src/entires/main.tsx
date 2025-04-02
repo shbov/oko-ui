@@ -9,6 +9,7 @@ import {
 import { QueryClientProvider } from '@tanstack/react-query';
 import { createRoot } from 'react-dom/client';
 
+import { PageActionsProvider } from '~/components/AppLayout/PageActionsContext';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
 import { ReactQueryDevtools } from '~/components/ReactQueryDevtools';
 import { RouterProviderWithContext } from '~/components/RouterProviderWithContext';
@@ -26,22 +27,24 @@ const App = () => {
     return (
         <StrictMode>
             <QueryClientProvider client={dataManager.queryClient}>
-                <ReactQueryDevtools />
-                <TanStackRouterDevtools
-                    router={router}
-                    initialIsOpen={false}
-                    position="bottom-right"
-                />
-                <DataManagerContext.Provider value={dataManager}>
-                    <ThemeProvider theme="light">
-                        <ToasterProvider toaster={toaster}>
-                            <ErrorBoundary>
-                                <RouterProviderWithContext />
-                            </ErrorBoundary>
-                            <ToasterComponent />
-                        </ToasterProvider>
-                    </ThemeProvider>
-                </DataManagerContext.Provider>
+                <PageActionsProvider>
+                    <ReactQueryDevtools />
+                    <TanStackRouterDevtools
+                        router={router}
+                        initialIsOpen={false}
+                        position="bottom-right"
+                    />
+                    <DataManagerContext.Provider value={dataManager}>
+                        <ThemeProvider theme="light">
+                            <ToasterProvider toaster={toaster}>
+                                <ErrorBoundary>
+                                    <RouterProviderWithContext />
+                                </ErrorBoundary>
+                                <ToasterComponent />
+                            </ToasterProvider>
+                        </ThemeProvider>
+                    </DataManagerContext.Provider>
+                </PageActionsProvider>
             </QueryClientProvider>
         </StrictMode>
     );
