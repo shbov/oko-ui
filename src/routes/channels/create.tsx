@@ -8,7 +8,7 @@ export const Route = createFileRoute('/channels/create')(
         component: RouteComponent,
         loader: () => {
             return {
-                crumb: 'Создание канала оповещения',
+                crumb: 'Создание канала',
             };
         },
     }),
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/channels/create')(
 
 function RouteComponent() {
     return (
-        <Page title="Создание канала оповещения">
+        <Page title="Создание канала">
             <div>Скоро...</div>
         </Page>
     );

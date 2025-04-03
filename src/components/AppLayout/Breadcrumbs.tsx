@@ -34,14 +34,23 @@ export const Breadcrumbs = () => {
     );
 
     const secondaryActionsButtons = useMemo(
-        () => actions?.secondaryActions.slice(0, 2) || [],
+        () =>
+            actions?.secondaryActions
+                .filter((action) => action.theme !== 'danger')
+                .slice(0, 2) || [],
         [actions],
     );
 
-    const secondaryActionsDropdown = useMemo(
-        () => actions?.secondaryActions.slice(2) || [],
-        [actions],
-    );
+    const secondaryActionsDropdown = useMemo(() => {
+        const allSecondaryActions = actions?.secondaryActions || [];
+        const dangerActions = allSecondaryActions.filter(
+            (action) => action.theme === 'danger',
+        );
+        const nonDangerActions = allSecondaryActions
+            .filter((action) => action.theme !== 'danger')
+            .slice(2);
+        return [...dangerActions, ...nonDangerActions];
+    }, [actions]);
 
     return (
         <ActionBar aria-label="Breadcrumbs">

@@ -6,9 +6,9 @@ import { WithAuth } from '~/packages/middlewares/WithAuth';
 export const Route = createFileRoute('/channels/$channelId/edit')(
     WithAuth({
         component: RouteComponent,
-        loader: ({ params }) => {
+        loader: () => {
             return {
-                crumb: `Редактирование канала оповещения ${params.channelId}`,
+                crumb: `Редактирование канала`,
             };
         },
     }),
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/channels/$channelId/edit')(
 
 function RouteComponent() {
     return (
-        <Page title="Редактирование канала оповещения">
+        <Page title="Редактирование канала">
             <div>Скоро...</div>
         </Page>
     );

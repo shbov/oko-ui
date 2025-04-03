@@ -235,10 +235,5 @@ function RouteComponent() {
 export const Route = createFileRoute('/resources/')(
     WithAuth({
         component: RouteComponent,
-        loader: () => {
-            return {
-                crumb: 'Ресурсы',
-            };
-        },
     }),
 );
