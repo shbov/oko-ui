@@ -1,6 +1,7 @@
 import { event } from './event/actions';
 import { notification } from './notification/actions';
 import { resource } from './resource/actions';
+import { snapshot } from './snapshot/actions';
 import { user } from './user/actions';
 
 export const api = {
@@ -8,4 +9,5 @@ export const api = {
     notification,
     user,
     event,
+    snapshot,
 };

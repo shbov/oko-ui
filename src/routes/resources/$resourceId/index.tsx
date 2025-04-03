@@ -4,58 +4,35 @@ import { useQueryData } from '@gravity-ui/data-source';
 import { Pencil, TrashBin } from '@gravity-ui/icons';
 import { NotFound } from '@gravity-ui/illustrations';
 import {
-    Table,
-    withTableActions,
     Text,
-    withTableCopy,
-    withTableSorting,
     PlaceholderContainer,
     DefinitionList,
     spacing,
     Label,
     Link as LinkUI,
     Flex,
+    withTableSorting,
+    withTableActions,
+    Table,
+    withTableCopy,
 } from '@gravity-ui/uikit';
 import {
     createFileRoute,
-    Link,
     useNavigate,
     useRouter,
 } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
-import { EMPTY_DASH } from '~/constants/common';
+import { UILink } from '~/components/UILink';
 import { getResource, listEventsSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
-import { api } from '~/services/api';
 import type { Event } from '~/services/api/event';
 import type { Resource } from '~/services/api/resource';
 import { DataLoader } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from '../-components/DeleteDialog';
-
-import type { TableColumnConfig } from '@gravity-ui/uikit';
-
-const columns: TableColumnConfig<Event>[] = [
-    {
-        id: 'id',
-        name: 'ID',
-        template: ({ id }) => <Text>{id}</Text>,
-        meta: {
-            copy: ({ id }: Event) => id,
-            sort: true,
-        },
-    },
-    {
-        id: 'date',
-        name: 'Дата события',
-        template: ({ date }) => <Text>{date.toLocaleString('ru')}</Text>,
-        meta: {
-            sort: true,
-        },
-    },
-];
+import { eventColumns } from './events/-components/templates';
 
 const EventsTable = withTableSorting(
     withTableCopy(withTableActions<Event>(Table)),
@@ -128,14 +105,14 @@ function RouteComponent() {
                     channels?.length > 0 ? (
                         <Flex gap={2}>
                             {channels?.map((channel) => (
-                                <Link
+                                <UILink
                                     key={channel.id}
                                     to={`/channels/$channelId`}
                                     params={{ channelId: channel.id }}
                                     target="_blank"
                                 >
                                     {channel.name}
-                                </Link>
+                                </UILink>
                             ))}
                         </Flex>
                     ) : null,
@@ -236,7 +213,7 @@ function RouteComponent() {
                     {events?.length && events.length > 0 ? (
                         <EventsTable
                             data={events ?? []}
-                            columns={columns}
+                            columns={eventColumns}
                             onRowClick={onRowClick}
                         />
                     ) : (
@@ -276,13 +253,5 @@ function RouteComponent() {
 export const Route = createFileRoute('/resources/$resourceId/')(
     WithAuth({
         component: RouteComponent,
-        loader: async ({ params }) => {
-            const { resourceId } = params;
-            const resource = await api.resource.get({ id: resourceId });
-
-            return {
-                crumb: resource.resource.name ?? EMPTY_DASH,
-            };
-        },
     }),
 );

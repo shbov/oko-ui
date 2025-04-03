@@ -83,4 +83,9 @@ export const Restore = () => {
 
 export const Route = createFileRoute('/auth/_auth/restore')({
     component: Restore,
+    loader: () => {
+        return {
+            crumb: 'Восстановление пароля',
+        };
+    },
 });

@@ -17,5 +17,8 @@ export interface GetEventResponse {
 export interface Event {
     id: string;
     name: string;
-    date: Date;
+    snapshot_id: string;
+    resource_id: string;
+    status: 'CREATED' | 'NOTIFIED' | 'WATCHED' | 'REACTED';
+    created_at: string;
 }

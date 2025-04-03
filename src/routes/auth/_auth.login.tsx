@@ -85,4 +85,9 @@ export const Login = () => {
 
 export const Route = createFileRoute('/auth/_auth/login')({
     component: Login,
+    loader: () => {
+        return {
+            crumb: 'Авторизация',
+        };
+    },
 });

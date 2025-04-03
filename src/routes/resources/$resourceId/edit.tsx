@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
@@ -25,10 +25,6 @@ export const Edit = () => {
         id: params.resourceId,
     });
 
-    const title = useMemo(() => {
-        return `Редактировать ресурс ${resource?.resource?.name ?? ''}`;
-    }, [resource?.resource?.name]);
-
     const onSubmit = useCallback(
         ({ value }: { value: EditFormValues }) => {
             const valuesToSend = prepareEditValues(value, params.resourceId);
@@ -53,7 +49,7 @@ export const Edit = () => {
     );
 
     return (
-        <Page title={title}>
+        <Page title="Редактировать ресурс">
             <DataLoader
                 error={resourceQuery.error}
                 status={resourceQuery.status}
@@ -73,11 +69,9 @@ export const Edit = () => {
 export const Route = createFileRoute('/resources/$resourceId/edit')(
     WithAuth({
         component: Edit,
-        loader: async ({ params }) => {
-            const resource = await api.resource.get({ id: params.resourceId });
-
+        loader: () => {
             return {
-                crumb: `Редактирование ресурса ${resource.resource.name}`,
+                crumb: `Редактирование ресурса`,
             };
         },
     }),

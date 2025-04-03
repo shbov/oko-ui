@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import { useQueryData } from '@gravity-ui/data-source';
 import {
     DefinitionList,
-    Label,
     spacing,
     Tab,
     TabList,
@@ -18,9 +18,12 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { Page } from '~/components/Page';
+import { getEventSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
+import { DataLoader } from '~/services/data-source';
 
 import './Diff.scss';
+import { EventStatus } from '../-components/EventStatus';
 
 const b = block('diff');
 
@@ -33,8 +36,6 @@ const html = `<div>
         ${newCode}
     </p>
 </div>`;
-
-const title = `Событие от ${new Date().toLocaleString('ru')}`;
 
 const DiffComponent = ({
     oldCode,
@@ -106,26 +107,37 @@ const DiffComponent = ({
 };
 
 const Diff = () => {
-    return (
-        <Page title={title}>
-            <div className={b()}>
-                <div className={spacing({ mb: 3 })}>
-                    <DefinitionList>
-                        <DefinitionList.Item name="Статус">
-                            <Label theme="info">Новый</Label>
-                        </DefinitionList.Item>
-                        <DefinitionList.Item name="Тип события">
-                            Изменения в тексте
-                        </DefinitionList.Item>
-                    </DefinitionList>
-                </div>
+    const { eventId } = Route.useParams();
+    const eventQuery = useQueryData(getEventSource, {
+        id: eventId,
+    });
 
-                <DiffComponent
-                    oldCode={oldCode}
-                    newCode={newCode}
-                    html={html}
-                />
-            </div>
+    return (
+        <Page title={eventQuery.data?.name ?? ''}>
+            <DataLoader
+                status={eventQuery.status}
+                error={eventQuery.error}
+                errorAction={eventQuery.refetch}
+            >
+                <div className={b()}>
+                    <div className={spacing({ mb: 3 })}>
+                        <DefinitionList>
+                            <DefinitionList.Item name="Статус">
+                                <EventStatus status={eventQuery.data?.status} />
+                            </DefinitionList.Item>
+                            <DefinitionList.Item name="Тип события">
+                                Изменения в тексте
+                            </DefinitionList.Item>
+                        </DefinitionList>
+                    </div>
+
+                    <DiffComponent
+                        oldCode={oldCode}
+                        newCode={newCode}
+                        html={html}
+                    />
+                </div>
+            </DataLoader>
         </Page>
     );
 };
@@ -133,14 +145,5 @@ const Diff = () => {
 export const Route = createFileRoute('/resources/$resourceId/events/$eventId/')(
     WithAuth({
         component: Diff,
-        loader: () => {
-            // const { eventId } = params;
-            // const event = await api.event.getEvent({ id: eventId });
-
-            return {
-                // crumb: event.event.name ?? '-',
-                crumb: 'Событие',
-            };
-        },
     }),
 );
