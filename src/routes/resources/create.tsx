@@ -32,7 +32,7 @@ export const Create = () => {
                     });
 
                     void router.navigate({
-                        to: '/',
+                        to: `/resources/${r.resource?.id}`,
                     });
                 })
                 .catch(handleError);

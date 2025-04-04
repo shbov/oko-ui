@@ -2,7 +2,7 @@ import type { ReactNode, SVGProps } from 'react';
 import { createContext, useContext, useState } from 'react';
 
 export interface PageAction {
-    label: string;
+    text: string;
     onClick: () => void;
     disabled?: boolean;
     loading?: boolean;

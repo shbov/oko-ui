@@ -79,7 +79,7 @@ export const Breadcrumbs = () => {
                                     loading={action.loading}
                                     view="flat"
                                 >
-                                    {action.label}
+                                    {action.text}
                                 </Button>
                             </ActionBar.Item>
                         ))}
@@ -97,7 +97,7 @@ export const Breadcrumbs = () => {
                                             size={TABLE_ACTION_SIZE + 2}
                                         />
                                     )}
-                                    {action.label}
+                                    {action.text}
                                 </Button>
                             </ActionBar.Item>
                         ))}
@@ -106,7 +106,7 @@ export const Breadcrumbs = () => {
                                 <DropdownMenu
                                     items={secondaryActionsDropdown.map(
                                         (action) => ({
-                                            text: action.label,
+                                            text: action.text,
                                             action: action.onClick,
                                             disabled: action.disabled,
                                             theme: action.theme,

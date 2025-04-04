@@ -51,7 +51,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                label: 'Создать отчет',
+                text: 'Создать отчет',
                 disabled: ids.length === 0,
                 onClick: () => {
                     console.log('create report');

@@ -34,7 +34,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                label: 'Редактировать канал',
+                text: 'Редактировать канал',
                 icon: Pencil,
                 onClick: () => {
                     void router.navigate({
@@ -63,7 +63,7 @@ function RouteComponent() {
     const secondaryActions = useMemo(
         () => [
             {
-                label: 'Удалить',
+                text: 'Удалить',
                 icon: TrashBin,
                 theme: 'danger' as const,
                 onClick: () => {

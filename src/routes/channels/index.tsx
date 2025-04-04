@@ -2,6 +2,7 @@ import { useCallback, useState, useMemo } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { Pencil, TrashBin } from '@gravity-ui/icons';
+import { Database } from '@gravity-ui/illustrations';
 import {
     Table,
     withTableActions,
@@ -9,6 +10,7 @@ import {
     withTableSorting,
     Icon,
     Flex,
+    PlaceholderContainer,
 } from '@gravity-ui/uikit';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
@@ -141,7 +143,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                label: 'Создать канал',
+                text: 'Создать канал',
                 onClick: () => {
                     void router.navigate({
                         to: '/channels/create',
@@ -166,12 +168,21 @@ function RouteComponent() {
                         selectedTypes={typeFilter}
                         onTypesChange={setTypeFilter}
                     />
-                    <ChannelsTable
-                        data={filteredData}
-                        columns={columns}
-                        onRowClick={onRowClick}
-                        getRowActions={getRowActions}
-                    />
+                    {filteredData.length === 0 ? (
+                        <PlaceholderContainer
+                            image={<Database />}
+                            title="Каналов еще нет"
+                            description="Создайте ваш первый канал!"
+                            actions={primaryActions}
+                        />
+                    ) : (
+                        <ChannelsTable
+                            data={filteredData}
+                            columns={columns}
+                            onRowClick={onRowClick}
+                            getRowActions={getRowActions}
+                        />
+                    )}
                 </Flex>
                 <DeleteChannel
                     open={!!deleteChannel}

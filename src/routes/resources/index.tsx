@@ -160,7 +160,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                label: 'Создать ресурс',
+                text: 'Создать ресурс',
                 onClick: () => {
                     void router.navigate({
                         to: '/resources/create',

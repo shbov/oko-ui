@@ -142,7 +142,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                label: 'Редактировать',
+                text: 'Редактировать',
                 icon: Pencil,
                 onClick: () => {
                     void router.navigate({
@@ -158,7 +158,7 @@ function RouteComponent() {
     const secondaryActions = useMemo(
         () => [
             {
-                label: 'События',
+                text: 'События',
                 onClick: () => {
                     void router.navigate({
                         to: '/resources/$resourceId/events',
@@ -167,7 +167,7 @@ function RouteComponent() {
                 },
             },
             {
-                label: 'Снапшоты',
+                text: 'Снапшоты',
                 onClick: () => {
                     void router.navigate({
                         to: '/resources/$resourceId/snapshots',
@@ -176,7 +176,7 @@ function RouteComponent() {
                 },
             },
             {
-                label: 'Удалить',
+                text: 'Удалить',
                 theme: 'danger' as const,
                 icon: TrashBin,
                 onClick: () => {
