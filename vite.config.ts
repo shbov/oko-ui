@@ -66,7 +66,7 @@ export default defineConfig(({ mode }) => {
                 title: 'Oko UI',
                 version: process.env.npm_package_version,
                 endpoints: {
-                    userService: env.VITE_USER_SERVICE_URL || '',
+                    userService: env.VITE_USER_SERVICE_URL || '/api',
                 },
             }),
         },

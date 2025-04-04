@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: oko-ui
+        restart: unless-stopped
+        ports:
+            - '3000:3000'
+        environment:
+            - NODE_ENV=production
+        networks:
+            - oko-network
+
+networks:
+    oko-network:
+        driver: bridge
