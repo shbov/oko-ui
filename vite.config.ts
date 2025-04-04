@@ -2,12 +2,10 @@ import * as path from 'node:path';
 
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import viteReact from '@vitejs/plugin-react-swc';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, process.cwd());
-
+export default defineConfig(() => {
     return {
         plugins: [TanStackRouterVite(), viteReact()],
         resolve: {
@@ -65,10 +63,17 @@ export default defineConfig(({ mode }) => {
             OKO: JSON.stringify({
                 title: 'Oko UI',
                 version: process.env.npm_package_version,
-                endpoints: {
-                    userService: env.VITE_USER_SERVICE_URL || '/api',
-                },
             }),
+        },
+        server: {
+            proxy: {
+                '/api': {
+                    target: 'http://localhost:8083',
+                    changeOrigin: true,
+                    secure: false,
+                    rewrite: (path) => path.replace(/^\/api/, ''),
+                },
+            },
         },
     };
 });

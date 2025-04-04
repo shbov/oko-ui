@@ -7,7 +7,7 @@ import type {
     ListSnapshotsResponse,
 } from './types';
 
-const api = getProtectedKyInstance(OKO.endpoints.userService);
+const api = getProtectedKyInstance();
 
 export const snapshot = {
     listSnapshots: ({ resourceId }: ListSnapshotsRequest) => {

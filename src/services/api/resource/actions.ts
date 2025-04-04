@@ -11,7 +11,7 @@ import type {
     ListResourcesResponse,
 } from './types';
 
-const api = getProtectedKyInstance(OKO.endpoints.userService);
+const api = getProtectedKyInstance();
 
 export const resource = {
     create: (data: CreateResourceRequest) => {

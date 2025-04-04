@@ -7,7 +7,7 @@ import type {
     ListEventsRequest,
 } from './types';
 
-const api = getProtectedKyInstance(OKO.endpoints.userService);
+const api = getProtectedKyInstance();
 
 export const event = {
     listEvents: ({ resourceId }: ListEventsRequest) => {

@@ -7,7 +7,7 @@ import type {
     listChannelsResponse,
 } from './types';
 
-const api = getProtectedKyInstance(OKO.endpoints.userService);
+const api = getProtectedKyInstance();
 
 export const notification = {
     listChannels: () => {

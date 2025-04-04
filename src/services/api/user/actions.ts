@@ -7,8 +7,8 @@ import type {
     UserInfoResponse,
 } from './types';
 
-const protectedApi = getProtectedKyInstance(OKO.endpoints.userService);
-const api = getPublicKyInstance(OKO.endpoints.userService);
+const protectedApi = getProtectedKyInstance();
+const api = getPublicKyInstance();
 
 export const user = {
     login: (data: LoginRequest) => {

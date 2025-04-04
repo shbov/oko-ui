@@ -225,3 +225,12 @@ The project uses several development tools that are configured in the repository
 ## Contact
 
 For any deployment issues or questions, please contact the development team or create an issue in the GitHub repository.
+
+## Docker Configuration
+
+The application uses a multi-stage Docker build process defined in the `Dockerfile`. It builds the Vite application and serves it with Nginx. The `docker-compose.yml` file sets up the service, exposing port 3000 and using a custom network.
+
+## Nginx Configuration
+
+- **nginx-container.conf**: Configures Nginx to serve the application on port 3000, with gzip compression and custom logging.
+- **oko.shbov.ru.conf**: Sets up a server block for the domain `oko.shbov.ru`, with API proxying to a Flask API and main requests to a Node.js application. It includes SSL configuration and static asset caching.

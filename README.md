@@ -14,9 +14,11 @@ Oko UI is a React-based web application built with Vite and TypeScript.
 # Install dependencies
 pnpm install
 
-# Start development server
+# Start development server with API proxy
 pnpm dev
 ```
+
+The development server now includes a proxy configuration for API requests to `/api`, redirecting them to `http://localhost:8083`.
 
 ### Deployment
 
@@ -38,6 +40,10 @@ Quick deployment steps:
 - Automated deployment with upgrade script
 - SSL security with Certbot
 - Nginx for reverse proxy and caching
+
+## Docker and Nginx Setup
+
+The application uses a multi-stage Docker build to compile the Vite application and serve it using Nginx. The `docker-compose.yml` file orchestrates the deployment, exposing port 3000 for the web server. Nginx is configured to handle API requests and serve static files efficiently.
 
 ## License
 

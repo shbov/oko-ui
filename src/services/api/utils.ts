@@ -11,10 +11,10 @@ const commonSettings = {
     },
 };
 
-export const getProtectedKyInstance = (prefix: string) =>
+export const getProtectedKyInstance = () =>
     ky.create({
         ...commonSettings,
-        prefixUrl: prefix,
+        prefixUrl: '/api',
         credentials: 'include',
         hooks: {
             beforeRequest: [
@@ -56,8 +56,8 @@ export const getProtectedKyInstance = (prefix: string) =>
         },
     });
 
-export const getPublicKyInstance = (prefix: string) =>
+export const getPublicKyInstance = () =>
     ky.create({
         ...commonSettings,
-        prefixUrl: prefix,
+        prefixUrl: '/api',
     });

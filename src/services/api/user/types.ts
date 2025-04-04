@@ -9,6 +9,10 @@ export interface RestorePasswordRequest {
 
 export interface User {
     name: string;
+    /**
+     * @deprecated use `name` instead
+     */
+    username: string;
     email: string;
     createdAt: string;
 }
