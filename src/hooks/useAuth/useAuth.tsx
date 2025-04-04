@@ -34,9 +34,7 @@ export const useAuth = (router: Register['router']): AuthData => {
             signOutMutation.mutate();
         },
         ensureData: () => {
-            return queryClient.ensureQueryData(
-                authQueryOptions(),
-            );
+            return queryClient.ensureQueryData(authQueryOptions());
         },
     };
 
@@ -48,10 +46,13 @@ export const useAuth = (router: Register['router']): AuthData => {
             return { ...utils, user: null, status: 'UNAUTHENTICATED' };
 
         default:
-            return { ...utils, user: {
-                ...authQuery.data.user,
-                // @ts-expect-error wait to be fixed on backend
-                name: authQuery.data.user.username,
-            }, status: 'AUTHENTICATED' };
+            return {
+                ...utils,
+                user: {
+                    ...authQuery.data.user,
+                    name: authQuery.data.user.username,
+                },
+                status: 'AUTHENTICATED',
+            };
     }
 };

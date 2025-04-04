@@ -47,4 +47,4 @@ The application uses a multi-stage Docker build to compile the Vite application 
 
 ## License
 
-MIT
+[GPL-3.0 license](LICENSE)
