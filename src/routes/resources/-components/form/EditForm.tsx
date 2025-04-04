@@ -76,7 +76,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             >
                 <BaseFormContent
                     form={form}
-                    channels={channelsQuery.data?.channels ?? []}
+                    channels={channelsQuery.data ?? []}
                     mode="edit"
                 />
             </Form>

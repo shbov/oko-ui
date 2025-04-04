@@ -1,8 +1,8 @@
 @use '@gravity-ui/uikit/styles/fonts';
 @use '@gravity-ui/uikit/styles/styles';
+@use '@gravity-ui/illustrations/styles/theme' as illustrations;
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap';
-@import '@gravity-ui/illustrations/styles/theme';
 
 /* stylelint-disable-next-line selector-class-pattern */
 .g-root_theme_light {
@@ -12,37 +12,37 @@
         'Roboto Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
         'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier',
         monospace;
-    --g-color-private-brand-50: rgb(49 78 60 / 10%);
-    --g-color-private-brand-100: rgb(49 78 60 / 15%);
-    --g-color-private-brand-150: rgb(49 78 60 / 20%);
-    --g-color-private-brand-200: rgb(49 78 60 / 30%);
-    --g-color-private-brand-250: rgb(49 78 60 / 40%);
-    --g-color-private-brand-300: rgb(49 78 60 / 50%);
-    --g-color-private-brand-350: rgb(49 78 60 / 60%);
-    --g-color-private-brand-400: rgb(49 78 60 / 70%);
-    --g-color-private-brand-450: rgb(49 78 60 / 80%);
-    --g-color-private-brand-500: rgb(49 78 60 / 90%);
-    --g-color-private-brand-550-solid: rgb(49 78 60);
-    --g-color-private-brand-1000-solid: rgb(36 36 38);
-    --g-color-private-brand-950-solid: rgb(37 39 39);
-    --g-color-private-brand-900-solid: rgb(39 44 42);
-    --g-color-private-brand-850-solid: rgb(40 49 44);
-    --g-color-private-brand-800-solid: rgb(42 54 47);
-    --g-color-private-brand-750-solid: rgb(43 58 50);
-    --g-color-private-brand-700-solid: rgb(45 63 52);
-    --g-color-private-brand-650-solid: rgb(46 68 55);
-    --g-color-private-brand-600-solid: rgb(48 73 57);
-    --g-color-private-brand-500-solid: rgb(70 96 80);
-    --g-color-private-brand-450-solid: rgb(90 113 99);
-    --g-color-private-brand-400-solid: rgb(111 131 119);
-    --g-color-private-brand-350-solid: rgb(131 149 138);
-    --g-color-private-brand-300-solid: rgb(152 167 158);
-    --g-color-private-brand-250-solid: rgb(173 184 177);
-    --g-color-private-brand-200-solid: rgb(193 202 197);
-    --g-color-private-brand-150-solid: rgb(214 220 216);
-    --g-color-private-brand-100-solid: rgb(224 228 226);
-    --g-color-private-brand-50-solid: rgb(234 237 236);
-    --g-color-base-brand: rgb(49 78 60);
+    --g-color-private-brand-50: rgb(255 190 92 / 10%);
+    --g-color-private-brand-100: rgb(255 190 92 / 15%);
+    --g-color-private-brand-150: rgb(255 190 92 / 20%);
+    --g-color-private-brand-200: rgb(255 190 92 / 30%);
+    --g-color-private-brand-250: rgb(255 190 92 / 40%);
+    --g-color-private-brand-300: rgb(255 190 92 / 50%);
+    --g-color-private-brand-350: rgb(255 190 92 / 60%);
+    --g-color-private-brand-400: rgb(255 190 92 / 70%);
+    --g-color-private-brand-450: rgb(255 190 92 / 80%);
+    --g-color-private-brand-500: rgb(255 190 92 / 90%);
+    --g-color-private-brand-550-solid: rgb(255 190 92);
+    --g-color-private-brand-1000-solid: rgb(67 53 43);
+    --g-color-private-brand-950-solid: rgb(78 61 46);
+    --g-color-private-brand-900-solid: rgb(100 77 51);
+    --g-color-private-brand-850-solid: rgb(122 93 57);
+    --g-color-private-brand-800-solid: rgb(145 110 63);
+    --g-color-private-brand-750-solid: rgb(167 126 69);
+    --g-color-private-brand-700-solid: rgb(189 142 75);
+    --g-color-private-brand-650-solid: rgb(211 158 80);
+    --g-color-private-brand-600-solid: rgb(233 174 86);
+    --g-color-private-brand-500-solid: rgb(255 197 108);
+    --g-color-private-brand-450-solid: rgb(255 203 125);
+    --g-color-private-brand-400-solid: rgb(255 210 141);
+    --g-color-private-brand-350-solid: rgb(255 216 157);
+    --g-color-private-brand-300-solid: rgb(255 223 174);
+    --g-color-private-brand-250-solid: rgb(255 229 190);
+    --g-color-private-brand-200-solid: rgb(255 236 206);
+    --g-color-private-brand-150-solid: rgb(255 242 222);
+    --g-color-private-brand-100-solid: rgb(255 245 231);
+    --g-color-private-brand-50-solid: rgb(255 249 239);
+    --g-color-base-brand: rgb(255 190 92);
     --g-color-base-background: rgb(255 255 255);
     --g-color-base-brand-hover: var(--g-color-private-brand-600-solid);
     --g-color-base-selection: var(--g-color-private-brand-200);
@@ -50,13 +50,13 @@
     --g-color-line-brand: var(--g-color-private-brand-600-solid);
     --g-color-text-brand: var(--g-color-private-brand-700-solid);
     --g-color-text-brand-heavy: var(--g-color-private-brand-700-solid);
-    --g-color-text-brand-contrast: rgb(255 255 255);
+    --g-color-text-brand-contrast: rgb(0 0 0 / 85%);
     --g-color-text-link: var(--g-color-private-brand-600-solid);
     --g-color-text-link-hover: var(--g-color-private-brand-800-solid);
     --g-color-text-link-visited: var(--g-color-private-purple-550-solid);
     --g-color-text-link-visited-hover: var(--g-color-private-purple-800-solid);
 
-    @include g-illustrations-colors-light;
+    @include illustrations.g-illustrations-colors-light;
 }
 
 /* stylelint-disable-next-line selector-class-pattern */
@@ -67,37 +67,37 @@
         'Roboto Mono', 'Menlo', 'Monaco', 'Consolas', 'Ubuntu Mono',
         'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', 'Courier',
         monospace;
-    --g-color-private-brand-50: rgb(49 78 60 / 10%);
-    --g-color-private-brand-100: rgb(49 78 60 / 15%);
-    --g-color-private-brand-150: rgb(49 78 60 / 20%);
-    --g-color-private-brand-200: rgb(49 78 60 / 30%);
-    --g-color-private-brand-250: rgb(49 78 60 / 40%);
-    --g-color-private-brand-300: rgb(49 78 60 / 50%);
-    --g-color-private-brand-350: rgb(49 78 60 / 60%);
-    --g-color-private-brand-400: rgb(49 78 60 / 70%);
-    --g-color-private-brand-450: rgb(49 78 60 / 80%);
-    --g-color-private-brand-500: rgb(49 78 60 / 90%);
-    --g-color-private-brand-550-solid: rgb(49 78 60);
-    --g-color-private-brand-1000-solid: rgb(224 228 226);
-    --g-color-private-brand-950-solid: rgb(214 220 216);
-    --g-color-private-brand-900-solid: rgb(193 202 197);
-    --g-color-private-brand-850-solid: rgb(173 184 177);
-    --g-color-private-brand-800-solid: rgb(152 167 158);
-    --g-color-private-brand-750-solid: rgb(131 149 138);
-    --g-color-private-brand-700-solid: rgb(111 131 119);
-    --g-color-private-brand-650-solid: rgb(90 113 99);
-    --g-color-private-brand-600-solid: rgb(70 96 80);
-    --g-color-private-brand-500-solid: rgb(48 73 57);
-    --g-color-private-brand-450-solid: rgb(46 68 55);
-    --g-color-private-brand-400-solid: rgb(45 63 52);
-    --g-color-private-brand-350-solid: rgb(43 58 50);
-    --g-color-private-brand-300-solid: rgb(42 54 47);
-    --g-color-private-brand-250-solid: rgb(40 49 44);
-    --g-color-private-brand-200-solid: rgb(39 44 42);
-    --g-color-private-brand-150-solid: rgb(37 39 39);
-    --g-color-private-brand-100-solid: rgb(36 36 38);
-    --g-color-private-brand-50-solid: rgb(36 34 37);
-    --g-color-base-brand: rgb(49 78 60);
+    --g-color-private-brand-50: rgb(255 190 92 / 10%);
+    --g-color-private-brand-100: rgb(255 190 92 / 15%);
+    --g-color-private-brand-150: rgb(255 190 92 / 20%);
+    --g-color-private-brand-200: rgb(255 190 92 / 30%);
+    --g-color-private-brand-250: rgb(255 190 92 / 40%);
+    --g-color-private-brand-300: rgb(255 190 92 / 50%);
+    --g-color-private-brand-350: rgb(255 190 92 / 60%);
+    --g-color-private-brand-400: rgb(255 190 92 / 70%);
+    --g-color-private-brand-450: rgb(255 190 92 / 80%);
+    --g-color-private-brand-500: rgb(255 190 92 / 90%);
+    --g-color-private-brand-550-solid: rgb(255 190 92);
+    --g-color-private-brand-1000-solid: rgb(255 245 231);
+    --g-color-private-brand-950-solid: rgb(255 242 222);
+    --g-color-private-brand-900-solid: rgb(255 236 206);
+    --g-color-private-brand-850-solid: rgb(255 229 190);
+    --g-color-private-brand-800-solid: rgb(255 223 174);
+    --g-color-private-brand-750-solid: rgb(255 216 157);
+    --g-color-private-brand-700-solid: rgb(255 210 141);
+    --g-color-private-brand-650-solid: rgb(255 203 125);
+    --g-color-private-brand-600-solid: rgb(255 197 108);
+    --g-color-private-brand-500-solid: rgb(233 174 86);
+    --g-color-private-brand-450-solid: rgb(211 158 80);
+    --g-color-private-brand-400-solid: rgb(189 142 75);
+    --g-color-private-brand-350-solid: rgb(167 126 69);
+    --g-color-private-brand-300-solid: rgb(145 110 63);
+    --g-color-private-brand-250-solid: rgb(122 93 57);
+    --g-color-private-brand-200-solid: rgb(100 77 51);
+    --g-color-private-brand-150-solid: rgb(78 61 46);
+    --g-color-private-brand-100-solid: rgb(67 53 43);
+    --g-color-private-brand-50-solid: rgb(56 45 40);
+    --g-color-base-brand: rgb(255 190 92);
     --g-color-base-background: rgb(34 29 34);
     --g-color-base-brand-hover: var(--g-color-private-brand-650-solid);
     --g-color-base-selection: var(--g-color-private-brand-150);
@@ -105,13 +105,13 @@
     --g-color-line-brand: var(--g-color-private-brand-600-solid);
     --g-color-text-brand: var(--g-color-private-brand-600-solid);
     --g-color-text-brand-heavy: var(--g-color-private-brand-700-solid);
-    --g-color-text-brand-contrast: rgb(255 255 255);
+    --g-color-text-brand-contrast: rgb(0 0 0 / 90%);
     --g-color-text-link: var(--g-color-private-brand-550-solid);
     --g-color-text-link-hover: var(--g-color-private-brand-700-solid);
     --g-color-text-link-visited: var(--g-color-private-purple-700-solid);
     --g-color-text-link-visited-hover: var(--g-color-private-purple-850-solid);
 
-    @include g-illustrations-colors-dark;
+    @include illustrations.g-illustrations-colors-dark;
 }
 
 body,

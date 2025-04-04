@@ -15,7 +15,7 @@ import block from 'bem-cn-lite';
 import ReactCompareImage from 'react-compare-image';
 import ReactDiffViewer from 'react-diff-viewer';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { github } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { Page } from '~/components/Page';
 import { getEventSource } from '~/data-sources';
@@ -65,6 +65,7 @@ const DiffComponent = ({
                             oldValue={oldCode}
                             newValue={newCode}
                             splitView={false}
+                            useDarkTheme
                         />
                     </Text>
                 </TabPanel>
@@ -77,7 +78,7 @@ const DiffComponent = ({
                 <TabPanel value="html">
                     <SyntaxHighlighter
                         language="html"
-                        style={github}
+                        style={darcula}
                         wrapLines
                         wrapLongLines
                     >
@@ -89,12 +90,13 @@ const DiffComponent = ({
                         oldValue={oldCode}
                         newValue={newCode}
                         splitView={false}
+                        useDarkTheme
                     />
                 </TabPanel>
                 <TabPanel value="parsedText">
                     <SyntaxHighlighter
                         language="html"
-                        style={github}
+                        style={darcula}
                         wrapLines
                         wrapLongLines
                     >

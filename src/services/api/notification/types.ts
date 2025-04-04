@@ -12,3 +12,15 @@ export interface Channel {
 export interface listChannelsResponse {
     channels: Channel[];
 }
+
+export interface GetChannelRequest {
+    id: string;
+}
+
+export interface GetChannelResponse {
+    channel: Channel;
+}
+
+export interface DeleteChannelRequest {
+    id: string;
+}

@@ -51,7 +51,7 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
             <Form submitText="Создать" formApi={form} size="m" withCancelButton>
                 <BaseFormContent
                     form={form}
-                    channels={channelsQuery.data?.channels ?? []}
+                    channels={channelsQuery.data ?? []}
                     mode="create"
                 />
             </Form>

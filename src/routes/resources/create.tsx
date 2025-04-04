@@ -27,7 +27,7 @@ export const Create = () => {
                     toaster.add({
                         name: 'resource-created',
                         title: 'Ресурс создан',
-                        content: r.resource?.id,
+                        content: `Ресурс с ID ${r.resource?.id} был успешно создан`,
                         theme: 'success',
                     });
 

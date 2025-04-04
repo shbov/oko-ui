@@ -1,5 +1,6 @@
 import { Text } from '@gravity-ui/uikit';
 
+import { Id } from '~/components/Id';
 import { UILink } from '~/components/UILink';
 import type { Event } from '~/services/api/event';
 
@@ -11,7 +12,8 @@ export const eventColumns: TableColumnConfig<Event>[] = [
     {
         id: 'id',
         name: 'ID',
-        template: ({ id }) => <Text>{id}</Text>,
+        template: ({ id }) => <Id id={id} />,
+        primary: true,
         meta: {
             copy: ({ id }: Event) => id,
         },
@@ -30,6 +32,7 @@ export const eventColumns: TableColumnConfig<Event>[] = [
         template: ({ snapshot_id, resource_id }) => (
             <UILink
                 to={`/resources/$resourceId/snapshots/$snapshotId`}
+                onClick={(e) => e.stopPropagation()}
                 params={{
                     snapshotId: snapshot_id,
                     resourceId: resource_id,

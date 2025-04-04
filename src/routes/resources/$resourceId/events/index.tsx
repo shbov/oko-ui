@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { Database } from '@gravity-ui/illustrations';
@@ -48,19 +48,21 @@ function RouteComponent() {
         [router],
     );
 
-    return (
-        <Page
-            title="События ресурса"
-            primaryActions={[
-                {
-                    label: 'Создать отчет',
-                    disabled: ids.length === 0,
-                    onClick: () => {
-                        console.log('create report');
-                    },
+    const primaryActions = useMemo(
+        () => [
+            {
+                label: 'Создать отчет',
+                disabled: ids.length === 0,
+                onClick: () => {
+                    console.log('create report');
                 },
-            ]}
-        >
+            },
+        ],
+        [ids],
+    );
+
+    return (
+        <Page title="События ресурса" primaryActions={primaryActions}>
             <DataLoader
                 status={eventsQuery.status}
                 error={eventsQuery.error}

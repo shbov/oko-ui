@@ -35,7 +35,7 @@ const App = () => {
                         position="bottom-right"
                     />
                     <DataManagerContext.Provider value={dataManager}>
-                        <ThemeProvider theme="light">
+                        <ThemeProvider theme="dark">
                             <ToasterProvider toaster={toaster}>
                                 <ErrorBoundary>
                                     <RouterProviderWithContext />

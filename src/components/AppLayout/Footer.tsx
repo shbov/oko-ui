@@ -6,10 +6,10 @@ import {
     type FooterMenuItem,
 } from '@gravity-ui/navigation';
 import { Icon } from '@gravity-ui/uikit';
-import { useNavigate } from '@tanstack/react-router';
+import { useRouter } from '@tanstack/react-router';
 
 export const Footer = () => {
-    const navigate = useNavigate();
+    const router = useRouter();
 
     const menuItems: FooterMenuItem[] = useMemo(
         () => [
@@ -17,7 +17,7 @@ export const Footer = () => {
                 id: 'home',
                 text: 'Главная',
                 onClick: () => {
-                    void navigate({
+                    void router.navigate({
                         to: '/',
                     });
                 },
@@ -31,7 +31,7 @@ export const Footer = () => {
                 },
             },
         ],
-        [navigate],
+        [router],
     );
 
     return (
@@ -42,6 +42,11 @@ export const Footer = () => {
             logo={{
                 text: OKO.title,
                 icon: FaceRobot,
+                onClick: () => {
+                    void router.navigate({
+                        to: '/',
+                    });
+                },
             }}
         />
     );

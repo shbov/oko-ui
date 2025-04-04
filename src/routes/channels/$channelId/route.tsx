@@ -1,9 +1,16 @@
 import { createFileRoute } from '@tanstack/react-router';
 
+import { api } from '~/services/api';
+
 export const Route = createFileRoute('/channels/$channelId')({
-    loader: ({ params }) => {
+    loader: async ({ params }) => {
+        const { channel } = await api.notification.getChannel({
+            id: params.channelId,
+        });
+
         return {
-            crumb: params.channelId,
+            crumb: channel.name,
+            channel,
         };
     },
 });

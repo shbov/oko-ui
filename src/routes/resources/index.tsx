@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useMemo, useState } from 'react';
 
-import { DelayedTextInput } from '@gravity-ui/components';
 import { useQueryData } from '@gravity-ui/data-source';
 import { Pencil, TrashBin } from '@gravity-ui/icons';
 import { Database } from '@gravity-ui/illustrations';
@@ -10,7 +9,6 @@ import {
     Link,
     PlaceholderContainer,
     Table,
-    Text,
     withTableActions,
     withTableCopy,
     withTableSorting,
@@ -26,6 +24,7 @@ import { DataLoader } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from './-components/DeleteDialog';
+import { Filters } from './-components/Filters';
 
 import type {
     PlaceholderContainerActionProps,
@@ -41,7 +40,8 @@ const columns: TableColumnConfig<Resource>[] = [
     {
         id: 'name',
         name: 'Название',
-        template: ({ name }: Resource) => <Text>{name}</Text>,
+        template: ({ name }: Resource) => name,
+        primary: true,
         meta: {
             sort: true,
         },
@@ -49,9 +49,7 @@ const columns: TableColumnConfig<Resource>[] = [
     {
         id: 'description',
         name: 'Описание',
-        template: ({ description }: Resource) => (
-            <Text>{description || EMPTY_DASH}</Text>
-        ),
+        template: ({ description }: Resource) => description || EMPTY_DASH,
     },
     {
         id: 'url',
@@ -73,17 +71,14 @@ const columns: TableColumnConfig<Resource>[] = [
     {
         id: 'keywords',
         name: 'Ключевые слова',
-        template: ({ keywords }: Resource) => (
-            <Text>
-                {keywords.length > 0 ? keywords.join(', ') : EMPTY_DASH}
-            </Text>
-        ),
+        template: ({ keywords }: Resource) =>
+            keywords.length > 0 ? keywords.join(', ') : EMPTY_DASH,
     },
 
     {
         id: 'interval',
         name: 'Интервал',
-        template: ({ interval }: Resource) => <Text>{interval}</Text>,
+        template: ({ interval }: Resource) => interval,
     },
 ];
 
@@ -162,20 +157,22 @@ function RouteComponent() {
         [router],
     );
 
-    return (
-        <Page
-            title="Ресурсы"
-            primaryActions={[
-                {
-                    label: 'Создать ресурс',
-                    onClick: () => {
-                        void router.navigate({
-                            to: '/resources/create',
-                        });
-                    },
+    const primaryActions = useMemo(
+        () => [
+            {
+                label: 'Создать ресурс',
+                onClick: () => {
+                    void router.navigate({
+                        to: '/resources/create',
+                    });
                 },
-            ]}
-        >
+            },
+        ],
+        [router],
+    );
+
+    return (
+        <Page title="Ресурсы" primaryActions={primaryActions}>
             <DataLoader
                 status={resourcesQuery.status}
                 error={resourcesQuery.error}
@@ -191,13 +188,10 @@ function RouteComponent() {
                 ) : (
                     <Fragment>
                         <Flex direction="column" gap={2}>
-                            <DelayedTextInput
-                                onUpdate={setSearch}
-                                value={search}
-                                placeholder="Фильтр по URL или названию"
-                                style={{ width: '300px' }}
+                            <Filters
+                                search={search}
+                                onSearchChange={setSearch}
                             />
-
                             <ResourcesTable
                                 data={filteredData}
                                 columns={columns}
@@ -205,7 +199,6 @@ function RouteComponent() {
                                 onRowClick={onRowClick}
                             />
                         </Flex>
-
                         <DeleteDialog
                             open={Boolean(deleteResource)}
                             onClose={() => setDeleteResource(null)}
@@ -217,7 +210,7 @@ function RouteComponent() {
                                 toaster.add({
                                     name: 'resource-deleted',
                                     title: 'Ресурс удален',
-                                    content: deleteResource?.id,
+                                    content: `Ресурс с ID ${deleteResource?.id} был успешно удален`,
                                     theme: 'success',
                                 });
 

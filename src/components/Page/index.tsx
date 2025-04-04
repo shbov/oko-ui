@@ -41,7 +41,8 @@ export const Page = ({
                 actions.setSecondaryActions([]);
             };
         }
-    }, [actions, primaryActions, secondaryActions]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [primaryActions, secondaryActions]);
 
     return (
         <div className={b()}>

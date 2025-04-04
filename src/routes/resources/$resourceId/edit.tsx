@@ -35,7 +35,7 @@ export const Edit = () => {
                     toaster.add({
                         name: 'resource-edited',
                         title: 'Ресурс изменен',
-                        content: r.resource?.id,
+                        content: `Ресурс с ID ${r.resource?.id} был успешно изменен`,
                         theme: 'success',
                     });
 

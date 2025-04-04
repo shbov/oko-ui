@@ -22,6 +22,7 @@ import {
     useRouter,
 } from '@tanstack/react-router';
 
+import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { UILink } from '~/components/UILink';
 import { getResource, listEventsSource } from '~/data-sources';
@@ -79,7 +80,7 @@ function RouteComponent() {
         return [
             {
                 name: 'ID',
-                value: resource?.resource?.id,
+                value: <Id id={resource?.resource?.id ?? ''} />,
                 copyText: resource?.resource?.id,
             },
             {
@@ -138,52 +139,62 @@ function RouteComponent() {
         ];
     }, [resource]);
 
+    const primaryActions = useMemo(
+        () => [
+            {
+                label: 'Редактировать',
+                icon: Pencil,
+                onClick: () => {
+                    void router.navigate({
+                        to: '/resources/$resourceId/edit',
+                        params: { resourceId },
+                    });
+                },
+            },
+        ],
+        [router, resourceId],
+    );
+
+    const secondaryActions = useMemo(
+        () => [
+            {
+                label: 'События',
+                onClick: () => {
+                    void router.navigate({
+                        to: '/resources/$resourceId/events',
+                        params: { resourceId },
+                    });
+                },
+            },
+            {
+                label: 'Снапшоты',
+                onClick: () => {
+                    void router.navigate({
+                        to: '/resources/$resourceId/snapshots',
+                        params: { resourceId },
+                    });
+                },
+            },
+            {
+                label: 'Удалить',
+                theme: 'danger' as const,
+                icon: TrashBin,
+                onClick: () => {
+                    if (resource?.resource) {
+                        setDeleteResource(resource.resource);
+                    }
+                },
+            },
+        ],
+        [router, resourceId, resource?.resource, setDeleteResource],
+    );
+
     return (
         <Page
             title={resource?.resource?.name ?? ''}
             isLoading={resourceQuery.isLoading}
-            primaryActions={[
-                {
-                    label: 'Редактировать',
-                    icon: Pencil,
-                    onClick: () => {
-                        void router.navigate({
-                            to: '/resources/$resourceId/edit',
-                            params: { resourceId },
-                        });
-                    },
-                },
-            ]}
-            secondaryActions={[
-                {
-                    label: 'События',
-                    onClick: () => {
-                        void router.navigate({
-                            to: '/resources/$resourceId/events',
-                            params: { resourceId },
-                        });
-                    },
-                },
-                {
-                    label: 'Снапшоты',
-                    onClick: () => {
-                        void router.navigate({
-                            to: '/resources/$resourceId/snapshots',
-                            params: { resourceId },
-                        });
-                    },
-                },
-                {
-                    label: 'Удалить',
-                    theme: 'danger',
-                    icon: TrashBin,
-                    onClick: () => {
-                        if (resource?.resource) {
-                            setDeleteResource(resource.resource);
-                        }
-                    },
-                },
-            ]}
+            primaryActions={primaryActions}
+            secondaryActions={secondaryActions}
         >
             <DataLoader
                 error={resourceQuery.error}
@@ -204,7 +215,7 @@ function RouteComponent() {
                     </DefinitionList>
                 </div>
 
-                <Text variant="subheader-2">Все события</Text>
+                <Text variant="subheader-2">Последние события</Text>
                 <DataLoader
                     error={eventsQuery.error}
                     status={eventsQuery.status}
@@ -238,7 +249,7 @@ function RouteComponent() {
                     toaster.add({
                         name: 'resource-deleted',
                         title: 'Ресурс удален',
-                        content: deleteResource?.id,
+                        content: `Ресурс с ID ${deleteResource?.id} был успешно удален`,
                         theme: 'success',
                     });
 
