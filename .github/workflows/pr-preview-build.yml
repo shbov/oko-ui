@@ -51,6 +51,4 @@ jobs:
             - name: Create Comment
               uses: marocchino/sticky-pull-request-comment@v2
               with:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  number: ${{ github.event.pull_request.number }}
-                  message: '[Preview](https://preview.shbov.ru/${{ github.event.pull_request.number }}/) is ready.'
+                  message: '[Preview](https://storage.yandexcloud.net/storybook-oko-ui/pulls/${{ github.event.pull_request.number }}/index.html) is ready.'
