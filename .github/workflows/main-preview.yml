@@ -46,5 +46,5 @@ jobs:
                   AWS_EC2_METADATA_DISABLED: true
                   AWS_REQUEST_CHECKSUM_CALCULATION: when_required
                   AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
-              run: aws s3 cp static s3://storybook-oko-ui/main/ --endpoint-url=https://storage.yandexcloud.net --recursive
+              run: aws s3 cp storybook-static s3://storybook-oko-ui/main/ --endpoint-url=https://storage.yandexcloud.net --recursive
               shell: bash

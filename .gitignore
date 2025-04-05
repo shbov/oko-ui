@@ -40,3 +40,4 @@ tsconfig.tsbuildinfo
 coverage/*
 
 *storybook.log
+storybook-static/
