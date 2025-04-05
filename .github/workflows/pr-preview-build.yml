@@ -39,10 +39,7 @@ jobs:
 
             - name: Save PR ID
               run: |
-                  pr="${{ inputs.pr }}"
-                  if [[ -z "$pr" ]]; then
-                      pr="${{ github.event.pull_request.number }}"
-                  fi
+                  pr="${{ github.event.pull_request.number }}"
                   echo $pr > ./pr-id.txt
               shell: bash
 
