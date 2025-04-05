@@ -31,3 +31,20 @@ jobs:
 
             - name: Build Storybook
               run: pnpm run build-storybook
+
+            - name: Install AWS CLI
+              uses: unfor19/install-aws-cli-action@v1
+              with:
+                  version: 2.22.35
+                  arch: amd64
+
+            - name: Upload to S3
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.STORYBOOK_S3_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.STORYBOOK_S3_SECRET_KEY }}
+                  AWS_DEFAULT_REGION: ru-central1
+                  AWS_EC2_METADATA_DISABLED: true
+                  AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+                  AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+              run: aws s3 cp static s3://storybook-oko-ui/main/ --endpoint-url=https://storage.yandexcloud.net --recursive
+              shell: bash
