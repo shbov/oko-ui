@@ -2,7 +2,7 @@ name: PR Preview Deploy
 
 on:
     workflow_run:
-        workflows: ['PR Preview Build']
+        workflows: ['pr-preview-build']
         types:
             - completed
 
