@@ -38,3 +38,5 @@ tsconfig.tsbuildinfo
 /blob-report/
 /playwright/.cache/
 coverage/*
+
+*storybook.log
