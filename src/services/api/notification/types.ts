@@ -24,3 +24,23 @@ export interface GetChannelResponse {
 export interface DeleteChannelRequest {
     id: string;
 }
+
+export interface CreateChannelRequest {
+    name: string;
+    type: ChannelType;
+    params?: string;
+}
+
+export interface CreateChannelResponse {
+    channel: Channel;
+}
+
+export interface EditChannelRequest {
+    id: string;
+    name: string;
+    type: ChannelType;
+}
+
+export interface EditChannelResponse {
+    channel: Channel;
+}

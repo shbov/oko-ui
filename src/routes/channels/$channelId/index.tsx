@@ -5,6 +5,7 @@ import { Pencil, TrashBin } from '@gravity-ui/icons';
 import { DefinitionList } from '@gravity-ui/uikit';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
+import { ChannelTemplate } from '~/components/ChannelTemplate';
 import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { getChannelSource } from '~/data-sources';
@@ -92,16 +93,19 @@ function RouteComponent() {
             >
                 <DefinitionList>
                     <DefinitionList.Item
+                        name="ID"
+                        copyText={channelQuery.data?.id}
+                    >
+                        <Id id={channelQuery.data?.id ?? ''} />
+                    </DefinitionList.Item>
+                    <DefinitionList.Item
                         name="Название"
                         copyText={channelQuery.data?.name}
                     >
                         {channelQuery.data?.name}
                     </DefinitionList.Item>
-                    <DefinitionList.Item name="ID">
-                        <Id id={channelQuery.data?.id ?? ''} />
-                    </DefinitionList.Item>
                     <DefinitionList.Item name="Тип">
-                        {channelQuery.data?.type}
+                        <ChannelTemplate channel={channelQuery.data} />
                     </DefinitionList.Item>
                 </DefinitionList>
 

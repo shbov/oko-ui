@@ -1,5 +1,3 @@
-import type { Channel } from '../notification';
-
 export enum ZoneType {
     fullPage = 'fullPage',
     zone = 'zone',
@@ -36,7 +34,7 @@ export interface Resource {
     enabled: boolean;
     description: string | undefined;
     url: string;
-    channels: Channel[];
+    channels: string[];
     keywords: string[];
     interval: string;
     make_screenshot: boolean;

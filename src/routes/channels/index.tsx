@@ -14,6 +14,7 @@ import {
 } from '@gravity-ui/uikit';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
+import { ChannelTemplate } from '~/components/ChannelTemplate';
 import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { TABLE_ACTION_SIZE } from '~/constants/common';
@@ -59,7 +60,7 @@ const columns: TableColumnConfig<Channel>[] = [
     {
         id: 'type',
         name: 'Тип',
-        template: ({ type }: Channel) => type,
+        template: (channel: Channel) => <ChannelTemplate channel={channel} />,
         meta: {
             copy: ({ type }: Channel) => type,
         },

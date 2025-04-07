@@ -25,7 +25,11 @@ import {
 import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { UILink } from '~/components/UILink';
-import { getResource, listEventsSource } from '~/data-sources';
+import {
+    getResource,
+    listChannelsSource,
+    listEventsSource,
+} from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { Event } from '~/services/api/event';
 import type { Resource } from '~/services/api/resource';
@@ -51,6 +55,10 @@ function RouteComponent() {
     });
 
     const { data: events, ...eventsQuery } = useQueryData(listEventsSource, {
+        resourceId,
+    });
+
+    const { data: allChannels } = useQueryData(listChannelsSource, {
         resourceId,
     });
 
@@ -107,12 +115,16 @@ function RouteComponent() {
                         <Flex gap={2}>
                             {channels?.map((channel) => (
                                 <UILink
-                                    key={channel.id}
+                                    key={channel}
                                     to={`/channels/$channelId`}
-                                    params={{ channelId: channel.id }}
+                                    params={{ channelId: channel }}
                                     target="_blank"
                                 >
-                                    {channel.name}
+                                    {
+                                        allChannels?.find(
+                                            (c) => c.id === channel,
+                                        )?.name
+                                    }
                                 </UILink>
                             ))}
                         </Flex>
@@ -137,7 +149,7 @@ function RouteComponent() {
             },
             { name: 'Интервал', value: interval },
         ];
-    }, [resource]);
+    }, [resource, allChannels]);
 
     const primaryActions = useMemo(
         () => [

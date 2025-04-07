@@ -56,7 +56,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             isScreenshot: resource.make_screenshot,
             zoneType: zoneType,
             areas: resource.areas,
-            channels: resource.channels?.map((channel) => channel.id) ?? [],
+            channels: resource.channels ?? [],
             startDate: dateTimeParse(resource.start_date)?.toDate(),
             interval,
         } as EditFormValues,

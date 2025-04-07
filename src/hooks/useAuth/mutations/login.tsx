@@ -6,6 +6,7 @@ import { api } from '~/services/api';
 import type { LoginRequest } from '~/services/api/user';
 import { dataManager } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
+import { setCookie } from '~/utils/cookies';
 
 export function useLoginMutation() {
     const handleError = useApiError();
@@ -23,11 +24,11 @@ export function useLoginMutation() {
             });
 
             dataManager.queryClient.setQueryData(['auth'], { user: data.user });
-            sessionStorage.setItem(ACCESS_TOKEN, data.accessToken);
+            setCookie(ACCESS_TOKEN, data.accessToken);
         },
         onError: (err) => {
             void handleError(err);
-            sessionStorage.removeItem(ACCESS_TOKEN);
+            setCookie(ACCESS_TOKEN, '', 0);
         },
     });
 }

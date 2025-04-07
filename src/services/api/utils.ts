@@ -1,6 +1,7 @@
 import ky, { HTTPError } from 'ky';
 
 import { ACCESS_TOKEN } from '~/constants/auth';
+import { getCookie, setCookie } from '~/utils/cookies';
 
 import type { RefreshTokenResponse } from './user';
 
@@ -19,7 +20,7 @@ export const getProtectedKyInstance = () =>
         hooks: {
             beforeRequest: [
                 (request) => {
-                    const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
+                    const accessToken = getCookie(ACCESS_TOKEN);
                     if (!accessToken) return;
 
                     request.headers.set(
@@ -40,7 +41,7 @@ export const getProtectedKyInstance = () =>
 
                         const newAccessToken = data.accessToken;
 
-                        sessionStorage.setItem(ACCESS_TOKEN, newAccessToken);
+                        setCookie(ACCESS_TOKEN, newAccessToken);
 
                         request.headers.set(
                             'Authorization',

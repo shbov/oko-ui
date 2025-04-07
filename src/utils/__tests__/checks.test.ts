@@ -1,4 +1,4 @@
-import { isStringNumber } from './checks';
+import { isStringNumber } from '../checks';
 
 describe('isStringNumber', () => {
     test('returns true for numeric strings', () => {

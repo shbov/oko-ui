@@ -1,4 +1,4 @@
-import { getErrorMessage } from './index';
+import { getErrorMessage } from '../index';
 
 import type { ValidationError } from '@tanstack/react-form';
 
