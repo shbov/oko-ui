@@ -61,9 +61,6 @@ const columns: TableColumnConfig<Channel>[] = [
         id: 'type',
         name: 'Тип',
         template: (channel: Channel) => <ChannelTemplate channel={channel} />,
-        meta: {
-            copy: ({ type }: Channel) => type,
-        },
     },
 ];
 

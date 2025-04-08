@@ -3,11 +3,13 @@ export enum ChannelType {
     Email = 'email',
 }
 
-export interface Channel {
+export type Channel = {
     id: string;
     name: string;
-    type: ChannelType;
-}
+} & (
+    | { type: ChannelType.Telegram; chatId: string }
+    | { type: ChannelType.Email; email: string }
+);
 
 export interface listChannelsResponse {
     channels: Channel[];
@@ -25,21 +27,24 @@ export interface DeleteChannelRequest {
     id: string;
 }
 
-export interface CreateChannelRequest {
+export type CreateChannelRequest = {
     name: string;
-    type: ChannelType;
-    params?: string;
-}
+} & (
+    | { type: ChannelType.Telegram; chatId: string }
+    | { type: ChannelType.Email; email: string }
+);
 
 export interface CreateChannelResponse {
     channel: Channel;
 }
 
-export interface EditChannelRequest {
+export type EditChannelRequest = {
     id: string;
     name: string;
-    type: ChannelType;
-}
+} & (
+    | { type: ChannelType.Telegram; chatId: string }
+    | { type: ChannelType.Email; email: string }
+);
 
 export interface EditChannelResponse {
     channel: Channel;

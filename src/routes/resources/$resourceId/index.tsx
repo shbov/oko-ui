@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
-import { Pencil, TrashBin } from '@gravity-ui/icons';
+import { Pause, Pencil, Play, TrashBin } from '@gravity-ui/icons';
 import { NotFound } from '@gravity-ui/illustrations';
 import {
     Text,
@@ -98,6 +98,10 @@ function RouteComponent() {
                         ? 'Да'
                         : 'Нет', // TODO: validate here.
             },
+            {
+                name: 'Дата начала мониторинга',
+                value: start_date?.toLocaleDateString('ru-RU') ?? null,
+            },
             { name: 'Описание', value: description || null },
             {
                 name: 'URL',
@@ -112,7 +116,7 @@ function RouteComponent() {
                 name: 'Каналы',
                 value:
                     channels?.length > 0 ? (
-                        <Flex gap={2}>
+                        <Flex gap={2} wrap="wrap">
                             {channels?.map((channel) => (
                                 <UILink
                                     key={channel}
@@ -133,7 +137,7 @@ function RouteComponent() {
             {
                 name: 'Ключевые слова',
                 value: (
-                    <Flex gap={2}>
+                    <Flex gap={2} wrap="wrap">
                         {keywords.map((word) => (
                             <Label
                                 key={word}
@@ -170,22 +174,12 @@ function RouteComponent() {
     const secondaryActions = useMemo(
         () => [
             {
-                text: 'События',
-                onClick: () => {
-                    void router.navigate({
-                        to: '/resources/$resourceId/events',
-                        params: { resourceId },
-                    });
-                },
-            },
-            {
-                text: 'Снапшоты',
-                onClick: () => {
-                    void router.navigate({
-                        to: '/resources/$resourceId/snapshots',
-                        params: { resourceId },
-                    });
-                },
+                text:
+                    resource?.resource.status === 'active'
+                        ? 'Приостановить'
+                        : 'Возобновить',
+                icon: resource?.resource.status === 'active' ? Pause : Play,
+                onClick: () => {},
             },
             {
                 text: 'Удалить',
@@ -198,7 +192,7 @@ function RouteComponent() {
                 },
             },
         ],
-        [router, resourceId, resource?.resource, setDeleteResource],
+        [resource?.resource, setDeleteResource],
     );
 
     return (

@@ -20,6 +20,7 @@ export const SelectField = <
     TData extends DeepValue<TParentData, TName> = DeepValue<TParentData, TName>,
 >({
     field,
+    isSingle = false,
     ...restProps
 }: SelectFieldProps<
     TParentData,
@@ -30,9 +31,13 @@ export const SelectField = <
 >) => {
     const onChange = useCallback(
         (e: string[]) => {
-            field.setValue(e as TData);
+            if (isSingle) {
+                field.setValue(e[0] as TData);
+            } else {
+                field.setValue(e as TData);
+            }
         },
-        [field],
+        [field, isSingle],
     );
 
     const errorMessage = useMemo(
@@ -42,25 +47,33 @@ export const SelectField = <
         [field.state.meta.errors, field.state.meta.isTouched],
     );
 
-    const props = useMemo(
-        () =>
-            ({
-                ...restProps,
+    const props = useMemo(() => {
+        let value;
+        if (isSingle) {
+            value = [field.state.value as string];
+        } else {
+            value = field.state.value as string[];
+        }
 
-                value: field.state.value as string[],
-                onBlur: field.handleBlur,
-                onUpdate: onChange,
-                errorMessage: errorMessage || undefined,
-                validationState: errorMessage ? 'invalid' : undefined,
-            }) satisfies SelectProps,
-        [
-            errorMessage,
-            field.handleBlur,
-            field.state.value,
-            onChange,
-            restProps,
-        ],
-    );
+        const result = {
+            ...restProps,
+
+            value,
+            onBlur: field.handleBlur,
+            onUpdate: onChange,
+            errorMessage: errorMessage || undefined,
+            validationState: errorMessage ? 'invalid' : undefined,
+        } satisfies SelectProps;
+
+        return result;
+    }, [
+        errorMessage,
+        field.handleBlur,
+        field.state.value,
+        isSingle,
+        onChange,
+        restProps,
+    ]);
 
     return <Select {...props} />;
 };

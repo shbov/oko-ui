@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useDataManager, useQueryData } from '@gravity-ui/data-source';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
@@ -9,6 +9,7 @@ import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { EditFormValues } from '~/routes/channels/-components/constants';
 import { api } from '~/services/api';
+import { ChannelType } from '~/services/api/notification';
 import { DataLoader } from '~/services/data-source/components/DataLoader';
 import { toaster } from '~/services/toaster';
 
@@ -47,6 +48,27 @@ export const Edit = () => {
         [dataManager, handleError, params.channelId, router],
     );
 
+    const [initialValues, setInitialValues] = useState<EditFormValues | null>(
+        null,
+    );
+
+    useEffect(() => {
+        if (!initialValues && channel) {
+            setInitialValues({
+                name: channel.name,
+                ...(channel.type === ChannelType.Telegram
+                    ? {
+                          chatId: channel.chatId ?? '',
+                          type: ChannelType.Telegram,
+                      }
+                    : {
+                          email: channel.email ?? '',
+                          type: ChannelType.Email,
+                      }),
+            });
+        }
+    }, [initialValues, channel]);
+
     return (
         <Page title="Редактировать канал">
             <DataLoader
@@ -54,13 +76,9 @@ export const Edit = () => {
                 status={channelQuery.status}
                 errorAction={channelQuery.refetch}
             >
-                {channel && (
+                {initialValues && (
                     <EditForm
-                        initialValues={{
-                            name: channel.name,
-                            type: [channel.type],
-                            params: '{}',
-                        }}
+                        initialValues={initialValues}
                         onSubmit={handleSubmit}
                     />
                 )}

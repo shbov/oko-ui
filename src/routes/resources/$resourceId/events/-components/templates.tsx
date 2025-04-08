@@ -38,9 +38,14 @@ export const eventColumns: TableColumnConfig<Event>[] = [
                     resourceId: resource_id,
                 }}
             >
-                {snapshot_id}
+                Перейти
             </UILink>
         ),
+    },
+    {
+        id: 'type',
+        name: 'Тип',
+        template: ({ type }) => <Text>{type}</Text>,
     },
     {
         id: 'date',

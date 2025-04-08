@@ -47,7 +47,7 @@ export const Page = ({
     return (
         <div className={b()}>
             <div className={spacing({ mb: 4 })}>
-                {!isLoading && <Text variant="subheader-3">{title}</Text>}
+                {!isLoading && <Text variant="header-1">{title}</Text>}
             </div>
 
             <div className={className}>{children}</div>

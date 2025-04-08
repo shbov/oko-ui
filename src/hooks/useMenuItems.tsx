@@ -5,7 +5,6 @@ import {
     Database,
     House,
     Megaphone,
-    Person,
     Persons,
     PersonXmark,
 } from '@gravity-ui/icons';
@@ -93,15 +92,7 @@ export const useMenuItems = () => {
                           },
                       },
                   ]
-                : [
-                      {
-                          title: 'Войти в аккаунт',
-                          icon: Person,
-                          onClick: () => {
-                              auth.login();
-                          },
-                      },
-                  ]),
+                : []),
         ];
 
         return items;

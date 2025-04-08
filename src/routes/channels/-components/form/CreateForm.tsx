@@ -16,8 +16,9 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
     const form = useForm<CreateFormValues>({
         defaultValues: {
             name: '',
-            type: [ChannelType.Telegram],
-            params: '{}',
+            type: ChannelType.Telegram,
+            chatId: '',
+            email: '',
         },
         onSubmit,
         validators: {
@@ -27,7 +28,7 @@ export const CreateForm = ({ onSubmit }: CreateFormProps) => {
 
     return (
         <Form submitText="Создать" formApi={form} size="m" withCancelButton>
-            <BaseFormContent form={form} />
+            <BaseFormContent form={form} mode="create" />
         </Form>
     );
 };

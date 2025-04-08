@@ -19,7 +19,7 @@ importers:
         version: 4.1.1(@gravity-ui/uikit@7.9.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@gravity-ui/data-source':
         specifier: ^0.4.0
-        version: 0.4.0(@tanstack/react-query@5.72.0(react@18.3.1))(react@18.3.1)
+        version: 0.4.0(@tanstack/react-query@5.72.1(react@18.3.1))(react@18.3.1)
       '@gravity-ui/icons':
         specifier: ^2.13.0
         version: 2.13.0(react@18.3.1)
@@ -33,11 +33,11 @@ importers:
         specifier: ^0.41.4
         version: 0.41.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
       '@tanstack/react-query':
-        specifier: ^5.72.0
-        version: 5.72.0(react@18.3.1)
+        specifier: ^5.72.1
+        version: 5.72.1(react@18.3.1)
       '@tanstack/react-query-devtools':
-        specifier: ^5.72.0
-        version: 5.72.0(@tanstack/react-query@5.72.0(react@18.3.1))(react@18.3.1)
+        specifier: ^5.72.1
+        version: 5.72.1(@tanstack/react-query@5.72.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-router':
         specifier: ^1.115.2
         version: 1.115.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -786,8 +786,8 @@ packages:
   '@gravity-ui/date-utils@2.5.6':
     resolution: {integrity: sha512-EjaN5b8jvnBlfU/db5QUHj6ooPz/uSRqvFYiPH/ydkCTnhusZhUpTk+xn8hnA7PPLbj3hMnJReF9fWxsfM6Y5w==}
 
-  '@gravity-ui/i18n@1.7.0':
-    resolution: {integrity: sha512-jZotOX73lMVARsNZ5L8rquDhyCIcHnX7GwT32m6vrnqy6iKBfBdOuAnAalUbnoVJoasfvYiSyX3kwusetyZgfQ==}
+  '@gravity-ui/i18n@1.8.0':
+    resolution: {integrity: sha512-bVt/UGjL96Naw0h03QW+3z2tf6t4zvLh1j+eFzpdLlAIMeNu0dRjxn4X6EGtwhwKrfMyIfrlOqmLSroXtCNQAw==}
 
   '@gravity-ui/icons@2.13.0':
     resolution: {integrity: sha512-oHWJTb8rTuZo1czZRBSggEWMmthiXeM5LBpB0GzyS1tCkNE1A7DpEvvrKUwHYVHTxpw/xWIqQCxNj7LIo2R3NQ==}
@@ -1531,11 +1531,11 @@ packages:
     resolution: {integrity: sha512-K7JJNrRVvyjAVnbXOH2XLRhFXDkeP54Kt2P4FR1Kl2KDGlIbkua5VqZQD2rot3qaDrpufyUa63nuLai1kOLTsQ==}
     engines: {node: '>=12'}
 
-  '@tanstack/query-core@5.72.0':
-    resolution: {integrity: sha512-aa3p6Mou++JLLxxxVX9AB9uGeRIGc0JWkw96GASXuMG8K3D+JpYbSFcqXbkGFJ1eX2jKHPurmCBoO43RjjXJCA==}
+  '@tanstack/query-core@5.72.1':
+    resolution: {integrity: sha512-nOu0EEkZuJ0BZnYgeaEfo44+psq1jBO7/zp3KudixD4dvgOVerrhAhDEKsWx2N7MxB59mjO4r0ddP/VqWGPK+Q==}
 
-  '@tanstack/query-devtools@5.72.0':
-    resolution: {integrity: sha512-/SJr77+epgxmwMB5Wjlg1TiN6bJObAJKi/mIHWQcon0VJxH3NNOtGCpQRbWih8xOq9oQ5kuIYLftYfD0j2ujew==}
+  '@tanstack/query-devtools@5.72.1':
+    resolution: {integrity: sha512-D0vEoQaiVq9ayCqvvxA9XkDq7TIesyPpvgP69arRtt5FQF6n/Hrta4SlkfXC4m9BCvFLlhLDcKGYa2eMQ4ZIIA==}
 
   '@tanstack/react-form@0.41.4':
     resolution: {integrity: sha512-uIfIDZJNqR1dLW03TNByK/woyKd2jfXIrEBq6DPJbqupqyfYXTDo5TMd/7koTYLO4dgTM5wd+2v3uBX3M2bRaA==}
@@ -1546,14 +1546,14 @@ packages:
       '@tanstack/start':
         optional: true
 
-  '@tanstack/react-query-devtools@5.72.0':
-    resolution: {integrity: sha512-xhZbLnZLZvHw+c+R6jWWrr14IO9jjrDKkpIJVD/Tk3KOzQK+Olk0UiWbrZTuHKvDqFMICNBp94SbRyuR0H2kUQ==}
+  '@tanstack/react-query-devtools@5.72.1':
+    resolution: {integrity: sha512-ckNRgABst3MLjpM2nD/CzQToCiaT3jb3Xhtf+GP/0/9ij9SPT/SC+lc3wUDSkT0OupnHobBBF5E1/Xp6B+XZLg==}
     peerDependencies:
-      '@tanstack/react-query': ^5.72.0
+      '@tanstack/react-query': ^5.72.1
       react: ^18 || ^19
 
-  '@tanstack/react-query@5.72.0':
-    resolution: {integrity: sha512-4Dejq/IiXrPlr/0xxj4H2GbC6KckwfTCoHWbd02+UoIV0laC9yke0d0KegmFdXJA712I6UCuy8WpPM76uuPJ+w==}
+  '@tanstack/react-query@5.72.1':
+    resolution: {integrity: sha512-4UEMyRx54xj144D2nDvDIMiXSG5BrqyCJrmyNoGbymNS+VWODcBDFrmRk9p2fe12UGZ4JtKPTNuW2Jg0aisUgQ==}
     peerDependencies:
       react: ^18 || ^19
 
@@ -2854,8 +2854,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.133:
-    resolution: {integrity: sha512-mrR+g6Y1at0GKDlPlMMwLAkI6c47q3d7U/vKS3rGTa3V4xStu18oT4UCPg5ErcAhUqk7swSjXSPUGstOYd2qBw==}
+  electron-to-chromium@1.5.134:
+    resolution: {integrity: sha512-zSwzrLg3jNP3bwsLqWHmS5z2nIOQ5ngMnfMZOWWtXnqqQkPVyOipxK98w+1beLw1TB+EImPNcG8wVP/cLVs2Og==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -6302,7 +6302,7 @@ snapshots:
     dependencies:
       '@bem-react/classname': 1.6.0
       '@gravity-ui/date-utils': 2.5.6
-      '@gravity-ui/i18n': 1.7.0
+      '@gravity-ui/i18n': 1.8.0
       '@gravity-ui/icons': 2.13.0(react@18.3.1)
       '@gravity-ui/uikit': 7.9.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       lodash: 4.17.21
@@ -6310,9 +6310,9 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
       universal-cookie: 7.2.2
 
-  '@gravity-ui/data-source@0.4.0(@tanstack/react-query@5.72.0(react@18.3.1))(react@18.3.1)':
+  '@gravity-ui/data-source@0.4.0(@tanstack/react-query@5.72.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/react-query': 5.72.0(react@18.3.1)
+      '@tanstack/react-query': 5.72.1(react@18.3.1)
       react: 18.3.1
       utility-types: 3.11.0
 
@@ -6331,7 +6331,7 @@ snapshots:
       dayjs: 1.11.10
       lodash: 4.17.21
 
-  '@gravity-ui/i18n@1.7.0': {}
+  '@gravity-ui/i18n@1.8.0': {}
 
   '@gravity-ui/icons@2.13.0(react@18.3.1)':
     optionalDependencies:
@@ -6358,7 +6358,7 @@ snapshots:
     dependencies:
       '@bem-react/classname': 1.6.0
       '@floating-ui/react': 0.27.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@gravity-ui/i18n': 1.7.0
+      '@gravity-ui/i18n': 1.8.0
       '@gravity-ui/icons': 2.13.0(react@18.3.1)
       '@tanstack/react-virtual': 3.13.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       blueimp-md5: 2.19.0
@@ -7188,9 +7188,9 @@ snapshots:
 
   '@tanstack/history@1.115.0': {}
 
-  '@tanstack/query-core@5.72.0': {}
+  '@tanstack/query-core@5.72.1': {}
 
-  '@tanstack/query-devtools@5.72.0': {}
+  '@tanstack/query-devtools@5.72.1': {}
 
   '@tanstack/react-form@0.41.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)':
     dependencies:
@@ -7203,15 +7203,15 @@ snapshots:
       - react-dom
       - typescript
 
-  '@tanstack/react-query-devtools@5.72.0(@tanstack/react-query@5.72.0(react@18.3.1))(react@18.3.1)':
+  '@tanstack/react-query-devtools@5.72.1(@tanstack/react-query@5.72.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@tanstack/query-devtools': 5.72.0
-      '@tanstack/react-query': 5.72.0(react@18.3.1)
+      '@tanstack/query-devtools': 5.72.1
+      '@tanstack/react-query': 5.72.1(react@18.3.1)
       react: 18.3.1
 
-  '@tanstack/react-query@5.72.0(react@18.3.1)':
+  '@tanstack/react-query@5.72.1(react@18.3.1)':
     dependencies:
-      '@tanstack/query-core': 5.72.0
+      '@tanstack/query-core': 5.72.1
       react: 18.3.1
 
   '@tanstack/react-router-devtools@1.115.2(@tanstack/react-router@1.115.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/router-core@1.115.0)(csstype@3.1.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tiny-invariant@1.3.3)':
@@ -8143,7 +8143,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001712
-      electron-to-chromium: 1.5.133
+      electron-to-chromium: 1.5.134
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -8655,7 +8655,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.133: {}
+  electron-to-chromium@1.5.134: {}
 
   emittery@0.13.1: {}
 

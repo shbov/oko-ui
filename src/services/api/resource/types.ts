@@ -41,6 +41,8 @@ export interface Resource {
     polygon: unknown;
     areas?: Area[] | undefined;
     start_date: Date | undefined;
+    last_update: Date | undefined; // TODO: validate here.
+    status: 'active' | 'paused';
 }
 
 export interface CreateResourceResponse {

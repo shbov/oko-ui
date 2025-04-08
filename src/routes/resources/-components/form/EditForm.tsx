@@ -78,6 +78,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
                     form={form}
                     channels={channelsQuery.data ?? []}
                     mode="edit"
+                    channelsIds={resource.channels ?? []}
                 />
             </Form>
         </DataLoader>

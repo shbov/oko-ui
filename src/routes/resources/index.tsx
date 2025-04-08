@@ -25,6 +25,7 @@ import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from './-components/DeleteDialog';
 import { Filters } from './-components/Filters';
+import { ResourceStatus } from './-components/ResourceStatus';
 
 import type {
     PlaceholderContainerActionProps,
@@ -69,16 +70,26 @@ const columns: TableColumnConfig<Resource>[] = [
         },
     },
     {
-        id: 'keywords',
-        name: 'Ключевые слова',
-        template: ({ keywords }: Resource) =>
-            keywords.length > 0 ? keywords.join(', ') : EMPTY_DASH,
-    },
-
-    {
         id: 'interval',
         name: 'Интервал',
         template: ({ interval }: Resource) => interval,
+    },
+    {
+        id: 'startDate',
+        name: 'Дата начала мониторинга',
+        template: ({ start_date }: Resource) =>
+            start_date?.toLocaleDateString('ru-RU') ?? EMPTY_DASH,
+    },
+    {
+        id: 'lastUpdate',
+        name: 'Последнее обновление',
+        template: ({ last_update }: Resource) =>
+            last_update?.toLocaleDateString('ru-RU') ?? EMPTY_DASH,
+    },
+    {
+        id: 'status',
+        name: 'Статус',
+        template: ({ status }: Resource) => <ResourceStatus status={status} />,
     },
 ];
 
@@ -137,9 +148,13 @@ function RouteComponent() {
     const filteredData = useMemo(() => {
         return (
             resourcesQuery.data?.resources.filter((resource) => {
+                const searchLower = search?.toLowerCase().trim();
+                const nameLower = resource.name?.toLowerCase().trim();
+                const urlLower = resource.url?.toLowerCase().trim();
+
                 return (
-                    resource.name.includes(search) ||
-                    resource.url.includes(search)
+                    nameLower?.includes(searchLower) ||
+                    urlLower?.includes(searchLower)
                 );
             }) ?? []
         );

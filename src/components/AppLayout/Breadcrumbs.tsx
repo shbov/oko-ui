@@ -79,6 +79,12 @@ export const Breadcrumbs = () => {
                                     loading={action.loading}
                                     view="flat"
                                 >
+                                    {action.icon && (
+                                        <Icon
+                                            data={action.icon}
+                                            size={TABLE_ACTION_SIZE + 2}
+                                        />
+                                    )}
                                     {action.text}
                                 </Button>
                             </ActionBar.Item>

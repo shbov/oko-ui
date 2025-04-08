@@ -7,11 +7,13 @@ import { Flex, Icon, List } from '@gravity-ui/uikit';
 import {
     createRootRouteWithContext,
     useNavigate,
+    useRouter,
 } from '@tanstack/react-router';
 import block from 'bem-cn-lite';
 
 import { AppLayout } from '~/components/AppLayout';
 import { NotFound } from '~/components/NotFound';
+import { useAuth } from '~/hooks/useAuth';
 import { useMenuItems } from '~/hooks/useMenuItems';
 import type { RouterContext } from '~/services/router/types';
 
@@ -20,6 +22,9 @@ import './root.scss';
 const b = block('navigation');
 
 const App = () => {
+    const router = useRouter();
+    const auth = useAuth(router);
+
     const navigate = useNavigate();
     const { menuItems, footerItems } = useMenuItems();
 
@@ -28,7 +33,7 @@ const App = () => {
 
     const renderFooter = useCallback(
         ({ asideRef }: { asideRef: RefObject<HTMLDivElement> }) => {
-            return (
+            const base = (
                 <FooterItem
                     item={{
                         id: 'user',
@@ -67,8 +72,25 @@ const App = () => {
                     compact={compact}
                 />
             );
+
+            const login = (
+                <FooterItem
+                    compact={compact}
+                    item={{
+                        id: 'login',
+                        icon: Person,
+                        title: 'Войти в аккаунт',
+                        tooltipText: 'Войти в аккаунт',
+                        onItemClick: () => {
+                            auth.login();
+                        },
+                    }}
+                />
+            );
+
+            return auth.user ? base : login;
         },
-        [compact, footerItems, popupVisible],
+        [auth, compact, footerItems, popupVisible],
     );
 
     return (

@@ -23,7 +23,7 @@ export const EditForm = ({ initialValues, onSubmit }: EditFormProps) => {
 
     return (
         <Form submitText="Сохранить" formApi={form} size="m" withCancelButton>
-            <BaseFormContent form={form} />
+            <BaseFormContent form={form} mode="edit" />
         </Form>
     );
 };

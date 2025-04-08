@@ -18,6 +18,7 @@ export interface Event {
     id: string;
     name: string;
     snapshot_id: string;
+    type: 'text' | 'image';
     resource_id: string;
     status: 'CREATED' | 'NOTIFIED' | 'WATCHED' | 'REACTED';
     created_at: string;
