@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This document provides step-by-step instructions for deploying the Oko UI application, a React-based web application built with Vite and TypeScript.
+This document provides step-by-step instructions for deploying the Oko UI application, a modern React-based web application built with Vite and TypeScript.
 
 ## Prerequisites
 
@@ -8,6 +8,8 @@ This document provides step-by-step instructions for deploying the Oko UI applic
 - Nginx
 - Domain name configured to point to your server
 - SSL certificates (can be obtained using Certbot)
+- Node.js 22
+- PNPM 10
 
 ## Server Setup
 
@@ -99,17 +101,45 @@ The `upgrade.sh` script will:
 
 ## Configuration Files
 
-### Nginx Configuration (`deploy/oko.shbov.ru.conf`)
+### Nginx Configuration
 
-- Handles SSL termination
-- Proxies requests to the Docker container
-- Configures caching for static assets
-- Redirects HTTP to HTTPS
+The project uses two Nginx configuration files:
+
+1. **Container Nginx Configuration** (`deploy/nginx-container.conf`):
+
+    - Serves the static files on port 3000
+    - Configures gzip compression
+    - Sets up security headers
+    - Configures logging
+    - Handles SPA routing with `try_files`
+
+2. **Host Nginx Configuration** (`deploy/oko.shbov.ru.conf`):
+    - Handles SSL termination
+    - Proxies requests to the Docker container
+    - Configures caching for static assets
+    - Redirects HTTP to HTTPS
 
 ### Docker Configuration
 
-- `Dockerfile`: Multi-stage build process for the Vite application
-- `docker-compose.yml`: Orchestrates the deployment with proper networking and environment setup
+1. **Dockerfile**:
+
+    - Multi-stage build process
+    - Stage 1: Build the Vite application
+        - Uses Node.js 22
+        - Installs PNPM
+        - Builds the application
+    - Stage 2: Serve with Nginx
+        - Uses latest Nginx
+        - Copies built files
+        - Configures custom Nginx settings
+        - Exposes port 3000
+
+2. **docker-compose.yml**:
+    - Defines the application service
+    - Sets up networking with `oko-network`
+    - Configures container restart policy
+    - Maps port 3000
+    - Sets production environment
 
 ### Environment Files
 
@@ -146,16 +176,11 @@ Simply run the upgrade script:
     sudo systemctl status nginx
     ```
 
-## Development Tools
+### Log Files
 
-The project uses several development tools that are configured in the repository:
-
-- ESLint for code linting
-- Prettier for code formatting
-- Stylelint for CSS/SCSS linting
-- Jest and Playwright for testing
-- Husky for git hooks
-- TypeScript for type checking
+- Nginx access logs: `/var/log/nginx/access.log`
+- Nginx error logs: `/var/log/nginx/error.log`
+- Docker container logs: `docker compose logs`
 
 ## Troubleshooting
 
@@ -165,36 +190,56 @@ The project uses several development tools that are configured in the repository
 
     - Check Docker logs: `docker compose logs`
     - Verify port availability: `netstat -tulpn | grep 3000`
+    - Check Node.js version: `node --version`
+    - Verify PNPM installation: `pnpm --version`
 
 2. **Nginx configuration errors**
 
     - Test configuration: `sudo nginx -t`
     - Check error logs: `sudo tail -f /var/log/nginx/error.log`
+    - Verify SSL certificates: `sudo certbot certificates`
 
-3. **SSL certificate issues**
+3. **Build issues**
 
-    - Renew certificates: `sudo certbot renew`
-    - Check certificate validity: `sudo certbot certificates`
-
-4. **Build issues**
     - Clear Docker cache: `docker compose build --no-cache`
-    - Check Docker logs for build errors: `docker compose logs`
+    - Check Node.js version compatibility
+    - Verify PNPM version
+    - Check for missing environment variables
 
-### Log Files
-
-- Nginx access logs: `/var/log/nginx/access.log`
-- Nginx error logs: `/var/log/nginx/error.log`
-- Docker container logs: `docker compose logs`
+4. **Application errors**
+    - Check browser console for client-side errors
+    - Verify API endpoints in environment files
+    - Check network connectivity
+    - Verify SSL certificate validity
 
 ## Security Considerations
 
-1. Keep all software up to date
-2. Regularly renew SSL certificates
-3. Monitor container and server resources
-4. Implement proper access controls
-5. Regularly backup configuration files
-6. Use environment variables for sensitive data
-7. Follow security best practices for Docker and Nginx
+1. Keep all software up to date:
+
+    - Docker and Docker Compose
+    - Nginx
+    - Node.js
+    - PNPM
+    - SSL certificates
+
+2. Security headers:
+
+    - X-Frame-Options is set to DENY
+    - SSL is enforced
+    - Gzip compression is enabled
+    - Proper logging is configured
+
+3. Environment variables:
+
+    - Use `.env.production` for production settings
+    - Never commit sensitive data
+    - Use secure values for all secrets
+
+4. Container security:
+    - Use official base images
+    - Implement proper restart policies
+    - Configure resource limits
+    - Regular security updates
 
 ## Backup and Recovery
 
@@ -210,27 +255,18 @@ The project uses several development tools that are configured in the repository
     sudo cp -r /etc/letsencrypt /backup/
     ```
 
-3. Backup Docker volumes:
+3. Backup environment files:
 
+    ```bash
+    cp .env* /backup/
+    ```
+
+4. Backup Docker volumes:
     ```bash
     docker compose down
     docker compose up -d --build
     ```
 
-4. Backup environment files:
-    ```bash
-    cp .env* /backup/
-    ```
-
 ## Contact
 
 For any deployment issues or questions, please contact the development team or create an issue in the GitHub repository.
-
-## Docker Configuration
-
-The application uses a multi-stage Docker build process defined in the `Dockerfile`. It builds the Vite application and serves it with Nginx. The `docker-compose.yml` file sets up the service, exposing port 3000 and using a custom network.
-
-## Nginx Configuration
-
-- **nginx-container.conf**: Configures Nginx to serve the application on port 3000, with gzip compression and custom logging.
-- **oko.shbov.ru.conf**: Sets up a server block for the domain `oko.shbov.ru`, with API proxying to a Flask API and main requests to a Node.js application. It includes SSL configuration and static asset caching.
