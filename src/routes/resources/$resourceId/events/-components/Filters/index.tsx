@@ -1,5 +1,5 @@
 import type { Dispatch, SetStateAction } from 'react';
-import { useCallback, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 
 import { RangeDatePicker } from '@gravity-ui/date-components';
 import {
@@ -8,58 +8,82 @@ import {
     isSelectGroupTitle,
     Select,
     spacing,
-    TextInput,
     useSelectOptions,
 } from '@gravity-ui/uikit';
 
 import type { EventFilter } from './types';
+import type { RangeValue } from '@gravity-ui/date-components';
+import type { DateTime } from '@gravity-ui/date-utils';
 import type { SelectOption, SelectProps } from '@gravity-ui/uikit';
+
+export type InitialValues = {
+    types: ('keyword' | 'image')[];
+    dateFrom: DateTime;
+    dateTo: DateTime;
+};
 
 export const Filters = ({
     setFilters,
+    multiple = false,
+    initialValues,
 }: {
-    setFilters: Dispatch<SetStateAction<EventFilter>>;
+    setFilters: Dispatch<SetStateAction<EventFilter | null>>;
+    multiple?: boolean;
+    initialValues: InitialValues;
 }) => {
-    const [value, setValue] = useState<string[]>([]);
-    const [search, setSearch] = useState<string>('');
+    const [types, setTypes] = useState<('keyword' | 'image')[]>(
+        initialValues.types,
+    );
+    const [from, setFrom] = useState<DateTime>(initialValues.dateFrom);
+    const [to, setTo] = useState<DateTime>(initialValues.dateTo);
 
     useEffect(() => {
-        setFilters((prev: EventFilter) => ({
-            ...prev,
-            search: search,
-            status: value,
-        }));
+        setFilters(
+            (prev: EventFilter | null) =>
+                ({
+                    ...prev,
+                    types,
+                    dateFrom: from.unix(),
+                    dateTo: to.unix(),
+                }) satisfies EventFilter,
+        );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value, search]);
+    }, [types, from, to]);
 
     const options = useSelectOptions({
         options: [
             {
-                content: 'Создано',
-                value: 'CREATED',
+                content: 'В тексте по ключевому слову',
+                value: 'keyword',
             },
             {
-                content: 'Отправлено',
-                value: 'NOTIFIED',
-            },
-            {
-                content: 'Просмотрено',
-                value: 'WATCHED',
-            },
-            {
-                content: 'Отреагировано',
-                value: 'REACTED',
+                content: 'В изображении',
+                value: 'image',
             },
         ],
     });
 
+    const onDatePickerUpdate = useCallback(
+        (value: RangeValue<DateTime> | null) => {
+            if (value) {
+                setFrom(value.start);
+                setTo(value.end);
+            }
+        },
+        [setFrom, setTo],
+    );
+
     const renderFilter: SelectProps['renderFilter'] = useCallback(() => {
+        if (!multiple) {
+            return <Fragment />;
+        }
+
         const optionsWithoutGroupLabels = options.filter(
             (option) => !isSelectGroupTitle(option),
         ) as SelectOption[];
 
         const allOptionsSelected = Boolean(
-            value.length && optionsWithoutGroupLabels.length === value.length,
+            types.length && optionsWithoutGroupLabels.length === types.length,
         );
 
         const handleAllOptionsButtonClick = () => {
@@ -67,7 +91,7 @@ export const Filters = ({
                 ? []
                 : optionsWithoutGroupLabels.map((option) => option.value);
 
-            setValue(nextValue);
+            setTypes(nextValue as ('keyword' | 'image')[]);
         };
 
         return (
@@ -83,7 +107,7 @@ export const Filters = ({
                 </Button>
             </div>
         );
-    }, [options, value.length]);
+    }, [options, types.length, multiple]);
 
     return (
         <Flex
@@ -94,28 +118,26 @@ export const Filters = ({
                 mb: 3,
             })}
         >
-            <TextInput
-                placeholder="Поиск по ID"
-                hasClear
-                value={search}
-                onUpdate={setSearch}
-                style={{
-                    width: 300,
-                }}
-            />
             <Select
-                value={value}
+                value={types}
                 options={options}
-                onUpdate={setValue}
-                placeholder="Выберите статус"
-                title="Статус"
-                multiple
+                onUpdate={setTypes as Dispatch<SetStateAction<string[]>>}
+                placeholder="Выберите тип"
+                title="Тип"
                 filterable
                 renderFilter={renderFilter}
                 hasClear
                 hasCounter
+                multiple={multiple}
             />
-            <RangeDatePicker placeholder="Интервал времени" />
+            <RangeDatePicker
+                value={{
+                    start: from,
+                    end: to,
+                }}
+                placeholder="Интервал времени"
+                onUpdate={onDatePickerUpdate}
+            />
         </Flex>
     );
 };

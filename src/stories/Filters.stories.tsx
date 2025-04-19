@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { dateTimeParse } from '@gravity-ui/date-utils';
 
 import { Filters } from '../routes/resources/$resourceId/events/-components/Filters';
 
+import type { InitialValues } from '../routes/resources/$resourceId/events/-components/Filters';
 import type { EventFilter } from '../routes/resources/$resourceId/events/-components/Filters/types';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -18,11 +21,21 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Wrapper component to handle state
-const FiltersWrapper = () => {
-    const [filters, setFilters] = useState<EventFilter>({});
+const FiltersWrapper = ({
+    multiple,
+    initialValues,
+}: {
+    multiple?: boolean;
+    initialValues: InitialValues;
+}) => {
+    const [filters, setFilters] = useState<EventFilter | null>(null);
     return (
         <div>
-            <Filters setFilters={setFilters} />
+            <Filters
+                setFilters={setFilters}
+                multiple={multiple}
+                initialValues={initialValues}
+            />
             <div
                 style={{
                     marginTop: '20px',
@@ -39,28 +52,44 @@ const FiltersWrapper = () => {
 export const Default: Story = {
     args: {
         setFilters: () => {},
+        initialValues: {
+            types: [],
+            dateFrom: dateTimeParse('now')!.subtract(7, 'day'),
+            dateTo: dateTimeParse('now')!,
+        },
     },
-    render: () => <FiltersWrapper />,
+    render: (args) => (
+        <FiltersWrapper multiple={false} initialValues={args.initialValues} />
+    ),
 };
 
 export const WithInitialFilters: Story = {
     args: {
         setFilters: () => {},
+        initialValues: {
+            types: ['keyword'],
+            dateFrom: dateTimeParse('02.09.2003')!.subtract(7, 'day'),
+            dateTo: dateTimeParse('02.09.2003')!,
+        },
     },
-    render: () => {
+    render: (args) => {
         const WrapperWithInitialFilters = () => {
-            const [filters, setFilters] = useState<EventFilter>({
-                status: ['CREATED', 'NOTIFIED'],
-                search: 'test-123',
-            });
+            const [filters, setFilters] = useState<EventFilter | null>(null);
+
+            useEffect(() => {
+                args.setFilters(filters);
+            }, [filters]);
+
             return (
                 <div>
-                    <Filters setFilters={setFilters} />
+                    <Filters
+                        setFilters={setFilters}
+                        initialValues={args.initialValues}
+                    />
                     <div
                         style={{
                             marginTop: '20px',
                             padding: '10px',
-                            background: '#f5f5f5',
                         }}
                     >
                         <h4>Current Filters:</h4>
@@ -71,4 +100,22 @@ export const WithInitialFilters: Story = {
         };
         return <WrapperWithInitialFilters />;
     },
+};
+
+export const Multiple: Story = {
+    args: {
+        setFilters: () => {},
+        multiple: true,
+        initialValues: {
+            types: ['keyword', 'image'],
+            dateFrom: dateTimeParse('now')!.subtract(7, 'day'),
+            dateTo: dateTimeParse('now')!,
+        },
+    },
+    render: (args) => (
+        <FiltersWrapper
+            multiple={args.multiple}
+            initialValues={args.initialValues}
+        />
+    ),
 };

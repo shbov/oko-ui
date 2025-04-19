@@ -16,3 +16,10 @@ export const getEventSource = makePlainQueryDataSource({
     fetch: getEventFetch,
     transformResponse: (response) => response.event,
 });
+
+const listFilteredEventsFetch = skipContext(api.event.listFilteredEvents);
+export const listFilteredEventsSource = makePlainQueryDataSource({
+    name: 'listFilteredEvents',
+    fetch: listFilteredEventsFetch,
+    transformResponse: (response) => response.events,
+});

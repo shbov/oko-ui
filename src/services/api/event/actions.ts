@@ -5,6 +5,8 @@ import type {
     GetEventRequest,
     ListEventsResponse,
     ListEventsRequest,
+    ListFilteredEventsRequest,
+    ListFilteredEventsResponse,
 } from './types';
 
 const api = getProtectedKyInstance();
@@ -15,6 +17,23 @@ export const event = {
             .get<ListEventsResponse>(`events/all`, {
                 searchParams: {
                     resourceId,
+                },
+            })
+            .json();
+    },
+    listFilteredEvents: ({
+        resourceId,
+        type,
+        from,
+        to,
+    }: ListFilteredEventsRequest) => {
+        return api
+            .post<ListFilteredEventsResponse>(`events/filter`, {
+                json: {
+                    resource_ids: [resourceId],
+                    event_type: type,
+                    ...(from && { start_time: from }),
+                    ...(to && { end_time: to }),
                 },
             })
             .json();

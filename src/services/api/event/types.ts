@@ -23,3 +23,14 @@ export interface Event {
     status: 'CREATED' | 'NOTIFIED' | 'WATCHED' | 'REACTED';
     created_at: string;
 }
+
+export interface ListFilteredEventsRequest {
+    resourceId: string;
+    type: 'keyword' | 'image';
+    from: number;
+    to: number;
+}
+
+export interface ListFilteredEventsResponse {
+    events: Event[];
+}
