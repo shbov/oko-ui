@@ -1,3 +1,5 @@
+import { expect, test, describe } from 'vitest';
+
 import { isStringNumber } from '../checks';
 
 describe('isStringNumber', () => {

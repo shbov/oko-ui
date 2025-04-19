@@ -1,9 +1,9 @@
-import { Id } from './index';
+import { Id } from '../components/Id';
 
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-    title: 'Components/Id',
+    title: 'Data Display/Id',
     component: Id,
     parameters: {
         layout: 'centered',
@@ -12,7 +12,7 @@ const meta = {
 } satisfies Meta<typeof Id>;
 
 export default meta;
-type Story = StoryObj<typeof Id>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {

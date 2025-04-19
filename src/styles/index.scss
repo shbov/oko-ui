@@ -112,6 +112,10 @@
     --g-color-text-link-visited-hover: var(--g-color-private-purple-850-solid);
 
     @include illustrations.g-illustrations-colors-dark;
+
+    .docs-story {
+        background-color: var(--g-color-base-background);
+    }
 }
 
 body,

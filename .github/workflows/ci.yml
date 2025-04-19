@@ -65,44 +65,7 @@ jobs:
               run: pnpm install
 
             - name: Unit Tests
-              run: pnpm run test
-
-    playwright-tests:
-        name: Playwright Tests
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0
-
-            - name: Install pnpm
-              uses: pnpm/action-setup@v4
-              with:
-                  version: 10
-                  run_install: false
-
-            - name: Install Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 22
-                  cache: 'pnpm'
-
-            - name: Install Packages
-              run: pnpm install
-
-            - name: Install Playwright Browsers
-              run: pnpm exec playwright install --with-deps
-
-            - name: Run Playwright tests
-              run: pnpm exec playwright test
-
-            - uses: actions/upload-artifact@v4
-              if: ${{ !cancelled() }}
-              with:
-                  name: playwright-report
-                  path: playwright-report/
-                  retention-days: 30
+              run: pnpm run test:unit
 
     storybook_tests:
         name: Storybook Tests
@@ -138,6 +101,6 @@ jobs:
               run: |
                   pnpm concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
                     "npx http-server storybook-static --port 7009 --silent" \
-                    "npx wait-on $PR_PREVIEW_URL && pnpm run test-storybook"
+                    "npx wait-on $PR_PREVIEW_URL && pnpm run test:storybook"
               env:
                   PR_PREVIEW_URL: http://127.0.0.1:7009

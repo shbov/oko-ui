@@ -1,22 +1,24 @@
+import { expect, test, describe, beforeEach, afterEach, vi } from 'vitest';
+
 import { sleep } from '../sleep';
 
 describe('sleep', () => {
     beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
     });
     afterEach(() => {
-        jest.useRealTimers();
+        vi.useRealTimers();
     });
 
     test('should not resolve until timeout has elapsed', async () => {
-        const spy = jest.fn();
+        const spy = vi.fn();
         void sleep(100).then(spy);
 
-        jest.advanceTimersByTime(20);
+        vi.advanceTimersByTime(20);
         await Promise.resolve();
         expect(spy).not.toHaveBeenCalled();
 
-        jest.advanceTimersByTime(80);
+        vi.advanceTimersByTime(80);
         await Promise.resolve();
         expect(spy).toHaveBeenCalled();
     });

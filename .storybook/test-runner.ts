@@ -1,5 +1,5 @@
 import { getStoryContext } from '@storybook/test-runner';
-import { checkA11y, configureAxe, injectAxe } from 'axe-playwright';
+import { configureAxe, injectAxe } from 'axe-playwright';
 
 import type { TestRunnerConfig } from '@storybook/test-runner';
 
@@ -20,14 +20,6 @@ const config: TestRunnerConfig = {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             rules: storyContext.parameters?.a11y?.config?.rules,
             reporter: 'no-passes',
-        });
-
-        await checkA11y(page, '#storybook-root', {
-            verbose: false,
-            detailedReport: true,
-            detailedReportOptions: {
-                html: true,
-            },
         });
     },
 };

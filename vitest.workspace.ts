@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';
+import viteReact from '@vitejs/plugin-react-swc';
 import { defineWorkspace } from 'vitest/config';
 
 const dirname =
@@ -9,9 +10,18 @@ const dirname =
         ? __dirname
         : path.dirname(fileURLToPath(import.meta.url));
 
-// More info at: https://storybook.js.org/docs/writing-tests/test-addon
 export default defineWorkspace([
-    'vite.config.ts',
+    {
+        plugins: [viteReact()],
+        test: {
+            name: 'unit',
+            globals: true,
+            environment: 'jsdom',
+            pool: 'vmThreads',
+            setupFiles: ['./tests/setup.ts'],
+            include: ['**/*.test.{ts,tsx}'],
+        },
+    },
     {
         extends: 'vite.config.ts',
         plugins: [
@@ -21,6 +31,7 @@ export default defineWorkspace([
         ],
         test: {
             name: 'storybook',
+            include: ['**/*.stories.{js,jsx,ts,tsx}'],
             browser: {
                 enabled: true,
                 headless: true,

@@ -4,10 +4,14 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import viteReact from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 
+import type { Plugin } from 'vite';
+
 // https://vite.dev/config/
 export default defineConfig(() => {
+    const routerPlugin = TanStackRouterVite() as Plugin;
+
     return {
-        plugins: [TanStackRouterVite(), viteReact()],
+        plugins: [routerPlugin, viteReact()],
         resolve: {
             alias: {
                 '~': path.resolve(__dirname, './src'),
