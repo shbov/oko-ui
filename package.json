@@ -66,6 +66,7 @@
         "react-compare-image": "^3.5.4",
         "react-diff-viewer": "^3.1.1",
         "react-dom": "^18.3.1",
+        "react-image-diff": "^0.1.0",
         "react-syntax-highlighter": "^15.6.1",
         "zod": "^3.24.3"
     },
