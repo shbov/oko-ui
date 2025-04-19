@@ -2,7 +2,13 @@ import { useCallback, useMemo, useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { dateTimeParse } from '@gravity-ui/date-utils';
-import { Pause, Pencil, Play, TrashBin } from '@gravity-ui/icons';
+import {
+    Camera,
+    ClockArrowRotateLeft,
+    Pause,
+    Pencil,
+    Play,
+} from '@gravity-ui/icons';
 import { NotFound } from '@gravity-ui/illustrations';
 import {
     Text,
@@ -23,6 +29,7 @@ import {
     useRouter,
 } from '@tanstack/react-router';
 
+import type { SecondaryPageAction } from '~/components/AppLayout/PageActionsContext';
 import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { UILink } from '~/components/UILink';
@@ -178,15 +185,35 @@ function RouteComponent() {
         [router, resourceId],
     );
 
-    const secondaryActions = useMemo(
+    const secondaryActions: SecondaryPageAction[] = useMemo(
         () => [
+            {
+                text: 'Снимки',
+                icon: Camera,
+                onClick: () => {
+                    void router.navigate({
+                        to: '/resources/$resourceId/snapshots',
+                        params: { resourceId },
+                    });
+                },
+            },
+            {
+                text: 'События',
+                icon: ClockArrowRotateLeft,
+                onClick: () => {
+                    void router.navigate({
+                        to: '/resources/$resourceId/events',
+                        params: { resourceId },
+                    });
+                },
+            },
             {
                 text: resource?.resource?.enabled
                     ? 'Приостановить'
                     : 'Возобновить',
                 icon: resource?.resource?.enabled ? Pause : Play,
-                onClick: async () => {
-                    await api.resource
+                onClick: () => {
+                    api.resource
                         .edit({
                             id: resourceId,
                             enabled: !resource?.resource?.enabled,
@@ -202,33 +229,22 @@ function RouteComponent() {
                                     : 'Ресурс возобновлен',
                                 theme: 'success',
                             });
-
-                            void router.navigate({
-                                to: '/resources/$resourceId',
-                                params: { resourceId },
-                            });
                         })
                         .catch(handleError);
                 },
             },
-            {
-                text: 'Удалить',
-                theme: 'danger' as const,
-                icon: TrashBin,
-                onClick: () => {
-                    if (resource?.resource) {
-                        setDeleteResource(resource.resource);
-                    }
-                },
-            },
+            // {
+            //     text: 'Удалить',
+            //     theme: 'danger' as const,
+            //     icon: TrashBin,
+            //     onClick: () => {
+            //         if (resource?.resource) {
+            //             setDeleteResource(resource.resource);
+            //         }
+            //     },
+            // },
         ],
-        [
-            resource?.resource,
-            setDeleteResource,
-            handleError,
-            resourceId,
-            router,
-        ],
+        [resource?.resource, handleError, resourceId, router],
     );
 
     return (

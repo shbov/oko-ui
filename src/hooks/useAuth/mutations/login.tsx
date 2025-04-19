@@ -15,7 +15,6 @@ export function useLoginMutation() {
         mutationKey: ['login'],
         mutationFn: (data: LoginRequest) => api.user.login(data),
         onSuccess: (data) => {
-            console.log('data: ', data);
             toaster.add({
                 name: 'login-success',
                 title: 'Вход выполнен успешно',

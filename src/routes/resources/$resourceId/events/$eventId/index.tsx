@@ -1,25 +1,12 @@
-import { useState } from 'react';
-
 import { useQueryData } from '@gravity-ui/data-source';
-import {
-    DefinitionList,
-    spacing,
-    Tab,
-    TabList,
-    TabPanel,
-    TabProvider,
-    Text,
-} from '@gravity-ui/uikit';
+import { DefinitionList, spacing } from '@gravity-ui/uikit';
 import { createFileRoute } from '@tanstack/react-router';
 import block from 'bem-cn-lite';
-import ReactCompareImage from 'react-compare-image';
-import ReactDiffViewer from 'react-diff-viewer';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { Page } from '~/components/Page';
 import { getEventSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
+import { DiffComponent } from '~/routes/resources/-components/DiffComponent/DiffComponent';
 import { DataLoader } from '~/services/data-source';
 
 import './Diff.scss';
@@ -36,77 +23,6 @@ const html = `<div>
         ${newCode}
     </p>
 </div>`;
-
-const DiffComponent = ({
-    oldCode,
-    newCode,
-    html,
-}: {
-    oldCode: string;
-    newCode: string;
-    html: string;
-}) => {
-    const [activeTab, setActiveTab] = useState('text');
-
-    return (
-        <TabProvider value={activeTab} onUpdate={setActiveTab}>
-            <TabList>
-                <Tab value="text">Изменения в тексте</Tab>
-                <Tab value="image">Изменения в скриншотах</Tab>
-                <Tab value="html">HTML</Tab>
-                <Tab value="htmlDiff">Изменения в HTML</Tab>
-                <Tab value="parsedText">Только текст</Tab>
-            </TabList>
-
-            <div className={spacing({ mt: 3 })}>
-                <TabPanel value="text">
-                    <Text variant="code-1">
-                        <ReactDiffViewer
-                            oldValue={oldCode}
-                            newValue={newCode}
-                            splitView={false}
-                            useDarkTheme
-                        />
-                    </Text>
-                </TabPanel>
-                <TabPanel value="image">
-                    <ReactCompareImage
-                        leftImage="/before.png"
-                        rightImage="/after.png"
-                    />
-                </TabPanel>
-                <TabPanel value="html">
-                    <SyntaxHighlighter
-                        language="html"
-                        style={darcula}
-                        wrapLines
-                        wrapLongLines
-                    >
-                        {html}
-                    </SyntaxHighlighter>
-                </TabPanel>
-                <TabPanel value="htmlDiff">
-                    <ReactDiffViewer
-                        oldValue={oldCode}
-                        newValue={newCode}
-                        splitView={false}
-                        useDarkTheme
-                    />
-                </TabPanel>
-                <TabPanel value="parsedText">
-                    <SyntaxHighlighter
-                        language="html"
-                        style={darcula}
-                        wrapLines
-                        wrapLongLines
-                    >
-                        {newCode}
-                    </SyntaxHighlighter>
-                </TabPanel>
-            </div>
-        </TabProvider>
-    );
-};
 
 const Diff = () => {
     const { eventId } = Route.useParams();
@@ -134,9 +50,13 @@ const Diff = () => {
                     </div>
 
                     <DiffComponent
-                        oldCode={oldCode}
-                        newCode={newCode}
                         html={html}
+                        oldHtml={html}
+                        text={newCode}
+                        oldText={oldCode}
+                        screenshot={'/after.png'}
+                        oldScreenshot={'/before.png'}
+                        isFirst={false}
                     />
                 </div>
             </DataLoader>

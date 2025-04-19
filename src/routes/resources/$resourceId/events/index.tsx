@@ -53,9 +53,7 @@ function RouteComponent() {
             {
                 text: 'Создать отчет',
                 disabled: ids.length === 0,
-                onClick: () => {
-                    console.log('create report');
-                },
+                onClick: () => {},
             },
         ],
         [ids],

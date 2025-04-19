@@ -2,7 +2,7 @@ import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
 import { dateTimeParse } from '@gravity-ui/date-utils';
-import { Pencil, TrashBin } from '@gravity-ui/icons';
+import { Pause, Pencil, Play } from '@gravity-ui/icons';
 import { Database } from '@gravity-ui/illustrations';
 import {
     Flex,
@@ -22,10 +22,12 @@ import {
     PROJECT_FORMAT,
     TABLE_ACTION_SIZE,
 } from '~/constants/common';
-import { listResources } from '~/data-sources';
+import { getResource, listResources } from '~/data-sources';
+import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
+import { api } from '~/services/api';
 import type { Resource } from '~/services/api/resource';
-import { DataLoader } from '~/services/data-source';
+import { DataLoader, dataManager } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from './-components/DeleteDialog';
@@ -37,7 +39,6 @@ import type {
     TableActionConfig,
     TableColumnConfig,
 } from '@gravity-ui/uikit';
-
 const ResourcesTable = withTableSorting(
     withTableCopy(withTableActions<Resource>(Table)),
 );
@@ -101,6 +102,7 @@ function RouteComponent() {
     const router = useRouter();
     const [search, setSearch] = useState('');
     const [deleteResource, setDeleteResource] = useState<Resource | null>(null);
+    const handleError = useApiError();
 
     const resourcesQuery = useQueryData(listResources, {});
 
@@ -120,18 +122,41 @@ function RouteComponent() {
                     icon: <Icon data={Pencil} size={TABLE_ACTION_SIZE} />,
                 },
                 {
-                    text: 'Удалить',
+                    text: resource.enabled ? 'Приостановить' : 'Возобновить',
+                    icon: (
+                        <Icon
+                            data={resource.enabled ? Pause : Play}
+                            size={TABLE_ACTION_SIZE}
+                        />
+                    ),
                     handler: () => {
-                        setDeleteResource(resource);
+                        void api.resource
+                            .edit({
+                                id: resource.id,
+                                enabled: !resource.enabled,
+                            })
+                            .then(() => {
+                                void dataManager.invalidateSource(
+                                    listResources,
+                                );
+                                void dataManager.invalidateSource(getResource);
+
+                                toaster.add({
+                                    name: 'resource-updated',
+                                    title: resource.enabled
+                                        ? 'Ресурс приостановлен'
+                                        : 'Ресурс возобновлен',
+                                    theme: 'success',
+                                });
+                            })
+                            .catch(handleError);
                     },
-                    theme: 'danger',
-                    icon: <Icon data={TrashBin} size={TABLE_ACTION_SIZE} />,
                 },
             ];
 
             return actions;
         },
-        [router, setDeleteResource],
+        [router, handleError],
     );
 
     const actions = useMemo(() => {

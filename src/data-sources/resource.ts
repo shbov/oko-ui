@@ -19,7 +19,6 @@ export const listResources = makePlainQueryDataSource({
     name: 'resource',
     fetch: skipContext(api.resource.listResources),
     transformResponse: (response: ListResourcesResponse) => {
-        // Convert Unix timestamps to milliseconds in the response
         return {
             ...response,
             resources: response.resources.map((resource: Resource) => ({
@@ -36,7 +35,6 @@ export const getResource = makePlainQueryDataSource({
     name: 'resource',
     fetch: skipContext(api.resource.get),
     transformResponse: (response: GetResourceResponse) => {
-        // Convert Unix timestamp to milliseconds in the response
         return {
             ...response,
             resource: response.resource

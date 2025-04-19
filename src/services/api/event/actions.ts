@@ -12,7 +12,11 @@ const api = getProtectedKyInstance();
 export const event = {
     listEvents: ({ resourceId }: ListEventsRequest) => {
         return api
-            .get<ListEventsResponse>(`events/all?resourceId=${resourceId}`)
+            .get<ListEventsResponse>(`events/all`, {
+                searchParams: {
+                    resourceId,
+                },
+            })
             .json();
     },
     getEvent: ({ id }: GetEventRequest) => {

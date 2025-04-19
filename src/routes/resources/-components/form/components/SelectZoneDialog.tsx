@@ -25,7 +25,7 @@ export const SelectZoneDialog = ({
     initialValue: IArea[];
 }) => {
     const [areas, setAreas] = useState<IArea[]>(initialValue);
-    console.log('areas: ', areas);
+
     const getScreenshotQuery = useQueryData(
         getScreenshotByUrlSource,
         open && url ? { url } : idle,

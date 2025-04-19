@@ -52,10 +52,9 @@ export const prepareCreateValues = ({
         channels,
         keywords: parsedKeywords,
         interval: patchedInterval,
-        starts_from: startDate?.getTime() / 1000,
+        starts_from: Math.round(startDate?.getTime() / 1000),
     };
 
-    console.log('commonValues: ', commonValues);
     if (!isScreenshot) {
         return commonValues;
     }

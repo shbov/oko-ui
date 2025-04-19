@@ -54,9 +54,7 @@ export default defineConfig(() => {
                         // Image and visualization
                         media: [
                             '@bmunozg/react-image-area',
-                            'react-compare-image',
                             'react-diff-viewer',
-                            'react-image-diff',
                             'react-syntax-highlighter',
                         ],
                     },

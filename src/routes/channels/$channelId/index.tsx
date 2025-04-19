@@ -68,7 +68,6 @@ function RouteComponent() {
                 icon: TrashBin,
                 theme: 'danger' as const,
                 onClick: () => {
-                    console.log('delete channel', channelQuery.data);
                     if (!channelQuery.data) {
                         return;
                     }
