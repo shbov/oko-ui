@@ -23,7 +23,11 @@ export const resource = {
     },
     getScreenshotByUrl: async (data: GetScreenshotByUrlRequest) => {
         return api
-            .get<GetScreenshotByUrlResponse>(`screenshot?url=${data.url}`)
+            .post<GetScreenshotByUrlResponse>(`screenshot`, {
+                json: {
+                    url: data.url,
+                },
+            })
             .json();
     },
     listResources: () => {

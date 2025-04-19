@@ -10,7 +10,7 @@ import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { getChannelSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
-import type { Channel } from '~/services/api/notification';
+import { ChannelType, type Channel } from '~/services/api/notification';
 import { DataLoader } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
@@ -80,6 +80,26 @@ function RouteComponent() {
         [channelQuery.data],
     );
 
+    const params = useMemo(() => {
+        if (!channelQuery.data) {
+            return null;
+        }
+
+        if (channelQuery.data.type === ChannelType.Telegram) {
+            return (
+                JSON.parse(channelQuery.data.params ?? '{}') as {
+                    chatId: string[];
+                }
+            ).chatId?.join(', ');
+        }
+
+        return (
+            JSON.parse(channelQuery.data.params ?? '{}') as {
+                email: string[];
+            }
+        ).email?.join(', ');
+    }, [channelQuery.data]);
+
     return (
         <Page
             title="Канал оповещения"
@@ -106,6 +126,9 @@ function RouteComponent() {
                     </DefinitionList.Item>
                     <DefinitionList.Item name="Тип">
                         <ChannelTemplate channel={channelQuery.data} />
+                    </DefinitionList.Item>
+                    <DefinitionList.Item name="Параметры">
+                        {params}
                     </DefinitionList.Item>
                 </DefinitionList>
 

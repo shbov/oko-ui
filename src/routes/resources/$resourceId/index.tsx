@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
+import { dateTimeParse } from '@gravity-ui/date-utils';
 import { Pause, Pencil, Play, TrashBin } from '@gravity-ui/icons';
 import { NotFound } from '@gravity-ui/illustrations';
 import {
@@ -25,18 +26,23 @@ import {
 import { Id } from '~/components/Id';
 import { Page } from '~/components/Page';
 import { UILink } from '~/components/UILink';
+import { PROJECT_FORMAT } from '~/constants/common';
 import {
     getResource,
     listChannelsSource,
     listEventsSource,
+    listResources,
 } from '~/data-sources';
+import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
+import { api } from '~/services/api';
 import type { Event } from '~/services/api/event';
 import type { Resource } from '~/services/api/resource';
-import { DataLoader } from '~/services/data-source';
+import { DataLoader, dataManager } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from '../-components/DeleteDialog';
+import { ResourceStatus } from '../-components/ResourceStatus';
 import { eventColumns } from './events/-components/templates';
 
 const EventsTable = withTableSorting(
@@ -46,6 +52,7 @@ const EventsTable = withTableSorting(
 function RouteComponent() {
     const { resourceId } = Route.useParams();
     const navigate = useNavigate();
+    const handleError = useApiError();
     const router = useRouter();
 
     const [deleteResource, setDeleteResource] = useState<Resource | null>(null);
@@ -78,13 +85,16 @@ function RouteComponent() {
 
         const {
             enabled,
-            start_date,
+            starts_from,
             description,
             url,
             channels,
             keywords,
             interval,
         } = resource.resource;
+
+        const date = dateTimeParse(starts_from);
+
         return [
             {
                 name: 'ID',
@@ -92,15 +102,12 @@ function RouteComponent() {
                 copyText: resource?.resource?.id,
             },
             {
-                name: 'Активен',
-                value:
-                    enabled && start_date && start_date >= new Date()
-                        ? 'Да'
-                        : 'Нет', // TODO: validate here.
+                name: 'Дата начала мониторинга',
+                value: date?.format(PROJECT_FORMAT) ?? null,
             },
             {
-                name: 'Дата начала мониторинга',
-                value: start_date?.toLocaleDateString('ru-RU') ?? null,
+                name: 'Статус',
+                value: <ResourceStatus enabled={enabled} startDate={date} />,
             },
             { name: 'Описание', value: description || null },
             {
@@ -174,12 +181,35 @@ function RouteComponent() {
     const secondaryActions = useMemo(
         () => [
             {
-                text:
-                    resource?.resource.status === 'active'
-                        ? 'Приостановить'
-                        : 'Возобновить',
-                icon: resource?.resource.status === 'active' ? Pause : Play,
-                onClick: () => {},
+                text: resource?.resource?.enabled
+                    ? 'Приостановить'
+                    : 'Возобновить',
+                icon: resource?.resource?.enabled ? Pause : Play,
+                onClick: async () => {
+                    await api.resource
+                        .edit({
+                            id: resourceId,
+                            enabled: !resource?.resource?.enabled,
+                        })
+                        .then(() => {
+                            void dataManager.invalidateSource(listResources);
+                            void dataManager.invalidateSource(getResource);
+
+                            toaster.add({
+                                name: 'resource-updated',
+                                title: resource?.resource?.enabled
+                                    ? 'Ресурс приостановлен'
+                                    : 'Ресурс возобновлен',
+                                theme: 'success',
+                            });
+
+                            void router.navigate({
+                                to: '/resources/$resourceId',
+                                params: { resourceId },
+                            });
+                        })
+                        .catch(handleError);
+                },
             },
             {
                 text: 'Удалить',
@@ -192,7 +222,13 @@ function RouteComponent() {
                 },
             },
         ],
-        [resource?.resource, setDeleteResource],
+        [
+            resource?.resource,
+            setDeleteResource,
+            handleError,
+            resourceId,
+            router,
+        ],
     );
 
     return (

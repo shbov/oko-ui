@@ -40,9 +40,7 @@ export interface Resource {
     make_screenshot: boolean;
     polygon: unknown;
     areas?: Area[] | undefined;
-    start_date: Date | undefined;
-    last_update: Date | undefined; // TODO: validate here.
-    status: 'active' | 'paused';
+    starts_from: number | undefined;
 }
 
 export interface CreateResourceResponse {
@@ -63,15 +61,16 @@ export interface ListResourcesResponse {
 
 export interface EditResourceRequest {
     id: string;
-    name: string;
+    enabled?: boolean;
+    name?: string;
     description?: string | undefined;
-    url: string;
-    channels: string[];
-    keywords: string[];
+    url?: string;
+    channels?: string[];
+    keywords?: string[];
     areas?: Area[] | undefined;
     sensitivity?: number;
     zone_type?: ZoneType;
-    interval: {
+    interval?: {
         day_of_week: string;
         days: string;
         hours: string;

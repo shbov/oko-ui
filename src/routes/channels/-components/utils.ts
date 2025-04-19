@@ -14,11 +14,21 @@ export const prepareCreateValue = (
         ...(value.type === ChannelType.Telegram
             ? {
                   type: ChannelType.Telegram,
-                  chatId: value.chatId ?? '',
+                  params: JSON.stringify({
+                      chat_id: value.chatId
+                          ?.split(',')
+                          .map((id) => id.trim())
+                          .filter(Boolean),
+                  }),
               }
             : {
                   type: ChannelType.Email,
-                  email: value.email ?? '',
+                  params: JSON.stringify({
+                      email: value.email
+                          ?.split(',')
+                          .map((email) => email.trim())
+                          .filter(Boolean),
+                  }),
               }),
     };
 };
@@ -33,11 +43,21 @@ export const prepareEditValue = (
         ...(value.type === ChannelType.Telegram
             ? {
                   type: ChannelType.Telegram,
-                  chatId: value.chatId ?? '',
+                  params: JSON.stringify({
+                      chat_id: value.chatId
+                          ?.split(',')
+                          .map((id) => id.trim())
+                          .filter(Boolean),
+                  }),
               }
             : {
                   type: ChannelType.Email,
-                  email: value.email ?? '',
+                  params: JSON.stringify({
+                      email: value.email
+                          ?.split(',')
+                          .map((email) => email.trim())
+                          .filter(Boolean),
+                  }),
               }),
     };
 };

@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { useQueryData } from '@gravity-ui/data-source';
+import { dateTimeParse } from '@gravity-ui/date-utils';
 import { Pencil, TrashBin } from '@gravity-ui/icons';
 import { Database } from '@gravity-ui/illustrations';
 import {
@@ -16,7 +17,11 @@ import {
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
-import { EMPTY_DASH, TABLE_ACTION_SIZE } from '~/constants/common';
+import {
+    EMPTY_DASH,
+    PROJECT_FORMAT,
+    TABLE_ACTION_SIZE,
+} from '~/constants/common';
 import { listResources } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { Resource } from '~/services/api/resource';
@@ -77,19 +82,18 @@ const columns: TableColumnConfig<Resource>[] = [
     {
         id: 'startDate',
         name: 'Дата начала мониторинга',
-        template: ({ start_date }: Resource) =>
-            start_date?.toLocaleDateString('ru-RU') ?? EMPTY_DASH,
-    },
-    {
-        id: 'lastUpdate',
-        name: 'Последнее обновление',
-        template: ({ last_update }: Resource) =>
-            last_update?.toLocaleDateString('ru-RU') ?? EMPTY_DASH,
+        template: ({ starts_from }: Resource) =>
+            dateTimeParse(starts_from)?.format(PROJECT_FORMAT) ?? EMPTY_DASH,
     },
     {
         id: 'status',
         name: 'Статус',
-        template: ({ status }: Resource) => <ResourceStatus status={status} />,
+        template: ({ enabled, starts_from }: Resource) => (
+            <ResourceStatus
+                enabled={enabled}
+                startDate={dateTimeParse(starts_from)}
+            />
+        ),
     },
 ];
 

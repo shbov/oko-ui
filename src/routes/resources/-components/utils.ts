@@ -52,7 +52,7 @@ export const prepareCreateValues = ({
         channels,
         keywords: parsedKeywords,
         interval: patchedInterval,
-        start_date: startDate.toISOString(),
+        starts_from: startDate?.getTime() / 1000,
     };
 
     console.log('commonValues: ', commonValues);

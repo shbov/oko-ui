@@ -68,9 +68,9 @@ export default defineConfig(() => {
         server: {
             proxy: {
                 '/api': {
-                    target: 'http://localhost:8083',
+                    target: 'https://oko.shbov.ru/api',
                     changeOrigin: true,
-                    secure: false,
+                    secure: true,
                     rewrite: (path) => path.replace(/^\/api/, ''),
                 },
             },

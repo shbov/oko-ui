@@ -109,6 +109,7 @@ export const BaseFormContent = ({
 
             <FormRow
                 label="Ключевые слова"
+                required
                 labelHelpPopover={
                     <HelpMark
                         popoverProps={{

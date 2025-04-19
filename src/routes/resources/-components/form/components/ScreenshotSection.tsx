@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 
 import { FormRow } from '@gravity-ui/components';
 import {
@@ -38,6 +38,19 @@ export const ScreenshotSection = ({
         form.store,
         (state) => state.values.zoneType === ZoneType.zone,
     );
+
+    const areas = useStore(form.store, (state) => state.values.areas);
+
+    const initialAreas: IArea[] = useMemo(() => {
+        if (!areas) {
+            return [];
+        }
+
+        return areas.map((area) => ({
+            ...area,
+            unit: 'px' as const,
+        }));
+    }, [areas]);
 
     const url = useStore(form.store, (state) => state.values.url);
 
@@ -117,6 +130,7 @@ export const ScreenshotSection = ({
                                     onSubmit={onDialogSubmit}
                                     setOpen={setZoneSelectionOpen}
                                     open={zoneSelectionOpen}
+                                    initialValue={initialAreas}
                                     url={url}
                                 />
                             </Fragment>

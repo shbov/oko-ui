@@ -16,13 +16,16 @@ export const SelectZoneDialog = ({
     onSubmit,
     setOpen,
     url,
+    initialValue,
 }: {
     open: boolean;
     setOpen: (val: boolean) => void;
     onSubmit: (areas: IArea[]) => unknown;
     url: string;
+    initialValue: IArea[];
 }) => {
-    const [areas, setAreas] = useState<IArea[]>([]);
+    const [areas, setAreas] = useState<IArea[]>(initialValue);
+    console.log('areas: ', areas);
     const getScreenshotQuery = useQueryData(
         getScreenshotByUrlSource,
         open && url ? { url } : idle,

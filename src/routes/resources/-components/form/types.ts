@@ -15,7 +15,7 @@ export interface CommonFormValues {
     name: string;
     description?: string;
     url: string;
-    keywords?: string;
+    keywords: string;
     channels: string[];
     interval: {
         dayOfWeek: string;

@@ -47,17 +47,18 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             onChange: editSchema,
         },
         defaultValues: {
-            id: resource.id,
             name: resource.name,
             url: resource.url,
             description: resource.description,
             sensitivity: 1,
             keywords: resource.keywords.join(', '),
             isScreenshot: resource.make_screenshot,
-            zoneType: zoneType,
+            zoneType,
             areas: resource.areas,
             channels: resource.channels ?? [],
-            startDate: dateTimeParse(resource.start_date)?.toDate(),
+            startDate: resource.starts_from
+                ? dateTimeParse(resource.starts_from)?.toDate()
+                : new Date(),
             interval,
         } as EditFormValues,
     });
@@ -78,7 +79,6 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
                     form={form}
                     channels={channelsQuery.data ?? []}
                     mode="edit"
-                    channelsIds={resource.channels ?? []}
                 />
             </Form>
         </DataLoader>

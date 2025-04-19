@@ -58,11 +58,21 @@ export const Edit = () => {
                 name: channel.name,
                 ...(channel.type === ChannelType.Telegram
                     ? {
-                          chatId: channel.chatId ?? '',
+                          chatId:
+                              (
+                                  JSON.parse(channel.params ?? '{}') as {
+                                      chatId: string[];
+                                  }
+                              ).chatId?.join(', ') ?? '',
                           type: ChannelType.Telegram,
                       }
                     : {
-                          email: channel.email ?? '',
+                          email:
+                              (
+                                  JSON.parse(channel.params ?? '{}') as {
+                                      email: string[];
+                                  }
+                              ).email?.join(', ') ?? '',
                           type: ChannelType.Email,
                       }),
             });

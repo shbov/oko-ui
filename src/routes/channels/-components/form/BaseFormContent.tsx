@@ -1,13 +1,13 @@
 import { Fragment } from 'react';
 
 import { FormRow } from '@gravity-ui/components';
+import { HelpMark, type SelectOption } from '@gravity-ui/uikit';
 import { useStore, type useForm } from '@tanstack/react-form';
 
 import { TextField, SelectField } from '~/packages/form/Fields';
 import { ChannelType } from '~/services/api/notification';
 
 import type { BaseFormValues } from '../constants';
-import type { SelectOption } from '@gravity-ui/uikit';
 
 const typeOptions: SelectOption[] = [
     {
@@ -55,12 +55,21 @@ export const BaseFormContent = ({ form, mode }: BaseFormContentProps) => {
                 </form.Field>
             </FormRow>
             {type === ChannelType.Telegram && (
-                <FormRow label="Чат ID" required>
+                <FormRow
+                    label="Чат(ы) ID"
+                    required
+                    labelHelpPopover={
+                        <HelpMark>
+                            Введите ID чата. Если нужно добавить несколько
+                            чатов, введите их через запятую.
+                        </HelpMark>
+                    }
+                >
                     <form.Field name="chatId">
                         {(field) => (
                             <TextField
                                 field={field}
-                                placeholder="Введите ID чата"
+                                placeholder="123, 456, 789"
                                 hasClear
                             />
                         )}
@@ -69,12 +78,21 @@ export const BaseFormContent = ({ form, mode }: BaseFormContentProps) => {
             )}
 
             {type === ChannelType.Email && (
-                <FormRow label="Email" required>
+                <FormRow
+                    label="Email"
+                    required
+                    labelHelpPopover={
+                        <HelpMark>
+                            Введите email. Если нужно добавить несколько email,
+                            введите их через запятую.
+                        </HelpMark>
+                    }
+                >
                     <form.Field name="email">
                         {(field) => (
                             <TextField
                                 field={field}
-                                placeholder="Введите email"
+                                placeholder="test@test.com, test2@test.com"
                                 hasClear
                             />
                         )}
