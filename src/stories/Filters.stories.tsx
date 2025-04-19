@@ -20,6 +20,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const from = dateTimeParse('02.09.2003')!.subtract(7, 'day');
+const to = dateTimeParse('02.09.2003')!;
+
 // Wrapper component to handle state
 const FiltersWrapper = ({
     multiple,
@@ -54,8 +57,8 @@ export const Default: Story = {
         setFilters: () => {},
         initialValues: {
             types: [],
-            dateFrom: dateTimeParse('now')!.subtract(7, 'day'),
-            dateTo: dateTimeParse('now')!,
+            dateFrom: from,
+            dateTo: to,
         },
     },
     render: (args) => (
@@ -68,8 +71,8 @@ export const WithInitialFilters: Story = {
         setFilters: () => {},
         initialValues: {
             types: ['keyword'],
-            dateFrom: dateTimeParse('02.09.2003')!.subtract(7, 'day'),
-            dateTo: dateTimeParse('02.09.2003')!,
+            dateFrom: from,
+            dateTo: to,
         },
     },
     render: (args) => {
@@ -108,8 +111,8 @@ export const Multiple: Story = {
         multiple: true,
         initialValues: {
             types: ['keyword', 'image'],
-            dateFrom: dateTimeParse('now')!.subtract(7, 'day'),
-            dateTo: dateTimeParse('now')!,
+            dateFrom: from,
+            dateTo: to,
         },
     },
     render: (args) => (

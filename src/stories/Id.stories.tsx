@@ -37,3 +37,9 @@ export const NumericId: Story = {
         id: '123456',
     },
 };
+
+export const EmptyId: Story = {
+    args: {
+        id: '',
+    },
+};
