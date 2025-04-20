@@ -58,69 +58,81 @@ export const DiffComponent = ({
 
             <div className={spacing({ mt: 3 })}>
                 <TabPanel value="imageDiff">
-                    <ReactCompareSlider
-                        itemOne={
-                            <ReactCompareSliderImage
-                                src={oldScreenshot}
-                                alt="Old screenshot"
-                            />
-                        }
-                        itemTwo={
-                            <ReactCompareSliderImage
-                                src={screenshot}
-                                alt="New screenshot"
-                            />
-                        }
-                    />
+                    {activeTab === 'imageDiff' && (
+                        <ReactCompareSlider
+                            itemOne={
+                                <ReactCompareSliderImage
+                                    src={oldScreenshot}
+                                    alt="Old screenshot"
+                                />
+                            }
+                            itemTwo={
+                                <ReactCompareSliderImage
+                                    src={screenshot}
+                                    alt="New screenshot"
+                                />
+                            }
+                        />
+                    )}
                 </TabPanel>
                 <TabPanel value="image">
-                    <img
-                        src={screenshot}
-                        alt="New screenshot"
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            maxWidth: '100%',
-                        }}
-                    />
+                    {activeTab === 'image' && (
+                        <img
+                            src={screenshot}
+                            alt="New screenshot"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                maxWidth: '100%',
+                            }}
+                        />
+                    )}
                 </TabPanel>
                 <TabPanel value="html">
-                    <SyntaxHighlighter
-                        language="html"
-                        style={darcula}
-                        wrapLines
-                        wrapLongLines
-                    >
-                        {html}
-                    </SyntaxHighlighter>
+                    {activeTab === 'html' && (
+                        <SyntaxHighlighter
+                            language="html"
+                            style={darcula}
+                            wrapLines
+                            wrapLongLines
+                        >
+                            {html}
+                        </SyntaxHighlighter>
+                    )}
                 </TabPanel>
                 <TabPanel value="htmlDiff">
-                    <ReactDiffViewer
-                        oldValue={oldHtml}
-                        newValue={html}
-                        splitView={false}
-                        useDarkTheme
-                    />
-                </TabPanel>
-                <TabPanel value="text">
-                    <SyntaxHighlighter
-                        language="html"
-                        style={darcula}
-                        wrapLines
-                        wrapLongLines
-                    >
-                        {text}
-                    </SyntaxHighlighter>
-                </TabPanel>
-                <TabPanel value="textDiff">
-                    <Text variant="code-1">
+                    {activeTab === 'htmlDiff' && (
                         <ReactDiffViewer
-                            oldValue={oldText}
-                            newValue={text}
-                            splitView={false}
+                            oldValue={oldHtml}
+                            newValue={html}
+                            splitView={true}
                             useDarkTheme
                         />
-                    </Text>
+                    )}
+                </TabPanel>
+                <TabPanel value="text">
+                    {activeTab === 'text' && (
+                        <SyntaxHighlighter
+                            language="html"
+                            style={darcula}
+                            wrapLines
+                            wrapLongLines
+                        >
+                            {text}
+                        </SyntaxHighlighter>
+                    )}
+                </TabPanel>
+                <TabPanel value="textDiff">
+                    {activeTab === 'textDiff' && (
+                        <Text variant="code-1">
+                            <ReactDiffViewer
+                                oldValue={oldText}
+                                newValue={text}
+                                splitView
+                                useDarkTheme
+                            />
+                        </Text>
+                    )}
                 </TabPanel>
             </div>
         </TabProvider>

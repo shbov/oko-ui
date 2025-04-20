@@ -4,7 +4,7 @@ import { useDataManager, useQueryData } from '@gravity-ui/data-source';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
-import { getChannelSource } from '~/data-sources';
+import { getChannelSource, listChannelsSource } from '~/data-sources';
 import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { EditFormValues } from '~/routes/channels/-components/constants';
@@ -39,6 +39,7 @@ export const Edit = () => {
                     });
 
                     void dataManager.invalidateSource(getChannelSource);
+                    void dataManager.invalidateSource(listChannelsSource);
                     void router.navigate({
                         to: `/channels/${params.channelId}`,
                     });
@@ -61,9 +62,9 @@ export const Edit = () => {
                           chatId:
                               (
                                   JSON.parse(channel.params ?? '{}') as {
-                                      chatId: string[];
+                                      chat_id: string[];
                                   }
-                              ).chatId?.join(', ') ?? '',
+                              ).chat_id?.join(', ') ?? '',
                           type: ChannelType.Telegram,
                       }
                     : {

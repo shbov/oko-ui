@@ -3,10 +3,12 @@ import { useCallback } from 'react';
 import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
+import { listChannelsSource } from '~/data-sources';
 import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import type { CreateChannelResponse } from '~/services/api/notification';
+import { dataManager } from '~/services/data-source';
 import { toaster } from '~/services/toaster';
 
 import { CreateForm } from './-components/form/CreateForm';
@@ -29,6 +31,8 @@ export const Create = () => {
                         content: `Канал с ID ${r.channel?.id} был успешно создан`,
                         theme: 'success',
                     });
+
+                    void dataManager.invalidateSource(listChannelsSource);
 
                     void router.navigate({
                         to: `/channels/${r.channel?.id}`,

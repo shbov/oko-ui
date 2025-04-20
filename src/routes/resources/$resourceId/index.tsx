@@ -290,7 +290,7 @@ function RouteComponent() {
                             image={<NotFound />}
                             title="Событий нет"
                             size="m"
-                            description="События появятся после проверки ресурса"
+                            description="Пока не было найдено изменений в отслеживаемом ресурсе"
                         />
                     )}
                 </DataLoader>
