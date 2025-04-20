@@ -109,6 +109,11 @@ export default tseslint.config(
                     message:
                         "Importing directly from 'zod' is restricted in this project. Please use `~services/zod` instead.",
                 },
+                {
+                    name: 'i18next',
+                    message:
+                        "Importing directly from 'i18next' is restricted in this project. Please use `~services/i18n` instead.",
+                },
             ],
         },
     },

@@ -9,6 +9,7 @@ import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { EditForm } from '../-components/form/EditForm';
@@ -34,8 +35,10 @@ export const Edit = () => {
                 .then((r) => {
                     toaster.add({
                         name: 'resource-edited',
-                        title: 'Ресурс изменен',
-                        content: `Ресурс с ID ${r.resource?.id} был успешно изменен`,
+                        title: t('resources.edited'),
+                        content: t('resources.editedContent', {
+                            id: r.resource?.id,
+                        }),
                         theme: 'success',
                     });
 
@@ -49,7 +52,7 @@ export const Edit = () => {
     );
 
     return (
-        <Page title="Редактировать ресурс">
+        <Page title={t('resources.editResource')}>
             <DataLoader
                 error={resourceQuery.error}
                 status={resourceQuery.status}
@@ -71,7 +74,7 @@ export const Route = createFileRoute('/resources/$resourceId/edit')(
         component: Edit,
         loader: () => {
             return {
-                crumb: `Редактирование ресурса`,
+                crumb: t('resources.editResource'),
             };
         },
     }),

@@ -1,10 +1,12 @@
 import { settings } from '@gravity-ui/date-utils';
 import { configure } from '@gravity-ui/uikit';
 
+import { defaultLocale } from '~/services/i18n';
+
 configure({
-    lang: 'ru',
+    lang: defaultLocale,
 });
 
-void settings.loadLocale('ru').then(() => {
-    settings.setLocale('ru');
+void settings.loadLocale(defaultLocale).then(() => {
+    settings.setLocale(defaultLocale);
 });

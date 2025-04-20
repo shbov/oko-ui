@@ -6,6 +6,7 @@ import { Page } from '~/components/Page';
 import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { CreateForm } from './-components/form/CreateForm';
@@ -26,8 +27,10 @@ export const Create = () => {
                 .then((r) => {
                     toaster.add({
                         name: 'resource-created',
-                        title: 'Ресурс создан',
-                        content: `Ресурс с ID ${r.resource?.id} был успешно создан`,
+                        title: t('resources.created'),
+                        content: t('resources.createdContent', {
+                            id: r.resource?.id,
+                        }),
                         theme: 'success',
                     });
 
@@ -41,7 +44,7 @@ export const Create = () => {
     );
 
     return (
-        <Page title="Создать ресурс">
+        <Page title={t('resources.create')}>
             <CreateForm onSubmit={onSubmit} />
         </Page>
     );
@@ -52,7 +55,7 @@ export const Route = createFileRoute('/resources/create')(
         component: Create,
         loader: () => {
             return {
-                crumb: 'Создать ресурс',
+                crumb: t('resources.create'),
             };
         },
     }),

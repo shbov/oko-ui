@@ -46,6 +46,7 @@ import { api } from '~/services/api';
 import type { Event } from '~/services/api/event';
 import type { Resource } from '~/services/api/resource';
 import { DataLoader, dataManager } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from '../-components/DeleteDialog';
@@ -104,21 +105,24 @@ function RouteComponent() {
 
         return [
             {
-                name: 'ID',
+                name: t('resources.id'),
                 value: <Id id={resource?.resource?.id ?? ''} />,
                 copyText: resource?.resource?.id,
             },
             {
-                name: 'Дата начала мониторинга',
+                name: t('resources.startDate'),
                 value: date?.format(PROJECT_FORMAT) ?? null,
             },
             {
-                name: 'Статус',
+                name: t('resources.status'),
                 value: <ResourceStatus enabled={enabled} startDate={date} />,
             },
-            { name: 'Описание', value: description || null },
             {
-                name: 'URL',
+                name: t('resources.description'),
+                value: description || null,
+            },
+            {
+                name: t('resources.url'),
                 value: (
                     <LinkUI href={url} target="_blank">
                         {url}
@@ -127,7 +131,7 @@ function RouteComponent() {
                 copyText: url,
             },
             {
-                name: 'Каналы',
+                name: t('resources.channels'),
                 value:
                     channels?.length > 0 ? (
                         <Flex gap={2} wrap="wrap">
@@ -149,7 +153,7 @@ function RouteComponent() {
                     ) : null,
             },
             {
-                name: 'Ключевые слова',
+                name: t('resources.keywords'),
                 value: (
                     <Flex gap={2} wrap="wrap">
                         {keywords.map((word) => (
@@ -165,14 +169,14 @@ function RouteComponent() {
                     </Flex>
                 ),
             },
-            { name: 'Интервал', value: interval },
+            { name: t('resources.interval'), value: interval },
         ];
     }, [resource, allChannels]);
 
     const primaryActions = useMemo(
         () => [
             {
-                text: 'Редактировать',
+                text: t('resources.edit'),
                 icon: Pencil,
                 onClick: () => {
                     void router.navigate({
@@ -188,7 +192,7 @@ function RouteComponent() {
     const secondaryActions: SecondaryPageAction[] = useMemo(
         () => [
             {
-                text: 'Снимки',
+                text: t('resources.snapshots'),
                 icon: Camera,
                 onClick: () => {
                     void router.navigate({
@@ -198,7 +202,7 @@ function RouteComponent() {
                 },
             },
             {
-                text: 'События',
+                text: t('resources.events'),
                 icon: ClockArrowRotateLeft,
                 onClick: () => {
                     void router.navigate({
@@ -209,8 +213,8 @@ function RouteComponent() {
             },
             {
                 text: resource?.resource?.enabled
-                    ? 'Приостановить'
-                    : 'Возобновить',
+                    ? t('resources.pause')
+                    : t('resources.resume'),
                 icon: resource?.resource?.enabled ? Pause : Play,
                 onClick: () => {
                     api.resource
@@ -225,8 +229,8 @@ function RouteComponent() {
                             toaster.add({
                                 name: 'resource-updated',
                                 title: resource?.resource?.enabled
-                                    ? 'Ресурс приостановлен'
-                                    : 'Ресурс возобновлен',
+                                    ? t('resources.paused')
+                                    : t('resources.resumed'),
                                 theme: 'success',
                             });
                         })
@@ -273,7 +277,9 @@ function RouteComponent() {
                     </DefinitionList>
                 </div>
 
-                <Text variant="subheader-2">Последние события</Text>
+                <Text variant="subheader-2">
+                    {t('resources.lastEvents')}
+                </Text>
                 <DataLoader
                     error={eventsQuery.error}
                     status={eventsQuery.status}
@@ -288,9 +294,11 @@ function RouteComponent() {
                     ) : (
                         <PlaceholderContainer
                             image={<NotFound />}
-                            title="Событий нет"
+                            title={t('resources.noEvents')}
                             size="m"
-                            description="Пока не было найдено изменений в отслеживаемом ресурсе"
+                            description={t(
+                                'resources.noEventsDescription',
+                            )}
                         />
                     )}
                 </DataLoader>
@@ -306,8 +314,10 @@ function RouteComponent() {
 
                     toaster.add({
                         name: 'resource-deleted',
-                        title: 'Ресурс удален',
-                        content: `Ресурс с ID ${deleteResource?.id} был успешно удален`,
+                        title: t('resources.deleted'),
+                        content: t('resources.deletedContent', {
+                            id: deleteResource?.id,
+                        }),
                         theme: 'success',
                     });
 

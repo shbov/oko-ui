@@ -15,6 +15,7 @@ import { AppLayout } from '~/components/AppLayout';
 import { NotFound } from '~/components/NotFound';
 import { useAuth } from '~/hooks/useAuth';
 import { useMenuItems } from '~/hooks/useMenuItems';
+import { t } from '~/services/i18n';
 import type { RouterContext } from '~/services/router/types';
 
 import './root.scss';
@@ -38,8 +39,8 @@ const App = () => {
                     item={{
                         id: 'user',
                         icon: Person,
-                        title: 'Учетная запись',
-                        tooltipText: 'Учетная запись',
+                        title: t('user.account'),
+                        tooltipText: t('user.account'),
                         current: popupVisible,
                         onItemClick: () => {
                             setPopupVisible(!popupVisible);
@@ -79,8 +80,8 @@ const App = () => {
                     item={{
                         id: 'login',
                         icon: Person,
-                        title: 'Войти в аккаунт',
-                        tooltipText: 'Войти в аккаунт',
+                        title: t('auth.login'),
+                        tooltipText: t('auth.login'),
                         onItemClick: () => {
                             auth.login();
                         },

@@ -28,6 +28,7 @@ import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import type { Resource } from '~/services/api/resource';
 import { DataLoader, dataManager } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { DeleteDialog } from './-components/DeleteDialog';
@@ -39,6 +40,7 @@ import type {
     TableActionConfig,
     TableColumnConfig,
 } from '@gravity-ui/uikit';
+
 const ResourcesTable = withTableSorting(
     withTableCopy(withTableActions<Resource>(Table)),
 );
@@ -46,7 +48,7 @@ const ResourcesTable = withTableSorting(
 const columns: TableColumnConfig<Resource>[] = [
     {
         id: 'name',
-        name: 'Название',
+        name: t('resources.name'),
         template: ({ name }: Resource) => name,
         primary: true,
         meta: {
@@ -55,12 +57,12 @@ const columns: TableColumnConfig<Resource>[] = [
     },
     {
         id: 'description',
-        name: 'Описание',
+        name: t('resources.description'),
         template: ({ description }: Resource) => description || EMPTY_DASH,
     },
     {
         id: 'url',
-        name: 'URL',
+        name: t('resources.url'),
         template: ({ url }: Resource) => (
             <Link
                 href={url}
@@ -77,18 +79,18 @@ const columns: TableColumnConfig<Resource>[] = [
     },
     {
         id: 'interval',
-        name: 'Интервал',
+        name: t('resources.interval'),
         template: ({ interval }: Resource) => interval,
     },
     {
         id: 'startDate',
-        name: 'Дата начала мониторинга',
+        name: t('resources.startDate'),
         template: ({ starts_from }: Resource) =>
             dateTimeParse(starts_from)?.format(PROJECT_FORMAT) ?? EMPTY_DASH,
     },
     {
         id: 'status',
-        name: 'Статус',
+        name: t('resources.status'),
         template: ({ enabled, starts_from }: Resource) => (
             <ResourceStatus
                 enabled={enabled}
@@ -110,7 +112,7 @@ function RouteComponent() {
         (resource: Resource) => {
             const actions: TableActionConfig<Resource>[] = [
                 {
-                    text: 'Редактировать',
+                    text: t('resources.edit'),
                     handler: () => {
                         void router.navigate({
                             to: '/resources/$resourceId/edit',
@@ -122,7 +124,9 @@ function RouteComponent() {
                     icon: <Icon data={Pencil} size={TABLE_ACTION_SIZE} />,
                 },
                 {
-                    text: resource.enabled ? 'Приостановить' : 'Возобновить',
+                    text: resource.enabled
+                        ? t('resources.pause')
+                        : t('resources.resume'),
                     icon: (
                         <Icon
                             data={resource.enabled ? Pause : Play}
@@ -144,8 +148,8 @@ function RouteComponent() {
                                 toaster.add({
                                     name: 'resource-updated',
                                     title: resource.enabled
-                                        ? 'Ресурс приостановлен'
-                                        : 'Ресурс возобновлен',
+                                        ? t('resources.paused')
+                                        : t('resources.resumed'),
                                     theme: 'success',
                                 });
                             })
@@ -162,7 +166,7 @@ function RouteComponent() {
     const actions = useMemo(() => {
         const actions: PlaceholderContainerActionProps[] = [
             {
-                text: 'Создать ресурс',
+                text: t('resources.create'),
                 onClick: () => {
                     void router.navigate({
                         to: '/resources/create',
@@ -204,7 +208,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                text: 'Создать ресурс',
+                text: t('resources.create'),
                 onClick: () => {
                     void router.navigate({
                         to: '/resources/create',
@@ -216,7 +220,7 @@ function RouteComponent() {
     );
 
     return (
-        <Page title="Ресурсы" primaryActions={primaryActions}>
+        <Page title={t('resources.title')} primaryActions={primaryActions}>
             <DataLoader
                 status={resourcesQuery.status}
                 error={resourcesQuery.error}
@@ -225,8 +229,8 @@ function RouteComponent() {
                 {resourcesQuery.data?.resources.length === 0 ? (
                     <PlaceholderContainer
                         image={<Database />}
-                        title="Ресурсов еще нет"
-                        description="Создайте ваш первый ресурс!"
+                        title={t('resources.noResources')}
+                        description={t('resources.createResource')}
                         actions={actions}
                     />
                 ) : (
@@ -253,8 +257,10 @@ function RouteComponent() {
 
                                 toaster.add({
                                     name: 'resource-deleted',
-                                    title: 'Ресурс удален',
-                                    content: `Ресурс с ID ${deleteResource?.id} был успешно удален`,
+                                    title: t('resources.deleted'),
+                                    content: t('resources.deletedContent', {
+                                        id: deleteResource?.id,
+                                    }),
                                     theme: 'success',
                                 });
 

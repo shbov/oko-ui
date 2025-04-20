@@ -7,6 +7,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 import { Page } from '~/components/Page';
 import { useAuth } from '~/hooks/useAuth';
 import { LoaderContainer } from '~/services/data-source/components/LoaderContainer';
+import { t } from '~/services/i18n';
 
 import type { PlaceholderContainerActionProps } from '@gravity-ui/uikit';
 
@@ -18,13 +19,13 @@ const Content = () => {
         const actions: PlaceholderContainerActionProps[] = [
             auth.status == 'UNAUTHENTICATED'
                 ? {
-                      text: 'Войти в аккаунт',
+                      text: t('auth.login'),
                       onClick: () => {
                           auth.login();
                       },
                   }
                 : {
-                      text: 'Создать ресурс',
+                      text: t('resources.create'),
                       onClick: () => {
                           void router.navigate({
                               to: '/resources/create',
@@ -43,25 +44,15 @@ const Content = () => {
     return (
         <PlaceholderContainer
             image={<Feature />}
-            title="Добро пожаловать в OKO"
-            description={
-                <div>
-                    Oko UI - сервис для автоматического отслеживания изменений
-                    на веб-страницах.
-                    <br />
-                    <br />
-                    Позволяет настраивать мониторинг по ключевым словам,
-                    выбранным областям страницы и получать уведомления об
-                    изменениях
-                </div>
-            }
+            title={t('welcome')}
+            description={t('description')}
             actions={actions}
         />
     );
 };
 export const Index = () => {
     return (
-        <Page title="Главная">
+        <Page title={t('crumb.index')}>
             <Content />
         </Page>
     );
@@ -71,7 +62,7 @@ export const Route = createFileRoute('/')({
     component: Index,
     loader: () => {
         return {
-            crumb: 'Главная',
+            crumb: t('crumb.index'),
         };
     },
 });
