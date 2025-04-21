@@ -52,8 +52,8 @@ export const getProtectedKyInstance = () =>
             ],
         },
         retry: {
-            statusCodes: [401],
-            limit: 1,
+            statusCodes: [400, 401, 403, 404],
+            limit: 0,
         },
     });
 

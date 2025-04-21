@@ -16,6 +16,10 @@ echo "🐳 Managing Docker containers with Compose..."
 echo "🛑 Stopping and removing existing containers..."
 docker compose down
 
+# Remove all unused containers, images, and volumes
+echo "🧹 Removing unused containers, images, and volumes..."
+docker system prune -af
+
 # Build and start new containers
 echo "🏗️ Building and starting new containers..."
 docker compose up -d --build
