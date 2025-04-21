@@ -1,0 +1,18 @@
+# Test files
+**/*.test.*
+**/*.spec.*
+**/tests/
+**/__tests__/
+
+# Story files
+**/*.stories.*
+**/stories/
+
+# Development files
+.git
+.gitignore
+README.md
+.editorconfig
+.eslintrc
+.prettierrc
+.vscode/
