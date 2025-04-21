@@ -12,6 +12,7 @@ const dirname =
 
 export default defineWorkspace([
     {
+        extends: 'vite.config.ts',
         plugins: [viteReact()],
         test: {
             name: 'unit',
@@ -20,6 +21,16 @@ export default defineWorkspace([
             pool: 'vmThreads',
             setupFiles: ['./tests/setup.ts'],
             include: ['**/*.test.{ts,tsx}'],
+            deps: {
+                inline: [
+                    '@tanstack/react-form',
+                    '@tanstack/zod-form-adapter',
+                    '@gravity-ui/uikit',
+                    '@gravity-ui/components',
+                    '@gravity-ui/date-components',
+                    '@gravity-ui/date-utils',
+                ],
+            },
         },
     },
     {
