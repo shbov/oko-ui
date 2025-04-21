@@ -55,25 +55,27 @@ export const Edit = () => {
 
     useEffect(() => {
         if (!initialValues && channel) {
+            const data = JSON.parse(channel.params ?? '{}') as {
+                chat_id?: string[];
+                email?: string[];
+            };
+
+            const value = [
+                Array.isArray(data.chat_id) ? data.chat_id : [data.chat_id],
+                Array.isArray(data.email) ? data.email : [data.email],
+            ]
+                .flat()
+                .filter(Boolean);
+
             setInitialValues({
                 name: channel.name,
                 ...(channel.type === ChannelType.Telegram
                     ? {
-                          chatId:
-                              (
-                                  JSON.parse(channel.params ?? '{}') as {
-                                      chat_id: string[];
-                                  }
-                              ).chat_id?.join(', ') ?? '',
+                          chatId: value.join(', ') ?? '',
                           type: ChannelType.Telegram,
                       }
                     : {
-                          email:
-                              (
-                                  JSON.parse(channel.params ?? '{}') as {
-                                      email: string[];
-                                  }
-                              ).email?.join(', ') ?? '',
+                          email: value.join(', ') ?? '',
                           type: ChannelType.Email,
                       }),
             });

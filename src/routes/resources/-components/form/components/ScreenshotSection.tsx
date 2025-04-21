@@ -75,7 +75,9 @@ export const ScreenshotSection = ({
                         label="Чувствительность"
                         labelHelpPopover={
                             <HelpMark>
-                                Может быть от 0 до 1 включительно
+                                Может быть от 0 до 100 включительно. Где 0 –
+                                любое изменение (или их отсутствие), 100 –
+                                изменения на скриншоте не отслеживаются
                             </HelpMark>
                         }
                         required
@@ -85,8 +87,8 @@ export const ScreenshotSection = ({
                                 <NumberField
                                     field={field}
                                     min={0}
-                                    max={1}
-                                    step={0.05}
+                                    max={100}
+                                    step={0.01}
                                     allowDecimal
                                 />
                             )}
