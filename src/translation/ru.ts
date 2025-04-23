@@ -35,6 +35,9 @@ export const ru = {
         deleteResource: 'Удалить ресурс',
         edited: 'Ресурс отредактирован',
         editedContent: 'Ресурс с ID {{id}} был успешно отредактирован',
+        emptySearchTitle: 'Ресурсы не найдены',
+        emptySearchTitleDescription:
+            'По данному фильтру не нашлось ни одного ресурса. Попробуйте изменить запрос фильтрации.',
     },
     welcome: 'Добро пожаловать в OKO',
     description:

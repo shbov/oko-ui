@@ -1,13 +1,7 @@
 import { Fragment, useState } from 'react';
 
-import {
-    spacing,
-    Tab,
-    TabList,
-    TabPanel,
-    TabProvider,
-    Text,
-} from '@gravity-ui/uikit';
+import { Tab, TabList, TabPanel, TabProvider, Text } from '@gravity-ui/uikit';
+import block from 'bem-cn-lite';
 import {
     ReactCompareSlider,
     ReactCompareSliderImage,
@@ -15,6 +9,10 @@ import {
 import ReactDiffViewer from 'react-diff-viewer';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
+import './DiffComponent.scss';
+
+const b = block('diff-component');
 
 export const DiffComponent = ({
     html,
@@ -56,7 +54,7 @@ export const DiffComponent = ({
                 )}
             </TabList>
 
-            <div className={spacing({ mt: 3 })}>
+            <div className={b()}>
                 <TabPanel value="imageDiff">
                     {activeTab === 'imageDiff' && (
                         <ReactCompareSlider

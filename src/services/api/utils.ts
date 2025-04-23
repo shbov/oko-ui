@@ -36,7 +36,7 @@ export const getProtectedKyInstance = () =>
                         error.response.status === 401
                     ) {
                         const data = await ky
-                            .get('refresh', { ...options, retry: 0 })
+                            .get('/api/refresh', { ...options, retry: 0 })
                             .json<RefreshTokenResponse>();
 
                         const newAccessToken = data.accessToken;

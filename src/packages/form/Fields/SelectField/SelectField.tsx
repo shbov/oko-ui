@@ -29,6 +29,8 @@ export const SelectField = <
     TFormValidator,
     TData
 >) => {
+    // Обработчик изменения значения поля
+    // Поддерживает как одиночный выбор, так и множественный
     const onChange = useCallback(
         (e: string[]) => {
             if (isSingle) {
@@ -40,6 +42,8 @@ export const SelectField = <
         [field, isSingle],
     );
 
+    // Получение сообщения об ошибке валидации
+    // Отображается только если поле было "тронуто" (touched)
     const errorMessage = useMemo(
         () =>
             field.state.meta.isTouched &&
@@ -47,6 +51,8 @@ export const SelectField = <
         [field.state.meta.errors, field.state.meta.isTouched],
     );
 
+    // Подготовка пропсов для компонента Select
+    // Включает обработку значения, состояния ошибки и валидации
     const props = useMemo(() => {
         let value;
         if (isSingle) {

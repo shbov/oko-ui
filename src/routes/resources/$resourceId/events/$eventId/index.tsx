@@ -1,7 +1,6 @@
 import { useQueryData } from '@gravity-ui/data-source';
 import { DefinitionList, spacing } from '@gravity-ui/uikit';
 import { createFileRoute } from '@tanstack/react-router';
-import block from 'bem-cn-lite';
 
 import { Page } from '~/components/Page';
 import { getEventSource } from '~/data-sources';
@@ -9,10 +8,7 @@ import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { DiffComponent } from '~/routes/resources/-components/DiffComponent/DiffComponent';
 import { DataLoader } from '~/services/data-source';
 
-import './Diff.scss';
 import { EventStatus } from '../-components/EventStatus';
-
-const b = block('diff');
 
 const oldCode = `12-12-2024 Serious liver injury being observed in patients without cirrhosis taking Ocaliva (obeticholic acid) to treat primary biliary cholangitis`;
 
@@ -37,7 +33,7 @@ const Diff = () => {
                 error={eventQuery.error}
                 errorAction={eventQuery.refetch}
             >
-                <div className={b()}>
+                <div>
                     <div className={spacing({ mb: 3 })}>
                         <DefinitionList>
                             <DefinitionList.Item name="Статус">

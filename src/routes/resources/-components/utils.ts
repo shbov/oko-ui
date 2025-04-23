@@ -6,6 +6,8 @@ import {
 
 import type { CreateFormValues, EditFormValues } from './constants';
 
+// Подготовка массива областей для создания ресурса
+// Преобразует данные из формы в формат, ожидаемый API
 const prepareAreas = (areas: CreateFormValues['areas']) => {
     return (
         areas?.map((area) => ({
@@ -17,6 +19,8 @@ const prepareAreas = (areas: CreateFormValues['areas']) => {
     );
 };
 
+// Преобразование данных формы создания ресурса в формат API
+// Обрабатывает различные типы ресурсов (скриншот/обычный) и их специфичные поля
 export const prepareCreateValues = ({
     name,
     description,
@@ -30,6 +34,7 @@ export const prepareCreateValues = ({
     interval,
     startDate,
 }: CreateFormValues) => {
+    // Обработка ключевых слов: разбиение строки на массив и удаление пустых значений
     const parsedKeywords = keywords
         ? keywords
               .split(',')
@@ -37,6 +42,7 @@ export const prepareCreateValues = ({
               .filter(Boolean)
         : [];
 
+    // Преобразование интервала в формат API
     const patchedInterval: CreateResourceRequest['interval'] = {
         day_of_week: interval.dayOfWeek,
         days: interval.days,
@@ -45,6 +51,7 @@ export const prepareCreateValues = ({
         months: interval.months,
     };
 
+    // Общие поля для всех типов ресурсов
     const commonValues = {
         name,
         description,
@@ -55,10 +62,12 @@ export const prepareCreateValues = ({
         starts_from: Math.round(startDate?.getTime() / 1000),
     };
 
+    // Если ресурс не является скриншотом, возвращаем только общие поля
     if (!isScreenshot) {
         return commonValues;
     }
 
+    // Для скриншота добавляем специфичные поля
     return {
         ...commonValues,
         sensitivity,
@@ -69,6 +78,8 @@ export const prepareCreateValues = ({
     };
 };
 
+// Преобразование данных формы редактирования ресурса
+// Использует prepareCreateValues и добавляет ID ресурса
 export const prepareEditValues = (
     values: EditFormValues,
     id: string,

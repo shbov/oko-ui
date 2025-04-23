@@ -31,12 +31,16 @@ export const Filters = ({
     multiple?: boolean;
     initialValues: InitialValues;
 }) => {
+    // Состояние для хранения выбранных типов событий
     const [types, setTypes] = useState<('keyword' | 'image')[]>(
         initialValues.types,
     );
+    // Состояние для хранения даты начала периода
     const [from, setFrom] = useState<DateTime>(initialValues.dateFrom);
+    // Состояние для хранения даты окончания периода
     const [to, setTo] = useState<DateTime>(initialValues.dateTo);
 
+    // Обновление фильтров при изменении любого из параметров
     useEffect(() => {
         setFilters(
             (prev: EventFilter | null) =>
@@ -50,6 +54,7 @@ export const Filters = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [types, from, to]);
 
+    // Опции для выбора типа события
     const options = useSelectOptions({
         options: [
             {
@@ -63,6 +68,7 @@ export const Filters = ({
         ],
     });
 
+    // Обработчик изменения периода дат
     const onDatePickerUpdate = useCallback(
         (value: RangeValue<DateTime> | null) => {
             if (value) {

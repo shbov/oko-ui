@@ -4,7 +4,6 @@ export const emailSchema = zod
     .string()
     .email({ message: 'Некорректный адрес электронной почты' });
 
-// TODO(@shbov): think about password safety rules (with backend)
 export const passwordSchema = zod
     .string()
     .min(8, { message: 'Пароль должен содержать минимум 8 символов' })

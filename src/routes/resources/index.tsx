@@ -3,7 +3,7 @@ import { Fragment, useCallback, useMemo, useState } from 'react';
 import { useQueryData } from '@gravity-ui/data-source';
 import { dateTimeParse } from '@gravity-ui/date-utils';
 import { Pause, Pencil, Play } from '@gravity-ui/icons';
-import { Database } from '@gravity-ui/illustrations';
+import { Database, NotFound } from '@gravity-ui/illustrations';
 import {
     Flex,
     Icon,
@@ -240,13 +240,25 @@ function RouteComponent() {
                                 search={search}
                                 onSearchChange={setSearch}
                             />
-                            <ResourcesTable
-                                data={filteredData}
-                                columns={columns}
-                                getRowActions={getRowActions}
-                                onRowClick={onRowClick}
-                            />
+
+                            {filteredData.length > 0 ? (
+                                <ResourcesTable
+                                    data={filteredData}
+                                    columns={columns}
+                                    getRowActions={getRowActions}
+                                    onRowClick={onRowClick}
+                                />
+                            ) : (
+                                <PlaceholderContainer
+                                    title={t('resources.emptySearchTitle')}
+                                    description={t(
+                                        'resources.emptySearchTitleDescription',
+                                    )}
+                                    image={<NotFound />}
+                                />
+                            )}
                         </Flex>
+
                         <DeleteDialog
                             open={Boolean(deleteResource)}
                             onClose={() => setDeleteResource(null)}
