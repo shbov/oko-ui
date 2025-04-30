@@ -5,6 +5,7 @@ import { useApiError } from '~/hooks/toasters';
 import { api } from '~/services/api';
 import type { LoginRequest } from '~/services/api/user';
 import { dataManager } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 import { setCookie } from '~/utils/cookies';
 
@@ -17,8 +18,10 @@ export function useLoginMutation() {
         onSuccess: (data) => {
             toaster.add({
                 name: 'login-success',
-                title: 'Вход выполнен успешно',
-                content: `Добро пожаловать, ${data.user.name || data.user.username}!`,
+                title: t('auth.loginSuccess'),
+                content: t('auth.loginSuccessContent', {
+                    name: data.user.name || data.user.username,
+                }),
                 theme: 'success',
             });
 

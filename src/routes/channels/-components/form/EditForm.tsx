@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 
 import { Form } from '~/packages/form';
+import { t } from '~/services/i18n';
 
 import { editSchema } from '../constants';
 import { BaseFormContent } from './BaseFormContent';
@@ -22,7 +23,12 @@ export const EditForm = ({ initialValues, onSubmit }: EditFormProps) => {
     });
 
     return (
-        <Form submitText="Сохранить" formApi={form} size="m" withCancelButton>
+        <Form
+            submitText={t('resources.form.save')}
+            formApi={form}
+            size="m"
+            withCancelButton
+        >
             <BaseFormContent form={form} mode="edit" />
         </Form>
     );

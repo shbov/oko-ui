@@ -3,6 +3,7 @@ import { Text } from '@gravity-ui/uikit';
 import { Id } from '~/components/Id';
 import { UILink } from '~/components/UILink';
 import type { Event } from '~/services/api/event';
+import { t } from '~/services/i18n';
 
 import { EventStatus } from './EventStatus';
 import { parseSnapshotId } from '../../snapshots/-utils';
@@ -12,7 +13,7 @@ import type { TableColumnConfig } from '@gravity-ui/uikit';
 export const eventColumns: TableColumnConfig<Event>[] = [
     {
         id: 'id',
-        name: 'ID',
+        name: t('resources.events.id'),
         template: ({ id }) => <Id id={id} />,
         primary: true,
         meta: {
@@ -21,7 +22,7 @@ export const eventColumns: TableColumnConfig<Event>[] = [
     },
     {
         id: 'status',
-        name: 'Статус',
+        name: t('resources.events.status'),
         template: ({ status }) => <EventStatus status={status} />,
         meta: {
             sort: true,
@@ -29,7 +30,7 @@ export const eventColumns: TableColumnConfig<Event>[] = [
     },
     {
         id: 'snapshot',
-        name: 'Снимок',
+        name: t('resources.events.snapshot'),
         template: ({ snapshot_id, resource_id }) => (
             <UILink
                 to={`/resources/$resourceId/snapshots/$snapshotId`}
@@ -45,12 +46,12 @@ export const eventColumns: TableColumnConfig<Event>[] = [
     },
     {
         id: 'type',
-        name: 'Тип',
+        name: t('resources.events.type'),
         template: ({ type }) => <Text>{type}</Text>,
     },
     {
         id: 'date',
-        name: 'Дата события',
+        name: t('resources.events.date'),
         template: ({ created_at }) => (
             <Text>{new Date(created_at).toLocaleString('ru')}</Text>
         ),

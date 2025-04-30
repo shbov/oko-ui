@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { type PlaceholderContainerProps } from '@gravity-ui/uikit';
 
 import { ErrorContainer as ErrorContainerBase } from '~/components/ErrorContainer';
+import { t } from '~/services/i18n';
 
 import type { QueryError } from '../../types';
 import type { ErrorAction, ErrorViewProps } from '@gravity-ui/data-source';
@@ -23,7 +24,7 @@ export const ErrorContainer = (props: ErrorContainerProps) => {
 
         if (props.action) {
             items.push({
-                text: props.action?.text || 'Попробовать еще раз',
+                text: props.action?.text || t('common.tryAgain'),
                 onClick: props.action?.handler,
             });
         }

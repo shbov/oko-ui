@@ -12,6 +12,7 @@ import { getChannelSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { Channel } from '~/services/api/notification';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { DeleteChannel } from '../-components/DeleteChannel';
@@ -35,7 +36,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                text: 'Редактировать канал',
+                text: t('channels.edit'),
                 icon: Pencil,
                 onClick: () => {
                     void router.navigate({
@@ -51,8 +52,8 @@ function RouteComponent() {
     const onChannelDelete = useCallback(() => {
         toaster.add({
             name: 'channel-deleted',
-            title: 'Канал удален',
-            content: `Канал с ID ${deleteChannel?.id} был успешно удален`,
+            title: t('channels.deleted'),
+            content: t('channels.deletedContent', { id: deleteChannel?.id }),
             theme: 'success',
         });
 
@@ -64,7 +65,7 @@ function RouteComponent() {
     const secondaryActions = useMemo(
         () => [
             {
-                text: 'Удалить',
+                text: t('channels.delete'),
                 icon: TrashBin,
                 theme: 'danger' as const,
                 onClick: () => {
@@ -95,7 +96,7 @@ function RouteComponent() {
                 <Label
                     copyText={item}
                     key={item}
-                    copyButtonLabel="Скопировать"
+                    copyButtonLabel={t('common.copy')}
                     type="copy"
                 >
                     {item}
@@ -105,7 +106,7 @@ function RouteComponent() {
 
     return (
         <Page
-            title="Канал оповещения"
+            title={t('channels.title')}
             primaryActions={primaryActions}
             secondaryActions={secondaryActions}
         >

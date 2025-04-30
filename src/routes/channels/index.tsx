@@ -22,6 +22,7 @@ import { listChannelsSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { Channel, ChannelType } from '~/services/api/notification';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { DeleteChannel } from './-components/DeleteChannel';
@@ -42,7 +43,7 @@ const ChannelsTable = withTableActions(
 const columns: TableColumnConfig<Channel>[] = [
     {
         id: 'name',
-        name: 'Название',
+        name: t('channels.name'),
         template: ({ name }: Channel) => name,
         primary: true,
         meta: {
@@ -51,7 +52,7 @@ const columns: TableColumnConfig<Channel>[] = [
     },
     {
         id: 'id',
-        name: 'ID',
+        name: t('channels.id'),
         template: ({ id }: Channel) => <Id id={id} />,
         meta: {
             copy: ({ id }: Channel) => id,
@@ -59,7 +60,7 @@ const columns: TableColumnConfig<Channel>[] = [
     },
     {
         id: 'type',
-        name: 'Тип',
+        name: t('channels.type'),
         template: (channel: Channel) => <ChannelTemplate channel={channel} />,
     },
 ];
@@ -101,7 +102,7 @@ function RouteComponent() {
         (item: Channel) => {
             const items: TableActionConfig<Channel>[] = [
                 {
-                    text: 'Редактировать',
+                    text: t('channels.edit'),
                     icon: <Icon data={Pencil} size={TABLE_ACTION_SIZE} />,
                     handler: () => {
                         void router.navigate({
@@ -113,7 +114,7 @@ function RouteComponent() {
                     },
                 },
                 {
-                    text: 'Удалить',
+                    text: t('channels.delete'),
                     icon: <Icon data={TrashBin} size={TABLE_ACTION_SIZE} />,
                     theme: 'danger',
                     handler: () => {
@@ -130,8 +131,8 @@ function RouteComponent() {
     const onChannelsDelete = useCallback(() => {
         toaster.add({
             name: 'channel-deleted',
-            title: 'Канал удален',
-            content: `Канал с ID ${deleteChannel?.id} был успешно удален`,
+            title: t('channels.deleted'),
+            content: t('channels.deletedContent', { id: deleteChannel?.id }),
             theme: 'success',
         });
 
@@ -141,7 +142,7 @@ function RouteComponent() {
     const primaryActions = useMemo(
         () => [
             {
-                text: 'Создать канал',
+                text: t('channels.create'),
                 onClick: () => {
                     void router.navigate({
                         to: '/channels/create',
@@ -153,7 +154,7 @@ function RouteComponent() {
     );
 
     return (
-        <Page title="Каналы оповещения" primaryActions={primaryActions}>
+        <Page title={t('channels.title')} primaryActions={primaryActions}>
             <DataLoader
                 status={channelsQuery.status}
                 error={channelsQuery.error}
@@ -169,8 +170,8 @@ function RouteComponent() {
                     {filteredData.length === 0 ? (
                         <PlaceholderContainer
                             image={<Database />}
-                            title="Каналов еще нет"
-                            description="Создайте ваш первый канал!"
+                            title={t('channels.noChannels')}
+                            description={t('channels.createChannel')}
                             actions={primaryActions}
                         />
                     ) : (

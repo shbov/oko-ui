@@ -17,6 +17,7 @@ import { listSnapshotTimesSource } from '~/data-sources/snapshot';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import type { Snapshot } from '~/services/api/snapshot';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 
 import { parseSnapshotId } from './-utils';
 
@@ -27,12 +28,12 @@ const SnapshotsTable = withTableActions<Snapshot>(Table);
 const columns: TableColumnConfig<Snapshot>[] = [
     {
         id: 'id',
-        name: 'ID',
+        name: t('resources.snapshots.id'),
         template: ({ id }: Snapshot) => <Id id={id} />,
     },
     {
         id: 'time',
-        name: 'Время',
+        name: t('resources.snapshots.time'),
         template: ({ time }: Snapshot) =>
             dateTimeParse(time)?.format(PROJECT_FORMAT),
     },
@@ -60,7 +61,7 @@ function RouteComponent() {
     );
 
     return (
-        <Page title="Снимки ресурса">
+        <Page title={t('resources.snapshots.title')}>
             <DataLoader
                 status={snapshotsQuery.status}
                 error={snapshotsQuery.error}
@@ -75,9 +76,11 @@ function RouteComponent() {
                 ) : (
                     <PlaceholderContainer
                         image={<NotFound />}
-                        title="Проверок еще не было"
+                        title={t('resources.snapshots.noSnapshots')}
                         size="m"
-                        description="Снимки появятся после начала мониторинга"
+                        description={t(
+                            'resources.snapshots.noSnapshotsDescription',
+                        )}
                     />
                 )}
             </DataLoader>

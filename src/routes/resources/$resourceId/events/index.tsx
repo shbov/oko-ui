@@ -19,6 +19,7 @@ import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import type { Event } from '~/services/api/event';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { Filters } from './-components/Filters';
@@ -68,15 +69,14 @@ function RouteComponent() {
 
                         toaster.add({
                             name: 'events-csv',
-                            title: 'Отчет создан',
-                            content:
-                                'Отчет по событиям успешно создан и скачан',
+                            title: t('resources.events.createReportSuccess'),
+                            content: t('resources.events.createReportSuccess'),
                             theme: 'success',
                         });
                     } catch (error: unknown) {
                         toaster.add({
                             name: 'events-csv-error',
-                            title: 'Ошибка создания отчета',
+                            title: t('resources.events.createReportError'),
                             content: `${error instanceof Error ? error.message : 'Неизвестная ошибка'}`,
                             theme: 'danger',
                         });
@@ -88,7 +88,10 @@ function RouteComponent() {
     );
 
     return (
-        <Page title="События ресурса" primaryActions={primaryActions}>
+        <Page
+            title={t('resources.events.title')}
+            primaryActions={primaryActions}
+        >
             <Filters
                 setFilters={setFilters}
                 initialValues={{
@@ -115,8 +118,8 @@ function RouteComponent() {
                 ) : (
                     <PlaceholderContainer
                         image={<Database />}
-                        title="Событий еще нет"
-                        description="События появятся после создания ресурса"
+                        title={t('resources.events.noEvents')}
+                        description={t('resources.events.noEventsDescription')}
                     />
                 )}
             </DataLoader>

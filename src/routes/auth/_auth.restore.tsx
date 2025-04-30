@@ -8,6 +8,7 @@ import { Page } from '~/components/Page';
 import { useApiError } from '~/hooks/toasters';
 import { Form, TextField } from '~/packages/form';
 import { api } from '~/services/api';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 import { zod } from '~/services/zod';
 import { emailSchema } from '~/utils/validation/schemas';
@@ -50,13 +51,13 @@ export const Restore = () => {
     });
 
     return (
-        <Page title="Восстановление пароля">
+        <Page title={t('auth.restore')}>
             <Form
-                submitText="Восстановить"
+                submitText={t('auth.restoreButton')}
                 formApi={form}
                 size="m"
                 additionalButton={{
-                    text: 'Войти в аккаунт',
+                    text: t('auth.login'),
                     view: 'flat',
                     action: () => {
                         void navigate({
@@ -65,12 +66,12 @@ export const Restore = () => {
                     },
                 }}
             >
-                <FormRow label="Почта">
+                <FormRow label={t('auth.email')}>
                     <form.Field name="email">
                         {(field) => (
                             <TextField
                                 type="email"
-                                placeholder="example@edu.hse.ru"
+                                placeholder={t('auth.emailPlaceholder')}
                                 field={field}
                             />
                         )}
@@ -85,7 +86,7 @@ export const Route = createFileRoute('/auth/_auth/restore')({
     component: Restore,
     loader: () => {
         return {
-            crumb: 'Восстановление пароля',
+            crumb: t('auth.restore'),
         };
     },
 });

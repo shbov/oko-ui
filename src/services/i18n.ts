@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-restricted-imports
 import { init, t } from 'i18next';
 
+import { en } from '~/translation/en';
 import { ru } from '~/translation/ru';
 
 export const defaultLocale = 'ru';
@@ -9,10 +10,14 @@ export const defaultLocale = 'ru';
 init({
     lng: defaultLocale,
     resources: {
+        en: {
+            translation: en,
+        },
         ru: {
             translation: ru,
         },
     },
+    fallbackLng: defaultLocale,
 });
 
 export { t };

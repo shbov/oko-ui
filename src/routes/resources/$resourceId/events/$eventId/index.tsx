@@ -7,6 +7,7 @@ import { getEventSource } from '~/data-sources';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { DiffComponent } from '~/routes/resources/-components/DiffComponent/DiffComponent';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 
 import { EventStatus } from '../-components/EventStatus';
 
@@ -36,11 +37,15 @@ const Diff = () => {
                 <div>
                     <div className={spacing({ mb: 3 })}>
                         <DefinitionList>
-                            <DefinitionList.Item name="Статус">
+                            <DefinitionList.Item
+                                name={t('resources.events.status')}
+                            >
                                 <EventStatus status={eventQuery.data?.status} />
                             </DefinitionList.Item>
-                            <DefinitionList.Item name="Тип события">
-                                Изменения в тексте
+                            <DefinitionList.Item
+                                name={t('resources.events.type')}
+                            >
+                                {t('resources.events.textChanges')}
                             </DefinitionList.Item>
                         </DefinitionList>
                     </div>

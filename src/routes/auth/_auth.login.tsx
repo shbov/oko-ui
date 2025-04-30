@@ -7,6 +7,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Page } from '~/components/Page';
 import { useLoginMutation } from '~/hooks/useAuth';
 import { Form, TextField } from '~/packages/form';
+import { t } from '~/services/i18n';
 import { zod } from '~/services/zod';
 import { emailSchema, passwordSchema } from '~/utils/validation/schemas';
 
@@ -40,13 +41,13 @@ export const Login = () => {
     });
 
     return (
-        <Page title="Авторизация">
+        <Page title={t('auth.login')}>
             <Form
-                submitText="Войти"
+                submitText={t('auth.login')}
                 formApi={form}
                 size="m"
                 additionalButton={{
-                    text: 'Восстановить пароль',
+                    text: t('auth.forgotPassword'),
                     view: 'flat',
                     action: () => {
                         void navigate({
@@ -55,24 +56,24 @@ export const Login = () => {
                     },
                 }}
             >
-                <FormRow label="Почта">
+                <FormRow label={t('auth.email')}>
                     <form.Field name="email">
                         {(field) => (
                             <TextField
                                 type="email"
-                                placeholder="example@edu.hse.ru"
+                                placeholder={t('auth.emailPlaceholder')}
                                 field={field}
                             />
                         )}
                     </form.Field>
                 </FormRow>
 
-                <FormRow label="Пароль">
+                <FormRow label={t('auth.password')}>
                     <form.Field name="password">
                         {(field) => (
                             <TextField
                                 type="password"
-                                placeholder="Введите ваш пароль"
+                                placeholder={t('auth.passwordPlaceholder')}
                                 field={field}
                             />
                         )}
@@ -87,7 +88,7 @@ export const Route = createFileRoute('/auth/_auth/login')({
     component: Login,
     loader: () => {
         return {
-            crumb: 'Авторизация',
+            crumb: t('auth.login'),
         };
     },
 });

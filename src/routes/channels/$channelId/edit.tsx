@@ -11,6 +11,7 @@ import type { EditFormValues } from '~/routes/channels/-components/constants';
 import { api } from '~/services/api';
 import { ChannelType } from '~/services/api/notification';
 import { DataLoader } from '~/services/data-source/components/DataLoader';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { EditForm } from '../-components/form/EditForm';
@@ -33,8 +34,10 @@ export const Edit = () => {
                 .then(() => {
                     toaster.add({
                         name: 'channel-edited',
-                        title: 'Канал изменен',
-                        content: `Канал с ID ${params.channelId} был успешно изменен`,
+                        title: t('channels.edited'),
+                        content: t('channels.editedContent', {
+                            id: params.channelId,
+                        }),
                         theme: 'success',
                     });
 
@@ -83,7 +86,7 @@ export const Edit = () => {
     }, [initialValues, channel]);
 
     return (
-        <Page title="Редактировать канал">
+        <Page title={t('channels.edit')}>
             <DataLoader
                 error={channelQuery.error}
                 status={channelQuery.status}
@@ -105,7 +108,7 @@ export const Route = createFileRoute('/channels/$channelId/edit')(
         component: Edit,
         loader: () => {
             return {
-                crumb: 'Редактировать канал',
+                crumb: t('channels.edit'),
             };
         },
     }),

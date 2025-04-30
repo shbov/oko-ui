@@ -5,11 +5,13 @@ import {
     Database,
     House,
     Megaphone,
-    Person,
+    PersonPlus,
     Persons,
     PersonXmark,
 } from '@gravity-ui/icons';
 import { useMatches, useNavigate, useRouter } from '@tanstack/react-router';
+
+import { t } from '~/services/i18n';
 
 import { useAuth } from './useAuth';
 
@@ -35,7 +37,7 @@ export const useMenuItems = () => {
         const items: Item[] = [
             {
                 id: 'id',
-                title: 'Главная',
+                title: t('menu.home'),
                 icon: House,
                 current: true,
                 to: '/',
@@ -44,13 +46,13 @@ export const useMenuItems = () => {
                 ? [
                       {
                           id: 'resources',
-                          title: 'Ресурсы',
+                          title: t('menu.resources'),
                           icon: Database,
                           to: '/resources/',
                       },
                       {
                           id: 'channels',
-                          title: 'Каналы оповещения',
+                          title: t('menu.channels'),
                           icon: Megaphone,
                           to: '/channels/',
                       },
@@ -76,7 +78,7 @@ export const useMenuItems = () => {
             ...(auth.user
                 ? [
                       {
-                          title: 'Управление пользователями',
+                          title: t('menu.userManagement'),
                           icon: Persons,
                           onClick: () => {
                               window.open(
@@ -86,7 +88,7 @@ export const useMenuItems = () => {
                           },
                       },
                       {
-                          title: 'Выйти из аккаунта',
+                          title: t('menu.logout'),
                           icon: PersonXmark,
                           onClick: () => {
                               auth.logout();
@@ -95,8 +97,8 @@ export const useMenuItems = () => {
                   ]
                 : [
                       {
-                          title: 'Войти в аккаунт',
-                          icon: Person,
+                          title: t('menu.login'),
+                          icon: PersonPlus,
                           onClick: () => {
                               auth.login();
                           },

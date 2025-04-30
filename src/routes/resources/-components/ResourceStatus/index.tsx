@@ -1,6 +1,7 @@
 import { Box, Label, Popover } from '@gravity-ui/uikit';
 
 import type { Resource } from '~/services/api/resource';
+import { t } from '~/services/i18n';
 
 import { isResourceMonitoringActive } from './utils';
 
@@ -17,19 +18,19 @@ export const ResourceStatus = ({
 
     const tooltipText =
         isMonitoringActive && enabled
-            ? 'Ресурс активно мониторится'
+            ? t('resources.status.activeNote')
             : enabled
-              ? 'Ресурс ожидает наступления даты начала мониторинга'
-              : 'Ресурс приостановлен и не мониторится';
+              ? t('resources.status.waitingNote')
+              : t('resources.status.pausedNote');
 
     return (
         <Popover content={<Box spacing={{ p: 2 }}>{tooltipText}</Box>} hasArrow>
             {isMonitoringActive && enabled ? (
-                <Label theme="success">Активен</Label>
+                <Label theme="success">{t('resources.status.active')}</Label>
             ) : enabled ? (
-                <Label theme="info">Ждёт начало мониторинга</Label>
+                <Label theme="info">{t('resources.status.waiting')}</Label>
             ) : (
-                <Label theme="warning">Неактивен</Label>
+                <Label theme="warning">{t('resources.status.paused')}</Label>
             )}
         </Popover>
     );

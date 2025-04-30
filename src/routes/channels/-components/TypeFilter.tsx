@@ -1,5 +1,6 @@
 import { MultiSelectFilter } from '~/components/Filters/MultiSelectFilter';
 import { ChannelType } from '~/services/api/notification';
+import { t } from '~/services/i18n';
 
 import type { SelectOption } from '@gravity-ui/uikit';
 
@@ -25,7 +26,7 @@ export const TypeFilter = ({ value, onChange }: TypeFilterProps) => {
             value={value}
             onChange={onChange}
             options={typeOptions}
-            placeholder="Тип канала"
+            placeholder={t('channels.type')}
         />
     );
 };

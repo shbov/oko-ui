@@ -8,6 +8,8 @@ import {
 import { Icon } from '@gravity-ui/uikit';
 import { useRouter } from '@tanstack/react-router';
 
+import { t } from '~/services/i18n';
+
 export const Footer = () => {
     const router = useRouter();
 
@@ -15,7 +17,7 @@ export const Footer = () => {
         () => [
             {
                 id: 'home',
-                text: 'Главная',
+                text: t('menu.home'),
                 onClick: () => {
                     void router.navigate({
                         to: '/',
@@ -24,7 +26,7 @@ export const Footer = () => {
             },
             {
                 id: 'github',
-                text: 'Github',
+                text: t('menu.github'),
                 iconStart: <Icon data={Code} />,
                 onClick: () => {
                     window.open('https://github.com/shbov/oko-ui', '_blank');

@@ -8,6 +8,7 @@ import { getResourcesForDiffSource } from '~/data-sources/snapshot';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { DiffComponent } from '~/routes/resources/-components/DiffComponent/DiffComponent';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 
 import { getSnapshotId } from '../-utils';
 
@@ -45,7 +46,7 @@ function RouteComponent() {
     }, [previousResourcesForDiffQuery.data?.image]);
 
     return (
-        <Page title="Снимок ресурса">
+        <Page title={t('resources.snapshots.title')}>
             <DataLoader
                 status={resourcesForDiffQuery.status}
                 error={resourcesForDiffQuery.error}

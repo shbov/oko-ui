@@ -8,6 +8,7 @@ import { listChannelsSource } from '~/data-sources';
 import { Form } from '~/packages/form';
 import { ZoneType } from '~/services/api/resource';
 import { DataLoader } from '~/services/data-source';
+import { t } from '~/services/i18n';
 
 import { BaseFormContent } from './BaseFormContent';
 import { editSchema } from '../constants';
@@ -70,7 +71,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             status={channelsQuery.status}
         >
             <Form
-                submitText="Сохранить"
+                submitText={t('resources.form.save')}
                 formApi={form}
                 size="m"
                 withCancelButton

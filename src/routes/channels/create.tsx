@@ -7,8 +7,8 @@ import { listChannelsSource } from '~/data-sources';
 import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
-import type { CreateChannelResponse } from '~/services/api/notification';
 import { dataManager } from '~/services/data-source';
+import { t } from '~/services/i18n';
 import { toaster } from '~/services/toaster';
 
 import { CreateForm } from './-components/form/CreateForm';
@@ -22,13 +22,17 @@ export const Create = () => {
 
     const onSubmit = useCallback(
         ({ value }: { value: CreateFormValues }) => {
+            const valuesToSend = prepareCreateValue(value);
+
             api.notification
-                .createChannel(prepareCreateValue(value))
-                .then((r: CreateChannelResponse) => {
+                .createChannel(valuesToSend)
+                .then((r) => {
                     toaster.add({
                         name: 'channel-created',
-                        title: 'Канал создан',
-                        content: `Канал с ID ${r.channel?.id} был успешно создан`,
+                        title: t('channels.created'),
+                        content: t('channels.createdContent', {
+                            id: r.channel?.id,
+                        }),
                         theme: 'success',
                     });
 
@@ -44,7 +48,7 @@ export const Create = () => {
     );
 
     return (
-        <Page title="Создать канал">
+        <Page title={t('channels.create')}>
             <CreateForm onSubmit={onSubmit} />
         </Page>
     );
@@ -55,7 +59,7 @@ export const Route = createFileRoute('/channels/create')(
         component: Create,
         loader: () => {
             return {
-                crumb: 'Создать канал',
+                crumb: t('crumb.createChannel'),
             };
         },
     }),

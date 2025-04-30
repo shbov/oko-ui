@@ -13,6 +13,7 @@ import {
     DatePickerField,
 } from '~/packages/form';
 import type { Channel } from '~/services/api/notification';
+import { t } from '~/services/i18n';
 
 import './BaseFormContent.scss';
 import { ScreenshotSection } from './components/ScreenshotSection';
@@ -45,7 +46,7 @@ const transformChannels = (channels: Channel[], channelsIds: string[]) => {
 
         if (missingChannels.length > 0) {
             groups.push({
-                label: 'Другие',
+                label: t('resources.form.others'),
                 options: missingChannels,
             });
         }
@@ -82,19 +83,19 @@ export const BaseFormContent = ({
 
     return (
         <Fragment>
-            <FormRow label="Название" required>
+            <FormRow label={t('resources.form.name')} required>
                 <form.Field name="name">
                     {(field) => <TextField type="text" field={field} />}
                 </form.Field>
             </FormRow>
 
-            <FormRow label="Описание">
+            <FormRow label={t('resources.form.description')}>
                 <form.Field name="description">
                     {(field) => <TextAreaField field={field} minRows={2} />}
                 </form.Field>
             </FormRow>
 
-            <FormRow label="URL" required>
+            <FormRow label={t('resources.form.url')} required>
                 <form.Field name="url">
                     {(field) => (
                         <TextField
@@ -108,7 +109,7 @@ export const BaseFormContent = ({
             </FormRow>
 
             <FormRow
-                label="Ключевые слова"
+                label={t('resources.form.keywords')}
                 required
                 labelHelpPopover={
                     <HelpMark
@@ -116,9 +117,7 @@ export const BaseFormContent = ({
                             className: b('help-mark'),
                         }}
                     >
-                        Слова, используемые для отслеживания изменений на
-                        ресурсе. Должны быть разделены запятой (не
-                        чувствительные к регистру).
+                        {t('resources.form.keywordsHelp')}
                     </HelpMark>
                 }
             >
@@ -132,7 +131,7 @@ export const BaseFormContent = ({
                 </form.Field>
             </FormRow>
 
-            <FormRow label="Канал оповещения" required>
+            <FormRow label={t('resources.form.notificationChannel')} required>
                 <form.Field name="channels">
                     {(field) => (
                         <SelectField
@@ -146,7 +145,7 @@ export const BaseFormContent = ({
             </FormRow>
 
             <FormRow
-                label="Дата начала мониторинга"
+                label={t('resources.form.monitoringStartDate')}
                 required
                 labelHelpPopover={
                     <HelpMark
@@ -154,9 +153,7 @@ export const BaseFormContent = ({
                             className: b('help-mark'),
                         }}
                     >
-                        Введите дату, начиная с которой будет осуществляться
-                        проверка ресурса. Если указана сегодняшняя дата, то
-                        проверка будет осуществлена сразу.
+                        {t('resources.form.monitoringStartDateHelp')}
                     </HelpMark>
                 }
             >
@@ -165,12 +162,14 @@ export const BaseFormContent = ({
                 </form.Field>
             </FormRow>
 
-            <FormRow label="Интервал проверки" required>
+            <FormRow label={t('resources.form.checkInterval')} required>
                 <Flex gap={2}>
                     <form.Field name="interval.minutes">
                         {(field) => (
                             <Flex direction="column">
-                                <Text variant="caption-2">Минуты</Text>
+                                <Text variant="caption-2">
+                                    {t('resources.form.minutes')}
+                                </Text>
                                 <TextField
                                     field={field}
                                     placeholder="*"
@@ -183,7 +182,9 @@ export const BaseFormContent = ({
                     <form.Field name="interval.hours">
                         {(field) => (
                             <Flex direction="column">
-                                <Text variant="caption-2">Часы</Text>
+                                <Text variant="caption-2">
+                                    {t('resources.form.hours')}
+                                </Text>
                                 <TextField
                                     field={field}
                                     placeholder="*"
@@ -196,7 +197,9 @@ export const BaseFormContent = ({
                     <form.Field name="interval.days">
                         {(field) => (
                             <Flex direction="column">
-                                <Text variant="caption-2">Дни</Text>
+                                <Text variant="caption-2">
+                                    {t('resources.form.days')}
+                                </Text>
                                 <TextField
                                     field={field}
                                     placeholder="*"
@@ -209,7 +212,9 @@ export const BaseFormContent = ({
                     <form.Field name="interval.months">
                         {(field) => (
                             <Flex direction="column">
-                                <Text variant="caption-2">Месяцы</Text>
+                                <Text variant="caption-2">
+                                    {t('resources.form.months')}
+                                </Text>
                                 <TextField
                                     field={field}
                                     placeholder="*"
@@ -222,7 +227,9 @@ export const BaseFormContent = ({
                     <form.Field name="interval.dayOfWeek">
                         {(field) => (
                             <Flex direction="column">
-                                <Text variant="caption-2">День недели</Text>
+                                <Text variant="caption-2">
+                                    {t('resources.form.dayOfWeek')}
+                                </Text>
                                 <TextField
                                     field={field}
                                     placeholder="*"
