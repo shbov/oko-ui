@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useLogoutMutation } from './mutations';
-import { authQueryOptions, useAuthQuery } from './query';
+import { authQueryOptions } from './query';
+import { useAuthQuery } from './useAuthQuery';
 
 import type { AuthData, AuthUtils } from './types';
 import type { Register } from '@tanstack/react-router';

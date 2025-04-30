@@ -1,98 +1,40 @@
-import type { RefObject } from 'react';
 import { useCallback, useState } from 'react';
 
-import { FaceRobot, Person } from '@gravity-ui/icons';
+import { FaceRobot } from '@gravity-ui/icons';
 import { AsideHeader, FooterItem } from '@gravity-ui/navigation';
-import { Flex, Icon, List } from '@gravity-ui/uikit';
 import {
     createRootRouteWithContext,
     useNavigate,
-    useRouter,
 } from '@tanstack/react-router';
-import block from 'bem-cn-lite';
 
 import { AppLayout } from '~/components/AppLayout';
 import { NotFound } from '~/components/NotFound';
-import { useAuth } from '~/hooks/useAuth';
 import { useMenuItems } from '~/hooks/useMenuItems';
-import { t } from '~/services/i18n';
 import type { RouterContext } from '~/services/router/types';
 
 import './root.scss';
 
-const b = block('navigation');
-
 const App = () => {
-    const router = useRouter();
-    const auth = useAuth(router);
-
     const navigate = useNavigate();
     const { menuItems, footerItems } = useMenuItems();
 
     const [compact, setCompact] = useState(true);
-    const [popupVisible, setPopupVisible] = useState(false);
 
-    const renderFooter = useCallback(
-        ({ asideRef }: { asideRef: RefObject<HTMLDivElement> }) => {
-            const base = (
-                <FooterItem
-                    item={{
-                        id: 'user',
-                        icon: Person,
-                        title: t('user.account'),
-                        tooltipText: t('user.account'),
-                        current: popupVisible,
-                        onItemClick: () => {
-                            setPopupVisible(!popupVisible);
-                        },
-                    }}
-                    popupVisible={popupVisible}
-                    popupAnchor={asideRef}
-                    onClosePopup={() => setPopupVisible(false)}
-                    popupKeepMounted={true}
-                    renderPopupContent={() => {
-                        return (
-                            <List
-                                filterable={false}
-                                virtualized={false}
-                                items={footerItems}
-                                onItemClick={(item) => item.onClick()}
-                                itemHeight={() => 36}
-                                itemClassName={b('item')}
-                                renderItem={(item) => {
-                                    return (
-                                        <Flex gap={2}>
-                                            <Icon data={item.icon} />
-                                            {item.title}
-                                        </Flex>
-                                    );
-                                }}
-                            />
-                        );
-                    }}
-                    compact={compact}
-                />
-            );
-
-            const login = (
-                <FooterItem
-                    compact={compact}
-                    item={{
-                        id: 'login',
-                        icon: Person,
-                        title: t('auth.login'),
-                        tooltipText: t('auth.login'),
-                        onItemClick: () => {
-                            auth.login();
-                        },
-                    }}
-                />
-            );
-
-            return auth.user ? base : login;
-        },
-        [auth, compact, footerItems, popupVisible],
-    );
+    const renderFooter = useCallback(() => {
+        return footerItems.map((item) => (
+            <FooterItem
+                key={item.title}
+                compact={compact}
+                item={{
+                    id: item.title,
+                    icon: item.icon,
+                    title: item.title,
+                    tooltipText: item.title,
+                    onItemClick: item.onClick,
+                }}
+            />
+        ));
+    }, [compact, footerItems]);
 
     return (
         <AsideHeader

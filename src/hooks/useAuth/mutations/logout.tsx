@@ -4,6 +4,7 @@ import { ACCESS_TOKEN } from '~/constants/auth';
 import { useApiError } from '~/hooks/toasters';
 import { api } from '~/services/api';
 import { dataManager } from '~/services/data-source';
+import { toaster } from '~/services/toaster';
 import { deleteCookie } from '~/utils/cookies';
 
 export function useLogoutMutation() {
@@ -13,6 +14,12 @@ export function useLogoutMutation() {
         mutationKey: ['logout'],
         mutationFn: () => api.user.logout(),
         onSuccess: () => {
+            toaster.add({
+                name: 'logout',
+                theme: 'success',
+                title: 'Вы успешно вышли из аккаунта',
+            });
+
             dataManager.queryClient.setQueryData(['auth'], null);
             deleteCookie(ACCESS_TOKEN);
         },

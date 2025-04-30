@@ -54,7 +54,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             keywords: resource.keywords.join(', '),
             isScreenshot: resource.make_screenshot,
             zoneType,
-            areas: resource.areas,
+            areas: resource.areas ?? [],
             channels: resource.channels ?? [],
             startDate: resource.starts_from
                 ? dateTimeParse(resource.starts_from)?.toDate()

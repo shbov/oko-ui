@@ -6,6 +6,7 @@ import type {
     ListEventsResponse,
     ListEventsRequest,
     ListFilteredEventsRequest,
+    DownloadEventsCsvRequest,
     ListFilteredEventsResponse,
 } from './types';
 
@@ -21,7 +22,7 @@ export const event = {
             })
             .json();
     },
-    listFilteredEvents: ({
+    listFilteredEventsReal: ({
         resourceId,
         type,
         from,
@@ -38,7 +39,44 @@ export const event = {
             })
             .json();
     },
+    listFilteredEvents: async ({
+        resourceId,
+        type,
+        from,
+        to,
+        eventIds,
+    }: ListFilteredEventsRequest) => {
+        return api
+            .post<ListFilteredEventsResponse>('events/filter', {
+                json: {
+                    resource_ids: [resourceId],
+                    ...(type && { event_type: type }),
+                    ...(from && { start_time: from }),
+                    ...(to && { end_time: to }),
+                    ...(eventIds &&
+                        eventIds.length > 0 && { event_ids: eventIds }),
+                },
+            })
+            .json();
+    },
     getEvent: ({ id }: GetEventRequest) => {
         return api.get<GetEventResponse>(`events/${id}`).json();
+    },
+    downloadEventsCsv: async ({ eventIds }: DownloadEventsCsvRequest) => {
+        return api
+            .post('report', {
+                json: {
+                    event_ids: eventIds,
+                },
+            })
+            .blob()
+            .then((blob) => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'events.csv';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            });
     },
 };
