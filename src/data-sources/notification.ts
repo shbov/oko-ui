@@ -7,7 +7,7 @@ const fetch = skipContext(api.notification.listChannels);
 export const listChannelsSource = makePlainQueryDataSource({
     name: 'listChannels',
     fetch,
-    transformResponse: (response) => response.channels,
+    transformResponse: (response) => response.channels.filter((channel) => channel.enabled),
 });
 
 const getChannelFetch = skipContext(api.notification.getChannel);

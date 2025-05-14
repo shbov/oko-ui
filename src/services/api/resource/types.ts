@@ -8,6 +8,7 @@ export interface Area {
     y: number;
     width: number;
     height: number;
+    sensitivity?: number;
 }
 
 export interface CreateResourceRequest {
@@ -39,7 +40,12 @@ export interface Resource {
     interval: string;
     make_screenshot: boolean;
     polygon: unknown;
-    areas?: Area[] | undefined;
+    areas?:
+        | {
+              sensitivity?: number;
+          }
+        | Area[]
+        | undefined;
     starts_from: number | undefined;
 }
 

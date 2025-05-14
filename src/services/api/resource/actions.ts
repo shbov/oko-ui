@@ -24,6 +24,7 @@ export const resource = {
     getScreenshotByUrl: async (data: GetScreenshotByUrlRequest) => {
         return api
             .post<GetScreenshotByUrlResponse>(`screenshot`, {
+                timeout: 600 * 1000,
                 json: {
                     url: data.url,
                 },

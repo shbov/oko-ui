@@ -37,5 +37,11 @@ export interface ListFilteredEventsResponse {
 }
 
 export interface DownloadEventsCsvRequest {
-    eventIds: string[];
+    eventIds?: string[];
+    snapshotIds?: string[];
+}
+
+export interface UpdateStatusRequest {
+    id: string;
+    status: Event['status'];
 }

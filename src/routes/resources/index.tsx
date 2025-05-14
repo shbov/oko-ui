@@ -90,7 +90,7 @@ const columns: TableColumnConfig<Resource>[] = [
     },
     {
         id: 'status',
-        name: t('resources.status'),
+        name: t('resources.statusName'),
         template: ({ enabled, starts_from }: Resource) => (
             <ResourceStatus
                 enabled={enabled}

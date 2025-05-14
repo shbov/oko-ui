@@ -85,11 +85,14 @@ export const ScreenshotSection = ({
                         <form.Field name="sensitivity">
                             {(field) => (
                                 <NumberField
+                                    allowDecimal
                                     field={field}
                                     min={0}
                                     max={100}
-                                    step={0.01}
-                                    allowDecimal
+                                    step={0.00001}
+                                    controlProps={{
+                                        pattern: '.*',
+                                    }}
                                 />
                             )}
                         </form.Field>

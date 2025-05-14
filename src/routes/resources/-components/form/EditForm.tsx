@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { useQueryData } from '@gravity-ui/data-source';
 import { dateTimeParse } from '@gravity-ui/date-utils';
 import { useForm } from '@tanstack/react-form';
+import { min } from 'lodash';
 
 import { listChannelsSource } from '~/data-sources';
 import { Form } from '~/packages/form';
+import type { Resource } from '~/services/api/resource';
 import { ZoneType } from '~/services/api/resource';
 import { DataLoader } from '~/services/data-source';
 import { t } from '~/services/i18n';
@@ -15,6 +17,19 @@ import { editSchema } from '../constants';
 
 import type { EditFormProps } from './types';
 import type { EditFormValues } from '../constants';
+
+const getDefaultSensitivity = (resource: Resource) => {
+    if (Array.isArray(resource.areas)) {
+        const result = resource.areas?.map((area) => area.sensitivity);
+        return min(result) ?? 1;
+    }
+
+    if (resource.areas?.sensitivity) {
+        return resource.areas.sensitivity;
+    }
+
+    return 1;
+};
 
 export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
     const channelsQuery = useQueryData(listChannelsSource, {});
@@ -35,7 +50,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             return ZoneType.fullPage;
         }
 
-        if (resource.areas.length > 0) {
+        if (Array.isArray(resource.areas) && resource.areas.length > 0) {
             return ZoneType.zone;
         }
 
@@ -51,11 +66,11 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             name: resource.name,
             url: resource.url,
             description: resource.description,
-            sensitivity: 1,
+            sensitivity: getDefaultSensitivity(resource),
             keywords: resource.keywords.join(', '),
             isScreenshot: resource.make_screenshot,
             zoneType,
-            areas: resource.areas ?? [],
+            areas: Array.isArray(resource.areas) ? resource.areas : [],
             channels: resource.channels ?? [],
             startDate: resource.starts_from
                 ? dateTimeParse(resource.starts_from)?.toDate()

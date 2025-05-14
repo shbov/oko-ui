@@ -45,9 +45,9 @@ export const eventColumns: TableColumnConfig<Event>[] = [
         ),
     },
     {
-        id: 'type',
-        name: t('resources.events.type'),
-        template: ({ type }) => <Text>{type}</Text>,
+        id: 'name',
+        name: t('resources.events.name'),
+        template: ({ name }) => <Text>{name}</Text>,
     },
     {
         id: 'date',

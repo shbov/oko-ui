@@ -77,16 +77,20 @@ export const useMenuItems = () => {
         const items = [
             ...(auth.user
                 ? [
-                      {
-                          title: t('menu.userManagement'),
-                          icon: Persons,
-                          onClick: () => {
-                              window.open(
-                                  'https://hse.ru/staff/users/list',
-                                  '_blank',
-                              );
-                          },
-                      },
+                      ...(auth.user.is_admin
+                          ? [
+                                {
+                                    title: t('menu.userManagement'),
+                                    icon: Persons,
+                                    onClick: () => {
+                                        window.open(
+                                            'http://130.193.45.10:8083/admin/',
+                                            '_blank',
+                                        );
+                                    },
+                                },
+                            ]
+                          : []),
                       {
                           title: t('menu.logout'),
                           icon: PersonXmark,

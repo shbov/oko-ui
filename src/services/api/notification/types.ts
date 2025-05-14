@@ -8,6 +8,7 @@ export type Channel = {
     name: string;
     type: ChannelType;
     params: string;
+    enabled: boolean;
 };
 
 export interface listChannelsResponse {

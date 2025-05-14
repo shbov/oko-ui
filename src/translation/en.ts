@@ -45,7 +45,9 @@ export const en = {
             noSnapshots: 'No snapshots yet',
             noSnapshotsDescription:
                 'Snapshots will appear after monitoring starts',
+            id: 'Snapshot ID',
         },
+        snapshotsName: 'Snapshots',
         editResource: 'Edit resource',
         deleteResource: 'Delete resource',
         edited: 'Resource edited',
@@ -89,9 +91,23 @@ export const en = {
             noEvents: 'No events yet',
             noEventsDescription: 'Events will appear after resource creation',
             snapshot: 'Snapshot',
+            name: 'Name',
             viewSnapshot: 'View',
             date: 'Event date',
+            id: 'Event ID',
+            download: 'Download report',
+            statuses: {
+                created: 'Created',
+                watched: 'Watched',
+                reacted: 'Reacted',
+                notified: 'Notified',
+            },
+            createReportSuccess: 'Report created',
+            createReportSuccessMessage:
+                'The report.csv file has been added to the download queue',
+            statusUpdated: 'Status updated',
         },
+        eventsName: 'Events',
         status: {
             active: 'Active',
             activeNote: 'Resource is actively monitored',
@@ -100,6 +116,7 @@ export const en = {
             paused: 'Paused',
             pausedNote: 'Resource is paused and not monitored',
         },
+        statusName: 'Status',
     },
     channels: {
         title: 'Notification channels',
@@ -143,5 +160,8 @@ export const en = {
     },
     user: {
         account: 'Account',
+    },
+    errors: {
+        default: 'Unknown error',
     },
 } as const;

@@ -114,7 +114,7 @@ function RouteComponent() {
                 value: date?.format(PROJECT_FORMAT) ?? null,
             },
             {
-                name: t('resources.status'),
+                name: t('resources.statusName'),
                 value: <ResourceStatus enabled={enabled} startDate={date} />,
             },
             {
@@ -192,7 +192,7 @@ function RouteComponent() {
     const secondaryActions: SecondaryPageAction[] = useMemo(
         () => [
             {
-                text: t('resources.snapshots'),
+                text: t('resources.snapshotsName'),
                 icon: Camera,
                 onClick: () => {
                     void router.navigate({
@@ -202,7 +202,7 @@ function RouteComponent() {
                 },
             },
             {
-                text: t('resources.events'),
+                text: t('resources.eventsName'),
                 icon: ClockArrowRotateLeft,
                 onClick: () => {
                     void router.navigate({
@@ -277,9 +277,7 @@ function RouteComponent() {
                     </DefinitionList>
                 </div>
 
-                <Text variant="subheader-2">
-                    {t('resources.lastEvents')}
-                </Text>
+                <Text variant="subheader-2">{t('resources.lastEvents')}</Text>
                 <DataLoader
                     error={eventsQuery.error}
                     status={eventsQuery.status}
@@ -296,9 +294,7 @@ function RouteComponent() {
                             image={<NotFound />}
                             title={t('resources.noEvents')}
                             size="m"
-                            description={t(
-                                'resources.noEventsDescription',
-                            )}
+                            description={t('resources.noEventsDescription')}
                         />
                     )}
                 </DataLoader>

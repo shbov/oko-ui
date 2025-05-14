@@ -8,6 +8,7 @@ import type {
     ListFilteredEventsRequest,
     DownloadEventsCsvRequest,
     ListFilteredEventsResponse,
+    UpdateStatusRequest,
 } from './types';
 
 const api = getProtectedKyInstance();
@@ -62,21 +63,24 @@ export const event = {
     getEvent: ({ id }: GetEventRequest) => {
         return api.get<GetEventResponse>(`events/${id}`).json();
     },
-    downloadEventsCsv: async ({ eventIds }: DownloadEventsCsvRequest) => {
+    updateStatus: async ({ id, status }: UpdateStatusRequest) => {
+        return api.patch(`events/${id}`, {
+            json: {
+                status,
+            },
+        });
+    },
+    downloadEventsCsv: async ({
+        eventIds,
+        snapshotIds,
+    }: DownloadEventsCsvRequest) => {
         return api
             .post('report', {
                 json: {
-                    event_ids: eventIds,
+                    ...(eventIds && { event_ids: eventIds }),
+                    ...(snapshotIds && { snapshot_ids: snapshotIds }),
                 },
             })
-            .blob()
-            .then((blob) => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'events.csv';
-                a.click();
-                window.URL.revokeObjectURL(url);
-            });
+            .blob();
     },
 };

@@ -22,6 +22,7 @@ const createChannel = (type: ChannelType): Channel => ({
     id: '1',
     name: 'Test Channel',
     params: '{}',
+    enabled: true,
 });
 
 export const Default: Story = {

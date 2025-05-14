@@ -17,7 +17,7 @@ export const ResourceStatus = ({
     const isMonitoringActive = isResourceMonitoringActive(startDate);
 
     const tooltipText =
-        isMonitoringActive && enabled
+        (isMonitoringActive && enabled)
             ? t('resources.status.activeNote')
             : enabled
               ? t('resources.status.waitingNote')

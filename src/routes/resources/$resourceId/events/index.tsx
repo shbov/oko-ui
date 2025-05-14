@@ -15,6 +15,7 @@ import { createFileRoute, useRouter } from '@tanstack/react-router';
 
 import { Page } from '~/components/Page';
 import { listFilteredEventsSource } from '~/data-sources';
+import { useApiError } from '~/hooks/toasters';
 import { WithAuth } from '~/packages/middlewares/WithAuth';
 import { api } from '~/services/api';
 import type { Event } from '~/services/api/event';
@@ -24,6 +25,7 @@ import { toaster } from '~/services/toaster';
 
 import { Filters } from './-components/Filters';
 import { eventColumns } from './-components/templates';
+import { downloadReport } from './-utils';
 
 import type { EventFilter } from './-components/Filters/types';
 
@@ -33,6 +35,7 @@ const EventsTable = withTableSorting(
 
 function RouteComponent() {
     const router = useRouter();
+    const handleError = useApiError();
 
     const { resourceId } = Route.useParams();
     const [filters, setFilters] = useState<EventFilter | null>(null);
@@ -62,29 +65,29 @@ function RouteComponent() {
                 text: 'Создать отчет',
                 disabled: ids.length === 0,
                 onClick: async () => {
-                    try {
-                        await api.event.downloadEventsCsv({
+                    await api.event
+                        .downloadEventsCsv({
                             eventIds: ids,
-                        });
+                        })
+                        .then((response) => {
+                            toaster.add({
+                                name: 'events-csv',
+                                title: t(
+                                    'resources.events.createReportSuccess',
+                                ),
+                                content: t(
+                                    'resources.events.createReportSuccessMessage',
+                                ),
+                                theme: 'success',
+                            });
 
-                        toaster.add({
-                            name: 'events-csv',
-                            title: t('resources.events.createReportSuccess'),
-                            content: t('resources.events.createReportSuccess'),
-                            theme: 'success',
-                        });
-                    } catch (error: unknown) {
-                        toaster.add({
-                            name: 'events-csv-error',
-                            title: t('resources.events.createReportError'),
-                            content: `${error instanceof Error ? error.message : 'Неизвестная ошибка'}`,
-                            theme: 'danger',
-                        });
-                    }
+                            downloadReport(response);
+                        })
+                        .catch(handleError);
                 },
             },
         ],
-        [ids],
+        [handleError, ids],
     );
 
     return (

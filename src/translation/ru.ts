@@ -44,7 +44,9 @@ export const ru = {
             time: 'Время',
             noSnapshots: 'Проверок еще не было',
             noSnapshotsDescription: 'Снимки появятся после начала мониторинга',
+            id: 'ID снимка',
         },
+        snapshotsName: 'Снимки',
         editResource: 'Редактировать ресурс',
         deleteResource: 'Удалить ресурс',
         edited: 'Ресурс отредактирован',
@@ -89,7 +91,21 @@ export const ru = {
             snapshot: 'Снимок',
             viewSnapshot: 'Перейти',
             date: 'Дата события',
+            name: 'Название',
+            id: 'ID события',
+            download: 'Скачать отчет',
+            statuses: {
+                created: 'Создано',
+                notified: 'Оповещено',
+                watched: 'Просмотрено',
+                reacted: 'Отреагировано',
+            },
+            statusUpdated: 'Статус обновлен',
+            createReportSuccess: 'Отчет создан',
+            createReportSuccessMessage:
+                'Файл report.csv был добавлен в очередь на скачивание',
         },
+        eventsName: 'События',
         status: {
             active: 'Активен',
             activeNote: 'Ресурс активно мониторится',
@@ -98,6 +114,7 @@ export const ru = {
             paused: 'Приостановлен',
             pausedNote: 'Ресурс приостановлен и не мониторится',
         },
+        statusName: 'Статус',
     },
     channels: {
         title: 'Каналы оповещения',
@@ -141,5 +158,8 @@ export const ru = {
     },
     user: {
         account: 'Учетная запись',
+    },
+    errors: {
+        default: 'Неизвестная ошибка',
     },
 } as const;

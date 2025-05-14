@@ -15,6 +15,7 @@ export interface User {
     username: string;
     email: string;
     createdAt: string;
+    is_admin: boolean;
 }
 
 export interface LoginResponse {
