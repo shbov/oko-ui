@@ -33,7 +33,7 @@ export const event = {
             .post<ListFilteredEventsResponse>(`events/filter`, {
                 json: {
                     resource_ids: [resourceId],
-                    event_type: type,
+                    ...(type && { event_type: type }),
                     ...(from && { start_time: from }),
                     ...(to && { end_time: to }),
                 },

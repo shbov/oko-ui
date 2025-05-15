@@ -70,7 +70,7 @@ function RouteComponent() {
     });
 
     const { data: events, ...eventsQuery } = useQueryData(listEventsSource, {
-        resourceId,
+        resourceId: resourceId,
     });
 
     const { data: allChannels } = useQueryData(listChannelsSource, {

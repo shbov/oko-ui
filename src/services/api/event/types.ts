@@ -27,8 +27,8 @@ export interface Event {
 export interface ListFilteredEventsRequest {
     resourceId: string;
     type?: 'keyword' | 'image';
-    from: number;
-    to: number;
+    from?: number;
+    to?: number;
     eventIds?: string[];
 }
 

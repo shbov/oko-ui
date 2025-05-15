@@ -27,8 +27,8 @@ export const DiffComponent = ({
     oldHtml: string;
     text: string;
     oldText: string;
-    screenshot: string;
-    oldScreenshot: string;
+    screenshot: string | null;
+    oldScreenshot: string | null;
     isFirst: boolean;
 }) => {
     const [activeTab, setActiveTab] = useState('text');
@@ -39,15 +39,17 @@ export const DiffComponent = ({
                 {isFirst ? (
                     <Fragment>
                         <Tab value="text">Только текст</Tab>
-                        <Tab value="image">Только скриншот</Tab>
+                        {screenshot && <Tab value="image">Только скриншот</Tab>}
                         <Tab value="html">Только HTML</Tab>
                     </Fragment>
                 ) : (
                     <Fragment>
                         <Tab value="textDiff">Изменения в тексте</Tab>
                         <Tab value="text">Только текст</Tab>
-                        <Tab value="imageDiff">Изменения в скриншотах</Tab>
-                        <Tab value="image">Только скриншот</Tab>
+                        {screenshot && oldScreenshot && (
+                            <Tab value="imageDiff">Изменения в скриншотах</Tab>
+                        )}
+                        {screenshot && <Tab value="image">Только скриншот</Tab>}
                         <Tab value="htmlDiff">Изменения в HTML</Tab>
                         <Tab value="html">Только HTML</Tab>
                     </Fragment>
@@ -56,25 +58,27 @@ export const DiffComponent = ({
 
             <div className={b()}>
                 <TabPanel value="imageDiff">
-                    {activeTab === 'imageDiff' && (
-                        <ReactCompareSlider
-                            itemOne={
-                                <ReactCompareSliderImage
-                                    src={oldScreenshot}
-                                    alt="Old screenshot"
-                                />
-                            }
-                            itemTwo={
-                                <ReactCompareSliderImage
-                                    src={screenshot}
-                                    alt="New screenshot"
-                                />
-                            }
-                        />
-                    )}
+                    {activeTab === 'imageDiff' &&
+                        oldScreenshot &&
+                        screenshot && (
+                            <ReactCompareSlider
+                                itemOne={
+                                    <ReactCompareSliderImage
+                                        src={oldScreenshot}
+                                        alt="Old screenshot"
+                                    />
+                                }
+                                itemTwo={
+                                    <ReactCompareSliderImage
+                                        src={screenshot}
+                                        alt="New screenshot"
+                                    />
+                                }
+                            />
+                        )}
                 </TabPanel>
                 <TabPanel value="image">
-                    {activeTab === 'image' && (
+                    {activeTab === 'image' && screenshot && (
                         <img
                             src={screenshot}
                             alt="New screenshot"

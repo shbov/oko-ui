@@ -24,6 +24,6 @@ export const getResourcesForDiffSource = makePlainQueryDataSource({
     transformResponse: (response) => ({
         html: response.html.html,
         text: response.text.text,
-        image: response.screenshot.image,
+        image: response.screenshot?.image,
     }),
 });

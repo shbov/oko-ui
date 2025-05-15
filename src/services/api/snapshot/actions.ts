@@ -33,14 +33,17 @@ export const snapshot = {
         const promises = [
             api.get<GetHtmlResponse>(`events/${id}/html`).json(),
             api.get<GetTextResponse>(`events/${id}/text`).json(),
-            api.get<GetScreenshotResponse>(`events/${id}/screenshot`).json(),
+            api
+                .get<GetScreenshotResponse>(`events/${id}/screenshot`)
+                .json()
+                .catch(() => null),
         ];
 
         return Promise.all(promises).then(([html, text, screenshot]) => {
             return {
                 html: html as GetHtmlResponse,
                 text: text as GetTextResponse,
-                screenshot: screenshot as GetScreenshotResponse,
+                screenshot: screenshot as GetScreenshotResponse | null,
             };
         });
     },

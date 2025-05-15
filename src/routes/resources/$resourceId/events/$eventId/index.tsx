@@ -164,10 +164,18 @@ const EventPage = () => {
     );
 
     const image = useMemo(() => {
+        if (!resourcesForDiffQuery.data?.image) {
+            return null;
+        }
+
         return `data:image/png;base64, ${resourcesForDiffQuery.data?.image ?? ''}`;
     }, [resourcesForDiffQuery.data?.image]);
 
     const oldImage = useMemo(() => {
+        if (!previousResourcesForDiffQuery.data?.image) {
+            return null;
+        }
+
         return `data:image/png;base64, ${previousResourcesForDiffQuery.data?.image ?? ''}`;
     }, [previousResourcesForDiffQuery.data?.image]);
 
