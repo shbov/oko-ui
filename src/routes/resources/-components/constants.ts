@@ -9,7 +9,7 @@ export const createSchema = zod.object({
     isScreenshot: zod.boolean(),
     sensitivity: zod.number().min(0).max(100).optional(),
     zoneType: zod.enum([ZoneType.fullPage, ZoneType.zone]).optional(),
-    keywords: zod.string().min(1),
+    keywords: zod.string().optional(),
     startDate: zod.date(),
     interval: zod.object({
         minutes: zod.string().min(1),
@@ -38,7 +38,7 @@ export const editSchema = zod.object({
     isScreenshot: zod.boolean(),
     sensitivity: zod.number().min(0).max(100).optional(),
     zoneType: zod.enum([ZoneType.fullPage, ZoneType.zone]).optional(),
-    keywords: zod.string().min(1),
+    keywords: zod.string().optional(),
     startDate: zod.date(),
     interval: zod.object({
         minutes: zod.string().min(1),

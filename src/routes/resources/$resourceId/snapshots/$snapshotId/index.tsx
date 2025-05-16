@@ -96,10 +96,10 @@ function RouteComponent() {
                 errorAction={resourcesForDiffQuery.refetch}
             >
                 <DiffComponent
-                    html={resourcesForDiffQuery.data?.html ?? ''}
-                    oldHtml={previousResourcesForDiffQuery.data?.html ?? ''}
-                    text={resourcesForDiffQuery.data?.text ?? ''}
-                    oldText={previousResourcesForDiffQuery.data?.text ?? ''}
+                    html={resourcesForDiffQuery.data?.html}
+                    oldHtml={previousResourcesForDiffQuery.data?.html}
+                    text={resourcesForDiffQuery.data?.text}
+                    oldText={previousResourcesForDiffQuery.data?.text}
                     screenshot={image}
                     oldScreenshot={oldImage}
                     isFirst={currentSnapshotId === 1}

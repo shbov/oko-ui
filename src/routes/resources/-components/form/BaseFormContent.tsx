@@ -110,7 +110,6 @@ export const BaseFormContent = ({
 
             <FormRow
                 label={t('resources.form.keywords')}
-                required
                 labelHelpPopover={
                     <HelpMark
                         popoverProps={{

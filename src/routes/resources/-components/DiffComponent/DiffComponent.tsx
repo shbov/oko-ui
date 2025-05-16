@@ -8,7 +8,7 @@ import {
 } from 'react-compare-slider';
 import ReactDiffViewer from 'react-diff-viewer';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { darcula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import './DiffComponent.scss';
 
@@ -23,35 +23,64 @@ export const DiffComponent = ({
     oldScreenshot,
     isFirst,
 }: {
-    html: string;
-    oldHtml: string;
-    text: string;
-    oldText: string;
+    html: string | undefined;
+    oldHtml: string | undefined;
+    text: string | undefined;
+    oldText: string | undefined;
     screenshot: string | null;
     oldScreenshot: string | null;
     isFirst: boolean;
 }) => {
-    const [activeTab, setActiveTab] = useState('text');
+    const isTextDefined = text !== undefined;
+    const isOldTextDefined = oldText !== undefined;
+    const isHtmlDefined = html !== undefined;
+    const isOldHtmlDefined = oldHtml !== undefined;
+    const isScreenshotDefined = screenshot !== null;
+    const isOldScreenshotDefined = oldScreenshot !== null;
+
+    const [activeTab, setActiveTab] = useState(() => {
+        if (isScreenshotDefined) {
+            return 'image';
+        }
+
+        if (isTextDefined) {
+            return 'text';
+        }
+
+        if (isHtmlDefined) {
+            return 'html';
+        }
+
+        return '';
+    });
 
     return (
         <TabProvider value={activeTab} onUpdate={setActiveTab}>
             <TabList>
                 {isFirst ? (
                     <Fragment>
-                        <Tab value="text">Только текст</Tab>
-                        {screenshot && <Tab value="image">Только скриншот</Tab>}
-                        <Tab value="html">Только HTML</Tab>
+                        {isTextDefined && <Tab value="text">Только текст</Tab>}
+                        {isScreenshotDefined && (
+                            <Tab value="image">Только скриншот</Tab>
+                        )}
+                        {isHtmlDefined && <Tab value="html">Только HTML</Tab>}
                     </Fragment>
                 ) : (
                     <Fragment>
-                        <Tab value="textDiff">Изменения в тексте</Tab>
-                        <Tab value="text">Только текст</Tab>
-                        {screenshot && oldScreenshot && (
+                        {isTextDefined && isOldTextDefined && (
+                            <Tab value="textDiff">Изменения в тексте</Tab>
+                        )}
+                        {isTextDefined && <Tab value="text">Только текст</Tab>}
+                        {isScreenshotDefined && isOldScreenshotDefined && (
                             <Tab value="imageDiff">Изменения в скриншотах</Tab>
                         )}
-                        {screenshot && <Tab value="image">Только скриншот</Tab>}
-                        <Tab value="htmlDiff">Изменения в HTML</Tab>
-                        <Tab value="html">Только HTML</Tab>
+                        {isScreenshotDefined && (
+                            <Tab value="image">Только скриншот</Tab>
+                        )}
+                        {isHtmlDefined && isOldHtmlDefined && (
+                            <Tab value="htmlDiff">Изменения в HTML</Tab>
+                        )}
+                        {isHtmlDefined && <Tab value="html">Только HTML</Tab>}
                     </Fragment>
                 )}
             </TabList>
@@ -59,8 +88,8 @@ export const DiffComponent = ({
             <div className={b()}>
                 <TabPanel value="imageDiff">
                     {activeTab === 'imageDiff' &&
-                        oldScreenshot &&
-                        screenshot && (
+                        isScreenshotDefined &&
+                        isOldScreenshotDefined && (
                             <ReactCompareSlider
                                 itemOne={
                                     <ReactCompareSliderImage
@@ -78,7 +107,7 @@ export const DiffComponent = ({
                         )}
                 </TabPanel>
                 <TabPanel value="image">
-                    {activeTab === 'image' && screenshot && (
+                    {activeTab === 'image' && isScreenshotDefined && (
                         <img
                             src={screenshot}
                             alt="New screenshot"
@@ -91,10 +120,10 @@ export const DiffComponent = ({
                     )}
                 </TabPanel>
                 <TabPanel value="html">
-                    {activeTab === 'html' && (
+                    {activeTab === 'html' && isHtmlDefined && (
                         <SyntaxHighlighter
                             language="html"
-                            style={darcula}
+                            style={oneDark}
                             wrapLines
                             wrapLongLines
                         >
@@ -103,20 +132,22 @@ export const DiffComponent = ({
                     )}
                 </TabPanel>
                 <TabPanel value="htmlDiff">
-                    {activeTab === 'htmlDiff' && (
-                        <ReactDiffViewer
-                            oldValue={oldHtml}
-                            newValue={html}
-                            splitView={true}
-                            useDarkTheme
-                        />
-                    )}
+                    {activeTab === 'htmlDiff' &&
+                        isHtmlDefined &&
+                        isOldHtmlDefined && (
+                            <ReactDiffViewer
+                                oldValue={oldHtml}
+                                newValue={html}
+                                splitView={true}
+                                useDarkTheme
+                            />
+                        )}
                 </TabPanel>
                 <TabPanel value="text">
-                    {activeTab === 'text' && (
+                    {activeTab === 'text' && isTextDefined && (
                         <SyntaxHighlighter
                             language="html"
-                            style={darcula}
+                            style={oneDark}
                             wrapLines
                             wrapLongLines
                         >
@@ -125,16 +156,18 @@ export const DiffComponent = ({
                     )}
                 </TabPanel>
                 <TabPanel value="textDiff">
-                    {activeTab === 'textDiff' && (
-                        <Text variant="code-1">
-                            <ReactDiffViewer
-                                oldValue={oldText}
-                                newValue={text}
-                                splitView
-                                useDarkTheme
-                            />
-                        </Text>
-                    )}
+                    {activeTab === 'textDiff' &&
+                        isTextDefined &&
+                        isOldTextDefined && (
+                            <Text variant="code-1">
+                                <ReactDiffViewer
+                                    oldValue={oldText}
+                                    newValue={text}
+                                    splitView
+                                    useDarkTheme
+                                />
+                            </Text>
+                        )}
                 </TabPanel>
             </div>
         </TabProvider>

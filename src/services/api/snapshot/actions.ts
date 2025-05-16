@@ -36,8 +36,16 @@ export const snapshot = {
     },
     getResourcesForDiff: ({ id }: GetResourcesForDiffRequest) => {
         const promises = [
-            api.get<GetHtmlResponse>(`events/${id}/html`).json(),
-            api.get<GetTextResponse>(`events/${id}/text`).json(),
+            api
+                .get<GetHtmlResponse>(`events/${id}/html`)
+                .json()
+                .catch(() => null),
+
+            api
+                .get<GetTextResponse>(`events/${id}/text`)
+                .json()
+                .catch(() => null),
+
             api
                 .get<GetScreenshotResponse>(`events/${id}/screenshot`)
                 .json()
@@ -46,8 +54,8 @@ export const snapshot = {
 
         return Promise.all(promises).then(([html, text, screenshot]) => {
             return {
-                html: html as GetHtmlResponse,
-                text: text as GetTextResponse,
+                html: html as GetHtmlResponse | null,
+                text: text as GetTextResponse | null,
                 screenshot: screenshot as GetScreenshotResponse | null,
             };
         });
