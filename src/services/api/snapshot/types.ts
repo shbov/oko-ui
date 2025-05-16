@@ -21,6 +21,8 @@ export type GetSnapshotResponse = {
 
 export interface GetSnapshotTimesRequest {
     id: string;
+    offset?: number;
+    limit?: number;
 }
 
 export interface GetSnapshotTimesResponse {

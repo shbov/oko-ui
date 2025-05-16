@@ -19,9 +19,14 @@ export const snapshot = {
     getSnapshot: ({ id }: GetSnapshotRequest) => {
         return api.get<GetSnapshotResponse>(`snapshots/${id}`).json();
     },
-    listSnapshotTimes: ({ id }: GetSnapshotTimesRequest) => {
+    listSnapshotTimes: ({ id, offset, limit }: GetSnapshotTimesRequest) => {
         return api
-            .get<GetSnapshotTimesResponse>(`resources/${id}/snapshot_times`)
+            .get<GetSnapshotTimesResponse>(`resources/${id}/snapshot_times`, {
+                searchParams: {
+                    ...(offset !== undefined && { offset }),
+                    ...(limit !== undefined && { limit }),
+                },
+            })
             .json();
     },
     getLastSnapshotId: ({ id }: GetLastSnapshotIdRequest) => {

@@ -98,7 +98,7 @@ function RouteComponent() {
             <Filters
                 setFilters={setFilters}
                 initialValues={{
-                    types: ['keyword'],
+                    types: [],
                     dateFrom: dateTimeParse('now')!.subtract(7, 'day'),
                     dateTo: dateTimeParse('now')!,
                 }}

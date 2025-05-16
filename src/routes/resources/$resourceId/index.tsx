@@ -28,6 +28,7 @@ import {
     useNavigate,
     useRouter,
 } from '@tanstack/react-router';
+import _ from 'lodash';
 
 import type { SecondaryPageAction } from '~/components/AppLayout/PageActionsContext';
 import { Id } from '~/components/Id';
@@ -251,6 +252,10 @@ function RouteComponent() {
         [resource?.resource, handleError, resourceId, router],
     );
 
+    const filteredEvents = useMemo(() => {
+        return _.orderBy(events, ['created_at'], ['desc']).slice(0, 15);
+    }, [events]);
+
     return (
         <Page
             title={resource?.resource?.name ?? ''}
@@ -283,9 +288,9 @@ function RouteComponent() {
                     status={eventsQuery.status}
                     errorAction={eventsQuery.refetch}
                 >
-                    {events?.length && events.length > 0 ? (
+                    {filteredEvents?.length > 0 ? (
                         <EventsTable
-                            data={events ?? []}
+                            data={filteredEvents}
                             columns={eventColumns}
                             onRowClick={onRowClick}
                         />
