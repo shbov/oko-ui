@@ -33,8 +33,9 @@ RUN rm -rf /usr/share/nginx/html/* \
 # Copy the built static files from the build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy custom Nginx configuration file for the container
-COPY deploy/nginx-container.conf /etc/nginx/nginx.conf
+# Copy Nginx configuration files
+COPY deploy/nginx.conf /etc/nginx/nginx.conf
+COPY deploy/nginx-container.conf /etc/nginx/conf.d/default.conf
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

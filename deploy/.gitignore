@@ -1,2 +1,3 @@
 nginx*.conf
 !nginx-container.conf
+!nginx.conf
