@@ -8,7 +8,7 @@ services:
         container_name: oko-ui
         restart: unless-stopped
         ports:
-            - '3000:3000'
+            - '3000:80'
         environment:
             - NODE_ENV=production
         networks:
