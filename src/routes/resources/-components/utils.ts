@@ -84,8 +84,24 @@ export const prepareEditValues = (
     values: EditFormValues,
     id: string,
 ): EditResourceRequest => {
-    return {
+    const result = {
         ...prepareCreateValues(values),
         id,
     };
+
+    if ('areas' in result) {
+        return {
+            ...result,
+            areas: result.areas?.map((area) => ({
+                x: area.x,
+                y: area.y,
+                width: area.width,
+                height: area.height,
+                sensitivity: values.sensitivity,
+            })),
+            sensitivity: undefined,
+        };
+    }
+
+    return result;
 };

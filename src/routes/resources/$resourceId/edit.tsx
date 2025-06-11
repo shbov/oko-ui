@@ -43,7 +43,10 @@ export const Edit = () => {
                     });
 
                     void router.navigate({
-                        to: '/',
+                        to: '/resources/$resourceId',
+                        params: {
+                            resourceId: params.resourceId,
+                        },
                     });
                 })
                 .catch(handleError);

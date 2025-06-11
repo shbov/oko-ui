@@ -1,0 +1,8 @@
+{
+    "preview-generator": {
+        "dockerfilePath": "./farm.Dockerfile",
+        "dockerInstanceHealthcheck": {
+            "path": "/ping"
+        }
+    }
+}

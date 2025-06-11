@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useQueryData } from '@gravity-ui/data-source';
 import { dateTimeParse } from '@gravity-ui/date-utils';
 import { useForm } from '@tanstack/react-form';
-import { min } from 'lodash';
+import { min, uniq } from 'lodash';
 
 import { listChannelsSource } from '~/data-sources';
 import { Form } from '~/packages/form';
@@ -71,7 +71,7 @@ export const EditForm = ({ resource, onSubmit }: EditFormProps) => {
             isScreenshot: resource.make_screenshot,
             zoneType,
             areas: Array.isArray(resource.areas) ? resource.areas : [],
-            channels: resource.channels ?? [],
+            channels: uniq(resource.channels ?? []),
             startDate: resource.starts_from
                 ? dateTimeParse(resource.starts_from)?.toDate()
                 : new Date(),

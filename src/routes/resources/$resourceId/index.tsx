@@ -28,7 +28,7 @@ import {
     useNavigate,
     useRouter,
 } from '@tanstack/react-router';
-import _ from 'lodash';
+import _, { uniq } from 'lodash';
 
 import type { SecondaryPageAction } from '~/components/AppLayout/PageActionsContext';
 import { Id } from '~/components/Id';
@@ -136,7 +136,7 @@ function RouteComponent() {
                 value:
                     channels?.length > 0 ? (
                         <Flex gap={2} wrap="wrap">
-                            {channels?.map((channel) => (
+                            {uniq(channels ?? []).map((channel) => (
                                 <UILink
                                     key={channel}
                                     to={`/channels/$channelId`}
