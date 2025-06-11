@@ -33,15 +33,14 @@ RUN rm -rf /usr/share/nginx/html/* \
 # Copy the built static files from the build stage
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy custom Nginx configuration file for the container
-COPY deploy/nginx-container.conf /etc/nginx/nginx.conf
+# Copy Nginx configuration files
+COPY deploy/nginx.conf /etc/nginx/nginx.conf
+COPY deploy/nginx-container.conf /etc/nginx/conf.d/default.conf
 
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:3000/ping || exit 1
+    CMD curl -f http://localhost/ping || exit 1
 
-# Expose port 3000 for the web server
-EXPOSE 3000
 
 # Start Nginx in the foreground (required for Docker containers)
 CMD ["nginx", "-g", "daemon off;"]

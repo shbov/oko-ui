@@ -1,6 +1,6 @@
 {
     "preview-generator": {
-        "dockerfilePath": "./farm.Dockerfile",
+        "dockerfilePath": "./Dockerfile",
         "dockerInstanceHealthcheck": {
             "path": "/ping"
         }
