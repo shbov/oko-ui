@@ -1,7 +1,5 @@
 # OKO UI &middot; [![npm package](https://img.shields.io/npm/v/shbov/oko-ui)](https://www.npmjs.com/package/shbov/oko-ui) [![CI](https://img.shields.io/github/actions/workflow/status/shbov/oko-ui/.github/workflows/ci.yml?label=CI&logo=github)](https://github.com/shbov/oko-ui/actions/workflows/ci.yml?query=branch:main) [![storybook](https://img.shields.io/badge/Storybook-deployed-ff4685)](https://main--673b7d70126a40f0613b1595.chromatic.com)
 
-Url: https://oko.shbov.ru
-
 ## About
 
 Oko UI is a modern React-based web application built with Vite and TypeScript. It features a component library built with Storybook, comprehensive testing setup, and a robust development environment.
